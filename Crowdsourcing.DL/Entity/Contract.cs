@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crowdsourcing.DL.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,8 +21,8 @@ namespace Crowdsourcing.DL.Models
         public Proposal Proposal { get;set;}
 
         // Foreign Key From Class Payment_Type
-        public int Payment_TypeId { get; set; }
-        public Payment_Type Payment_Type { get; set; }
+        public int Payment_typeId { get; set; }
+        public Payment_type Payment_type { get; set; }
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }
