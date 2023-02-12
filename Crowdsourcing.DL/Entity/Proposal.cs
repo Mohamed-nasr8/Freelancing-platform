@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crowdsourcing.DL.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,12 +24,12 @@ namespace Crowdsourcing.DL.Models
         public Proposal_Status_Catalog ProposalStatusCatalog { get; set; }
         
         // Foreign Key From Class Job
-        public int JobId { get; set; }
-        public Job Job { get; set; }
+        public int ServiceId { get; set; }
+        public Service Service { get; set; }
 
         // Foreign Key From Class Payment_type
-        public int Payment_TypeId { get; set; }
-        public Payment_Type Payment_Type { get; set; }
+        public int Payment_typeId { get; set; }
+        public Payment_type Payment_type { get; set; }
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }
