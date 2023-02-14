@@ -1,3 +1,6 @@
+using Crowdsourcing.DL.Database;
+using Microsoft.EntityFrameworkCore;
+
 namespace Crowdsourcing
 {
     public class Program
@@ -7,9 +10,10 @@ namespace Crowdsourcing
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddDbContext<CrowdsourcingContext>(opt=>
+            opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

@@ -11,24 +11,11 @@ namespace Crowdsourcing.DL.Database
 {
     public class CrowdsourcingContext: DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public CrowdsourcingContext(DbContextOptions<CrowdsourcingContext> options):base(options)
         {
 
-            optionsBuilder.UseSqlServer("server=.;database=CrowdsourcingDb;Integrated Security=true;TrustServerCertificate=True");
         }
-        // defult value for Notification
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Notification>()
-                .Property(e => e.created_at)
-                .HasDefaultValueSql("GETDATE()");
-
-            modelBuilder.Entity<Freelancer>()
-                .HasOne(u => u.Verification)
-                .WithOne(v => v.Freelancer)
-                .HasForeignKey<Verification>(v => v.Id);
-                
-        }
+        
 
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Rating> Ratings { get; set; }
@@ -52,8 +39,14 @@ namespace Crowdsourcing.DL.Database
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<ProposalStatusCatalog> ProposalStatusCatalogs { get; set; }
         public DbSet<Contract> Contracts { get; set; }
-        
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Notification>()
+            .HasOne(p => p.Freelancer)
+            .WithMany(b => b.Notifications)
+            .HasForeignKey(p => p.FreelancerId);
+        }
 
 
 
