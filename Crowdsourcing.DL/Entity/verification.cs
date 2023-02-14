@@ -42,6 +42,8 @@ namespace Crowdsourcing.DL.Entity
 
         public Freelancer Freelancer { get; set; }
 
+        
+
 
     }
 }
