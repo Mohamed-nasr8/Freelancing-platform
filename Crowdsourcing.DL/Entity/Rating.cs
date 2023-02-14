@@ -23,6 +23,10 @@ namespace Crowdsourcing.DL.Entity
 
         public Client Client { get; set; }
 
+        public int FreelancerId { get; set; }
+
+        public Freelancer Freelancer { get; set; }
+
 
 
 
