@@ -12,5 +12,9 @@ namespace Crowdsourcing.DL.Entity
         public string LangName { get; set; }
         public string Level { get; set; }
 
+
+        public int FreelancerId { get; set; }
+        public Freelancer Freelancer { get; set; }
+
     }
 }

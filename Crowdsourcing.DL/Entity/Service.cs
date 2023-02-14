@@ -48,7 +48,7 @@ namespace Crowdsourcing.DL.Entity
 
         public int Payment_typeId { get; set; }
 
-        public Payment_type Payment_type { get; set; }
+        public PaymentType PaymentType { get; set; }
 
         public int SkillId { get; set; }
 
@@ -57,7 +57,7 @@ namespace Crowdsourcing.DL.Entity
         public int VerificationId { get; set; }
         public Verification Verification { get; set; }
 
-        public ICollection<other_skills> other_skills { get; set; }
+        public ICollection<OtherSkills> OtherSkills { get; set; }
 
 
 

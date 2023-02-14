@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Entity
 {
-    public class Payment_type
+    public class FreelancerService
     {
-
         public int Id { get; set; }
         [Required]
         [MaxLength(128)]
         public string Name { get; set; }
 
-        public ICollection<Service> Service { get; set; }
+        public ICollection<HasFreelancerService> HasFreelancerServices { get; set; }
+
 
     }
 }

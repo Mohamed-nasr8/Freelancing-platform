@@ -13,22 +13,22 @@ namespace Crowdsourcing.DL.Entity
 
         [DataType(DataType.DateTime)]
         [Required]
-        public DateTime Registration_date { get; set; }
+        public DateTime Registrationdate { get; set; }
         [Required]
 
         public string Location { get; set; }
 
-        public bool verifacation_state { get; set; }
+        public bool verifacationState { get; set; }
 
-        public int user_accountId { get; set; }
+        public int UserAccountId { get; set; }
 
-        public user_account user_account { get; set; }
+        public UserAccount UserAccount { get; set; }
 
-        public ICollection<Notification> Notification { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
 
-        public ICollection<Rating> Rating { get; set; }
+        public ICollection<Rating> Ratings { get; set; }
 
-        public ICollection<Service> Service { get; set; }
+        public ICollection<Service> Services { get; set; }
 
 
 

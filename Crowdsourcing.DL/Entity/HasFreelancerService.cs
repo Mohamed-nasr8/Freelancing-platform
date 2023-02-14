@@ -6,22 +6,15 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Entity
 {
-    public class Withdraw
+    public class HasFreelancerService
     {
-
         public int Id { get; set; }
-        public string PaymentAmount { get; set; }
-        public DateTime Date { get; set; }
-        public string Status { get; set; }
+
+        public int FreelancerServiceId { get; set; }
+        public FreelancerService FreelancerService { get; set; }
 
 
         public int FreelancerId { get; set; }
         public Freelancer Freelancer { get; set; }
-
-        public int PaymentTypeId { get; set; }
-        public PaymentType PaymentType { get; set; }
-
-
-
     }
 }

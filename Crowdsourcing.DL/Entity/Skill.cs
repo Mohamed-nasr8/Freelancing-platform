@@ -13,8 +13,9 @@ namespace Crowdsourcing.DL.Entity
         [Required]
         [MaxLength(128)]
         public string Name { get; set; }
-        public ICollection<Service> Service { get; set; }
-        public ICollection<other_skills> other_skills { get; set; }
+        public ICollection<Service> Services { get; set; }
+        public ICollection<OtherSkills> OtherSkills { get; set; }
+        public ICollection<HasSkill> HasSkills { get; set; }
 
 
     }
