@@ -10,5 +10,12 @@ namespace Crowdsourcing.DL.Entity
     {
         public int Id { get; set; }
 
+
+        public int FreelancerId { get; set; }
+        public Freelancer Freelancer { get; set; }
+
+        public int SkillId { get; set; }
+        public Skill Skill { get; set; }
+
     }
 }

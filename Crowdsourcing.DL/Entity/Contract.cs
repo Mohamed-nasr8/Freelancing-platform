@@ -11,18 +11,18 @@ namespace Crowdsourcing.DL.Models
     public class Contract
     {
         public int Id { get; set; }
-        [Timestamp]
-        public byte[] Start_Time { get; set; }
-        [Timestamp]
-        public byte[]? End_Time { get; set; }
-        public decimal Payment_Amount { get;set; }
+
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+        public decimal PaymentAmount { get;set; }
         // Foreign Key From Proposal
         public int ProposalId { get;set; }
         public Proposal Proposal { get;set;}
 
         // Foreign Key From Class Payment_Type
-        public int Payment_typeId { get; set; }
-        public Payment_type Payment_type { get; set; }
+        public int PaymentTypeId { get; set; }
+        public PaymentType PaymentType { get; set; }
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }

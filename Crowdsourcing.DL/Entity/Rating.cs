@@ -15,16 +15,16 @@ namespace Crowdsourcing.DL.Entity
 
         [Range(1, 5)]
 
-        public int  Rating_value { get; set; }
+        public int  RatingValue { get; set; }
 
         public int Comment { get; set; }
 
-        public int ClientId { get; set; }
 
+        public int ClientId { get; set; }
         public Client Client { get; set; }
 
-        public int FreelancerId { get; set; }
 
+        public int FreelancerId { get; set; }
         public Freelancer Freelancer { get; set; }
 
 

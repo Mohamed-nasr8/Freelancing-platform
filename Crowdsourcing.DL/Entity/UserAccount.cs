@@ -10,7 +10,7 @@ using System.ComponentModel;
 namespace Crowdsourcing.DL.Entity
 {
     [Table("user_account")]
-    public class user_account
+    public class UserAccount
     {
         public int Id { get; set; }
 
@@ -32,7 +32,8 @@ namespace Crowdsourcing.DL.Entity
         [Required]  
         public string Email { get; set; }
 
-        public ICollection<Client> Client { get; set; }
+        public ICollection<Client> Clients { get; set; }
+        public ICollection<Freelancer> Freelanceres { get; set; }
 
 
     }

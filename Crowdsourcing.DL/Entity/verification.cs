@@ -11,37 +11,36 @@ namespace Crowdsourcing.DL.Entity
     public class Verification
     {
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string first_name_Ar { get; set; }
+        public string FirstNameAr { get; set; }
 
         [Required]
         [MaxLength(50)]
-        public string last_name_Ar { get; set; }
+        public string LastNameAr { get; set; }
 
         [Required]
         [MaxLength(20)]
-        public string country { get; set; }
+        public string Country { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
-        public DateTime date_of_birth { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
         [Required]
-        public string front_image { get; set; }
+        public string FrontImage { get; set; }
 
         [Required]
-        public string back_image { get; set; }
+        public string BackImage { get; set; }
 
         [Required]
-        public string personal_photo { get; set; }
+        public string PersonalPhoto { get; set; }
 
         public Service Service { get; set; }
 
-
-
+        public Freelancer Freelancer { get; set; }
 
 
     }

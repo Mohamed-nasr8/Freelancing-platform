@@ -11,14 +11,14 @@ namespace Crowdsourcing.DL.Models
     public class Message
     {
         public int Id { get; set; }
-        [Timestamp]
-        public byte[] Message_Time { get;set; }
-        public string Message_Text { get; set; }  
+
+        public DateTime MessageTime { get;set; }
+        public string MessageText { get; set; }  
         
         public ICollection<Attachment> Attachment { get; set; }
         // Foreign Key From Class Proposal_status_Catalog
         public int? ProposalStatusCatalogId { get; set; }
-        public Proposal_Status_Catalog ProposalStatusCatalog { get; set; }
+        public ProposalStatusCatalog ProposalStatusCatalog { get; set; }
        
         // Foreign Key From Class Proposal
         public int ProposalId { get;set; }
