@@ -46,6 +46,17 @@ namespace Crowdsourcing.DL.Database
             .HasOne(p => p.Freelancer)
             .WithMany(b => b.Notifications)
             .HasForeignKey(p => p.FreelancerId);
+
+
+            modelBuilder.Entity<Notification>()
+             .Property(e => e.created_at)
+             .HasDefaultValueSql("GETDATE()");
+
+
+            modelBuilder.Entity<Freelancer>()
+       .HasOne(f => f.Verification)
+       .WithOne(v => v.Freelancer)
+       .HasForeignKey<Verification>(v => v.FreelancerId);
         }
 
 
