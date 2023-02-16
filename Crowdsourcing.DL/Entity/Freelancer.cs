@@ -74,7 +74,7 @@ namespace Crowdsourcing.DL.Entity
 
 
         public int VerificationId { get; set; }
-        public Verification Verification { get; set; }
+       public Verification Verification { get; set; }
 
 
 

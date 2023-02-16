@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Database
@@ -42,10 +43,16 @@ namespace Crowdsourcing.DL.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
             modelBuilder.Entity<Notification>()
             .HasOne(p => p.Freelancer)
             .WithMany(b => b.Notifications)
             .HasForeignKey(p => p.FreelancerId);
+
+            modelBuilder.Entity<Freelancer>()
+              .HasOne<Verification>(ad => ad.Verification)
+              .WithOne(s => s.Freelancer)
+              .HasForeignKey<Freelancer>(ad => ad.VerificationId);
         }
 
 
