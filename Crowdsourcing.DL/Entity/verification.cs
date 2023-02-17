@@ -40,7 +40,12 @@ namespace Crowdsourcing.DL.Entity
 
         public Service Service { get; set; }
 
+        public int FreelancerId { get; set; }
+
+
         public Freelancer Freelancer { get; set; }
+
+
 
         
 
