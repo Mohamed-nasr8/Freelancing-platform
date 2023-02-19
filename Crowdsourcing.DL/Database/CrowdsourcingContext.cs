@@ -43,28 +43,30 @@ namespace Crowdsourcing.DL.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-            modelBuilder.Entity<Notification>()
-            .HasOne(p => p.Freelancer)
-            .WithMany(b => b.Notifications)
-            .HasForeignKey(p => p.FreelancerId);
+
+            //modelBuilder.Entity<Notification>()
+            //.HasOne(p => p.Freelancer)
+            //.WithMany(b => b.Notifications)
+            //.HasForeignKey(p => p.FreelancerId);
 
 
             modelBuilder.Entity<Freelancer>()
-              .HasOne<Verification>(ad => ad.Verification)
-              .WithOne(s => s.Freelancer)
-              .HasForeignKey<Freelancer>(ad => ad.VerificationId);
+              .HasMany<Verification>(v => v.Verifications)
+              .WithOne(f => f.Freelancer)
+              .HasForeignKey(f => f.FreelancerId)
+              .OnDelete(DeleteBehavior.Cascade);
 
 
-            modelBuilder.Entity<Notification>()
-             .Property(e => e.created_at)
-             .HasDefaultValueSql("GETDATE()");
+            //modelBuilder.Entity<Notification>()
+            // .Property(e => e.created_at)
+            // .HasDefaultValueSql("GETDATE()");
 
 
             modelBuilder.Entity<Freelancer>()
-       .HasOne(f => f.Verification)
-       .WithOne(v => v.Freelancer)
-       .HasForeignKey<Verification>(v => v.FreelancerId);
+             .HasMany<Notification>(n => n.Notifications)
+             .WithOne(f => f.Freelancer)
+             .HasForeignKey(f => f.FreelancerId)
+             .OnDelete(DeleteBehavior.NoAction);
 
         }
 

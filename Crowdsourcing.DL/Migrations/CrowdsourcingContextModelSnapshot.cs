@@ -202,16 +202,15 @@ namespace Crowdsourcing.DL.Migrations
                     b.Property<int>("VerificationId")
                         .HasColumnType("int");
 
+                    b.Property<int>("VerificationId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserAccountId");
 
-<<<<<<< HEAD
-                    b.HasIndex("VerificationId")
-                        .IsUnique();
+                    b.HasIndex("VerificationId1");
 
-=======
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
                     b.ToTable("Freelancers");
                 });
 
@@ -328,13 +327,9 @@ namespace Crowdsourcing.DL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("created_at")
-<<<<<<< HEAD
-                        .HasColumnType("datetime2");
-=======
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETDATE()");
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
 
                     b.HasKey("Id");
 
@@ -556,14 +551,7 @@ namespace Crowdsourcing.DL.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-<<<<<<< HEAD
-                    b.Property<int?>("FreelancerId")
-=======
                     b.Property<int>("FreelancerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FreelancerId1")
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
                         .HasColumnType("int");
 
                     b.Property<string>("FrontImage")
@@ -581,14 +569,7 @@ namespace Crowdsourcing.DL.Migrations
 
                     b.HasKey("Id");
 
-<<<<<<< HEAD
                     b.HasIndex("FreelancerId");
-=======
-                    b.HasIndex("FreelancerId")
-                        .IsUnique();
-
-                    b.HasIndex("FreelancerId1");
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
 
                     b.ToTable("Verifications");
                 });
@@ -837,19 +818,15 @@ namespace Crowdsourcing.DL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-<<<<<<< HEAD
                     b.HasOne("Crowdsourcing.DL.Entity.Verification", "Verification")
-                        .WithOne("Freelancer")
-                        .HasForeignKey("Crowdsourcing.DL.Entity.Freelancer", "VerificationId")
+                        .WithMany()
+                        .HasForeignKey("VerificationId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("UserAccount");
 
                     b.Navigation("Verification");
-=======
-                    b.Navigation("UserAccount");
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
                 });
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.HasFreelancerService", b =>
@@ -995,23 +972,13 @@ namespace Crowdsourcing.DL.Migrations
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Verification", b =>
                 {
-<<<<<<< HEAD
-                    b.HasOne("Crowdsourcing.DL.Entity.Freelancer", null)
-                        .WithMany("Verifications")
-                        .HasForeignKey("FreelancerId");
-=======
                     b.HasOne("Crowdsourcing.DL.Entity.Freelancer", "Freelancer")
-                        .WithOne("Verification")
-                        .HasForeignKey("Crowdsourcing.DL.Entity.Verification", "FreelancerId")
+                        .WithMany("Verifications")
+                        .HasForeignKey("FreelancerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Crowdsourcing.DL.Entity.Freelancer", null)
-                        .WithMany("Verifications")
-                        .HasForeignKey("FreelancerId1");
-
                     b.Navigation("Freelancer");
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
                 });
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Withdraw", b =>
@@ -1164,12 +1131,6 @@ namespace Crowdsourcing.DL.Migrations
 
                     b.Navigation("Ratings");
 
-<<<<<<< HEAD
-=======
-                    b.Navigation("Verification")
-                        .IsRequired();
-
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
                     b.Navigation("Verifications");
 
                     b.Navigation("Withdraws");
@@ -1210,12 +1171,6 @@ namespace Crowdsourcing.DL.Migrations
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Verification", b =>
                 {
-<<<<<<< HEAD
-                    b.Navigation("Freelancer")
-                        .IsRequired();
-
-=======
->>>>>>> 7cc532b12f3f5e6b0c0d3e84279f8c7a13834893
                     b.Navigation("Service")
                         .IsRequired();
                 });

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crowdsourcing.DL.Migrations
 {
     [DbContext(typeof(CrowdsourcingContext))]
-    [Migration("20230215111534_intial")]
-    partial class intial
+    [Migration("20230217212045_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -205,9 +205,14 @@ namespace Crowdsourcing.DL.Migrations
                     b.Property<int>("VerificationId")
                         .HasColumnType("int");
 
+                    b.Property<int>("VerificationId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserAccountId");
+
+                    b.HasIndex("VerificationId1");
 
                     b.ToTable("Freelancers");
                 });
@@ -552,9 +557,6 @@ namespace Crowdsourcing.DL.Migrations
                     b.Property<int>("FreelancerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FreelancerId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("FrontImage")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -570,10 +572,7 @@ namespace Crowdsourcing.DL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FreelancerId")
-                        .IsUnique();
-
-                    b.HasIndex("FreelancerId1");
+                    b.HasIndex("FreelancerId");
 
                     b.ToTable("Verifications");
                 });
@@ -822,7 +821,15 @@ namespace Crowdsourcing.DL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Crowdsourcing.DL.Entity.Verification", "Verification")
+                        .WithMany()
+                        .HasForeignKey("VerificationId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("UserAccount");
+
+                    b.Navigation("Verification");
                 });
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.HasFreelancerService", b =>
@@ -969,14 +976,10 @@ namespace Crowdsourcing.DL.Migrations
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Verification", b =>
                 {
                     b.HasOne("Crowdsourcing.DL.Entity.Freelancer", "Freelancer")
-                        .WithOne("Verification")
-                        .HasForeignKey("Crowdsourcing.DL.Entity.Verification", "FreelancerId")
+                        .WithMany("Verifications")
+                        .HasForeignKey("FreelancerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Crowdsourcing.DL.Entity.Freelancer", null)
-                        .WithMany("Verifications")
-                        .HasForeignKey("FreelancerId1");
 
                     b.Navigation("Freelancer");
                 });
@@ -1130,9 +1133,6 @@ namespace Crowdsourcing.DL.Migrations
                     b.Navigation("Proposals");
 
                     b.Navigation("Ratings");
-
-                    b.Navigation("Verification")
-                        .IsRequired();
 
                     b.Navigation("Verifications");
 
