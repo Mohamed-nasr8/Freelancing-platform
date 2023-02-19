@@ -11,10 +11,13 @@ namespace Crowdsourcing.DL.Models
     public class Contract
     {
         public int Id { get; set; }
-
+        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Start Time")]
         public DateTime StartTime { get; set; }
 
+        [DataType(DataType.DateTime), Required(ErrorMessage = "Requried End Time")]
+
         public DateTime EndTime { get; set; }
+        [DataType(DataType.Currency)]
         public decimal PaymentAmount { get;set; }
         // Foreign Key From Proposal
         public int ProposalId { get;set; }

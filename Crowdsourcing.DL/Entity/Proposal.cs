@@ -11,10 +11,13 @@ namespace Crowdsourcing.DL.Models
     public class Proposal
     {
         public int Id { get; set; }
-        [Timestamp]
-        public byte[] ProposalTime { get; set; }
+        [DataType(DataType.DateTime)]
+        public DateTime ProposalTime { get; set; }
+        [DataType(DataType.Currency)]
         public decimal PaymentAmount { get; set; }
+        [DataType(DataType.DateTime)]
         public int DeleveryTime { get; set; }
+        [DataType(DataType.Text)]
         public string Descripion { get; set; }  
         public string Attachment { get; set; }  
         public ICollection<Message> Message { get; set; }

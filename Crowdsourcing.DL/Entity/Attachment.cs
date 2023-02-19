@@ -9,7 +9,7 @@ namespace Crowdsourcing.DL.Models
     public class Attachment
     {
         public int Id { get; set; }
-        public string AttachmentLink { get; set; } 
+        public string? AttachmentLink { get; set; } 
 
         // Foreign Key From Class Message
         public int MessageId { get; set; }
