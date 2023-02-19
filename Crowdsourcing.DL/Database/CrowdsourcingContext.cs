@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Database
@@ -42,21 +43,31 @@ namespace Crowdsourcing.DL.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Notification>()
-            .HasOne(p => p.Freelancer)
-            .WithMany(b => b.Notifications)
-            .HasForeignKey(p => p.FreelancerId);
 
-
-            modelBuilder.Entity<Notification>()
-             .Property(e => e.created_at)
-             .HasDefaultValueSql("GETDATE()");
+            //modelBuilder.Entity<Notification>()
+            //.HasOne(p => p.Freelancer)
+            //.WithMany(b => b.Notifications)
+            //.HasForeignKey(p => p.FreelancerId);
 
 
             modelBuilder.Entity<Freelancer>()
-       .HasOne(f => f.Verification)
-       .WithOne(v => v.Freelancer)
-       .HasForeignKey<Verification>(v => v.FreelancerId);
+              .HasMany<Verification>(v => v.Verifications)
+              .WithOne(f => f.Freelancer)
+              .HasForeignKey(f => f.FreelancerId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+
+            //modelBuilder.Entity<Notification>()
+            // .Property(e => e.created_at)
+            // .HasDefaultValueSql("GETDATE()");
+
+
+            modelBuilder.Entity<Freelancer>()
+             .HasMany<Notification>(n => n.Notifications)
+             .WithOne(f => f.Freelancer)
+             .HasForeignKey(f => f.FreelancerId)
+             .OnDelete(DeleteBehavior.NoAction);
+
         }
 
 

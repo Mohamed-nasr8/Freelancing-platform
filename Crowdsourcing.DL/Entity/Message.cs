@@ -11,8 +11,9 @@ namespace Crowdsourcing.DL.Models
     public class Message
     {
         public int Id { get; set; }
-
+        [DataType(DataType.DateTime)]
         public DateTime MessageTime { get;set; }
+        [DataType(DataType.Text)]
         public string MessageText { get; set; }  
         
         public ICollection<Attachment> Attachment { get; set; }
