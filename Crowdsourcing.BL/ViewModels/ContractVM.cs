@@ -21,7 +21,7 @@ namespace Crowdsourcing.DL.Models
         public decimal PaymentAmount { get;set; }
         // Foreign Key From Proposal
         public int ProposalId { get;set; }
-        public ProposalVM Proposal { get;set;}
+        public Proposal Proposal { get;set;}
 
         // Foreign Key From Class Payment_Type
         public int PaymentTypeId { get; set; }
