@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class Message
+    public class MessageVM
     {
         public int Id { get; set; }
         [DataType(DataType.DateTime)]
@@ -16,7 +16,7 @@ namespace Crowdsourcing.DL.Models
         [DataType(DataType.Text)]
         public string MessageText { get; set; }  
         
-        public ICollection<AttachmentVM> Attachment { get; set; }
+        public ICollection<Attachment> Attachment { get; set; }
         // Foreign Key From Class Proposal_status_Catalog
         public int? ProposalStatusCatalogId { get; set; }
         public ProposalStatusCatalog ProposalStatusCatalog { get; set; }

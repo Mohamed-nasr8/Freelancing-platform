@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class Contract
+    public class ContractVM
     {
         public int Id { get; set; }
         [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Start Time")]

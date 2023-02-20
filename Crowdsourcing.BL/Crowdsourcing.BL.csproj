@@ -10,9 +10,4 @@
     <ProjectReference Include="..\Crowdsourcing.DL\Crowdsourcing.DL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

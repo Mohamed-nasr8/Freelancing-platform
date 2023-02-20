@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class ProposalStatusCatalog
+    public class ProposalStatusCatalogVM
     {
         public int Id { get; set; }
         [Column(TypeName = "varchar(128)"),Required(ErrorMessage ="Requried Name")]
         public string Name { get; set; }
-        public ICollection<MessageVM> Messages { get; set; }
-        public ICollection<ProposalVM> Proposals { get; set; }
+        public ICollection<Message> Messages { get; set; }
+        public ICollection<Proposal> Proposals { get; set; }
 
     }
 }

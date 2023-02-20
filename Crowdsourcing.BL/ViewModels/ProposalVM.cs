@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class Proposal
+    public class ProposalVM
     {
         public int Id { get; set; }
         [DataType(DataType.DateTime)]
@@ -24,7 +24,7 @@ namespace Crowdsourcing.DL.Models
 
         // Foreign Key From Class Proposal_status_Id
         public int ProposalStatusCatalogId { get; set; }
-        public ProposalStatusCatalog ProposalStatusCatalog { get; set; }
+        public ProposalStatusCatalogVM ProposalStatusCatalog { get; set; }
         
         // Foreign Key From Class Job
         public int ServiceId { get; set; }
