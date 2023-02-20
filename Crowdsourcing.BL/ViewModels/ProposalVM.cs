@@ -11,13 +11,13 @@ namespace Crowdsourcing.DL.Models
     public class ProposalVM
     {
         public int Id { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Proposal Time")]
         public DateTime ProposalTime { get; set; }
-        [DataType(DataType.Currency)]
+        [DataType(DataType.Currency),Required(ErrorMessage ="Requried Payment Amount")]
         public decimal PaymentAmount { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Delevery Time")]
         public int DeleveryTime { get; set; }
-        [DataType(DataType.Text)]
+        [DataType(DataType.Text),Required(ErrorMessage ="Requried Description")]
         public string Descripion { get; set; }  
         public string Attachment { get; set; }  
         public ICollection<MessageVM> Message { get; set; }
