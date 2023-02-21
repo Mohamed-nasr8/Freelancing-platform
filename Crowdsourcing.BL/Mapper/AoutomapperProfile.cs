@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Crowdsourcing.BL.ViewModels;
 using Crowdsourcing.DL.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Crowdsourcing.DL.Models;
+
 
 namespace Crowdsourcing.BL.Mapper
 {
@@ -21,6 +18,11 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<HasSkill,HasSkillVM>();
             CreateMap<HasFreelancerService,HasFreelancerServiceVM>();
             CreateMap<Withdraw,WithdrawVM>();
+            CreateMap<Message, MessageVM>();
+            CreateMap<Contract, ContractVM>();
+            CreateMap<Attachment,AttachmentVM>();
+            CreateMap<Proposal, ProposalVM>();
+            CreateMap<ProposalStatusCatalog,ProposalStatusCatalogVM>();
 
 
         }
