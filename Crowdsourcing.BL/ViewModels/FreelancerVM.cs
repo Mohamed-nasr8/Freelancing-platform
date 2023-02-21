@@ -1,4 +1,6 @@
-﻿using Crowdsourcing.DL.Models;
+﻿using Crowdsourcing.DL.Entity;
+using Crowdsourcing.DL.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,50 +8,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crowdsourcing.DL.Entity
+namespace Crowdsourcing.BL.ViewModels
 {
-    public class Freelancer
+    public class FreelancerVM
     {
-        
+
         public int Id { get; set; }
 
-        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+        public DateTime RegistrationDate { get; set; }
 
         [Required]
         public string Overview { get; set; }
 
-        [Required]
-        public string CVName { get; set; }
+        [Required(ErrorMessage = "Please Uupload your CV")]
+        public IFormFile CV { get; set; }
 
-        [Required]
-        public string ImageName { get; set; }
+        [Required(ErrorMessage = "Please upload your image")]
+        public IFormFile Image { get; set; }
 
         [StringLength(150)]
-        [Required]
+        [Required(ErrorMessage ="Pleasr enter your title")]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your bio")]
         public string Bio { get; set; }
 
-        [Required]
-        [Range(1,50)]
+        [Required(ErrorMessage = "Please ter your hourly rate ")]
+        [Range(1, 50)]
         public decimal HourlyRate { get; set; }
- 
+
         public float? Rating { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your contry")]
         [MaxLength(50)]
         public string Country { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your street")]
         [MaxLength(50)]
         public string Street { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your city")]
         [MaxLength(50)]
         public string City { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter your Phone ")]
         [MaxLength(50)]
         public string PhoneNumber { get; set; }
         public int? Point { get; set; }
@@ -74,9 +76,6 @@ namespace Crowdsourcing.DL.Entity
 
 
         public int VerificationId { get; set; }
-       public Verification Verification { get; set; }
-
-
-
+        public Verification Verification { get; set; }
     }
 }

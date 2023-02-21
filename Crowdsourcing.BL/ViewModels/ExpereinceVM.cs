@@ -1,39 +1,40 @@
-﻿using System;
+﻿using Crowdsourcing.DL.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crowdsourcing.DL.Entity
+namespace Crowdsourcing.BL.ViewModels
 {
-    public class Expereince
+    public class ExpereinceVM
     {
 
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Title is required")]
         [MaxLength(150)]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Description is required")]
         [MinLength(10)]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Region is required")]
         [MaxLength(100)]
         public string Region { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Country is required")]
         [MaxLength(50)]
         public string Country { get; set; }
 
-        public bool WorkingInThisRole { get; set; } = false;
+        public bool? WorkingInThisRole { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Start date is required")]
         public DateTime StartDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "End date is required")]
         public DateTime EndDate { get; set; }
 
         public int FreelancerId { get; set; }

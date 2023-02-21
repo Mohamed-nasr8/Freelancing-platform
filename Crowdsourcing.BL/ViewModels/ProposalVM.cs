@@ -8,23 +8,23 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class Proposal
+    public class ProposalVM
     {
         public int Id { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Proposal Time")]
         public DateTime ProposalTime { get; set; }
-        [DataType(DataType.Currency)]
+        [DataType(DataType.Currency),Required(ErrorMessage ="Requried Payment Amount")]
         public decimal PaymentAmount { get; set; }
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Delevery Time")]
         public int DeleveryTime { get; set; }
-        [DataType(DataType.Text)]
+        [DataType(DataType.Text),Required(ErrorMessage ="Requried Description")]
         public string Descripion { get; set; }  
         public string Attachment { get; set; }  
-        public ICollection<Message> Message { get; set; }
+        public ICollection<MessageVM> Message { get; set; }
 
         // Foreign Key From Class Proposal_status_Id
         public int ProposalStatusCatalogId { get; set; }
-        public ProposalStatusCatalog ProposalStatusCatalog { get; set; }
+        public ProposalStatusCatalogVM ProposalStatusCatalog { get; set; }
         
         // Foreign Key From Class Job
         public int ServiceId { get; set; }

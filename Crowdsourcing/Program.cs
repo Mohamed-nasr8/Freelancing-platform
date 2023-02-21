@@ -1,4 +1,5 @@
 using Crowdsourcing.DL.Database;
+using Crowdsourcing.DL.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Crowdsourcing
@@ -17,6 +18,8 @@ namespace Crowdsourcing
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -25,10 +28,9 @@ namespace Crowdsourcing
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseAuthorization();
 
-
+            
             app.MapControllers();
 
             app.Run();

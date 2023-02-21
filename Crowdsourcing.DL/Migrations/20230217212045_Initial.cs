@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Crowdsourcing.DL.Migrations
 {
     /// <inheritdoc />
-    public partial class intial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,6 +102,81 @@ namespace Crowdsourcing.DL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Attachments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AttachmentLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contracts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProposalId = table.Column<int>(type: "int", nullable: false),
+                    PaymentTypeId = table.Column<int>(type: "int", nullable: false),
+                    FreelancerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contracts_PaymentTypes_PaymentTypeId",
+                        column: x => x.PaymentTypeId,
+                        principalTable: "PaymentTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Educations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    School = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Degree = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    FeildOfStudy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DateFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FreelancerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Educations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Expereinces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Region = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FreelancerId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Expereinces", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Freelancers",
                 columns: table => new
                 {
@@ -122,7 +197,8 @@ namespace Crowdsourcing.DL.Migrations
                     Point = table.Column<int>(type: "int", nullable: true),
                     VerficationState = table.Column<bool>(type: "bit", nullable: false),
                     UserAccountId = table.Column<int>(type: "int", nullable: false),
-                    VerificationId = table.Column<int>(type: "int", nullable: false)
+                    VerificationId = table.Column<int>(type: "int", nullable: false),
+                    VerificationId1 = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,55 +207,6 @@ namespace Crowdsourcing.DL.Migrations
                         name: "FK_Freelancers_user_account_UserAccountId",
                         column: x => x.UserAccountId,
                         principalTable: "user_account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Educations",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    School = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Degree = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    FeildOfStudy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    DateFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateTo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FreelancerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Educations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Educations_Freelancers_FreelancerId",
-                        column: x => x.FreelancerId,
-                        principalTable: "Freelancers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Expereinces",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Region = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FreelancerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Expereinces", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Expereinces_Freelancers_FreelancerId",
-                        column: x => x.FreelancerId,
-                        principalTable: "Freelancers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -283,7 +310,7 @@ namespace Crowdsourcing.DL.Migrations
                         column: x => x.FreelancerId,
                         principalTable: "Freelancers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -305,7 +332,7 @@ namespace Crowdsourcing.DL.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ratings_Freelancers_FreelancerId",
                         column: x => x.FreelancerId,
@@ -327,8 +354,7 @@ namespace Crowdsourcing.DL.Migrations
                     FrontImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BackImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PersonalPhoto = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FreelancerId = table.Column<int>(type: "int", nullable: false),
-                    FreelancerId1 = table.Column<int>(type: "int", nullable: true)
+                    FreelancerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -339,11 +365,6 @@ namespace Crowdsourcing.DL.Migrations
                         principalTable: "Freelancers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Verifications_Freelancers_FreelancerId1",
-                        column: x => x.FreelancerId1,
-                        principalTable: "Freelancers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -496,42 +517,6 @@ namespace Crowdsourcing.DL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contracts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ProposalId = table.Column<int>(type: "int", nullable: false),
-                    PaymentTypeId = table.Column<int>(type: "int", nullable: false),
-                    FreelancerId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Contracts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Contracts_Freelancers_FreelancerId",
-                        column: x => x.FreelancerId,
-                        principalTable: "Freelancers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Contracts_PaymentTypes_PaymentTypeId",
-                        column: x => x.PaymentTypeId,
-                        principalTable: "PaymentTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Contracts_Proposals_ProposalId",
-                        column: x => x.ProposalId,
-                        principalTable: "Proposals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
@@ -566,26 +551,6 @@ namespace Crowdsourcing.DL.Migrations
                         name: "FK_Messages_Proposals_ProposalId",
                         column: x => x.ProposalId,
                         principalTable: "Proposals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Attachments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AttachmentLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MessageId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attachments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Attachments_Messages_MessageId",
-                        column: x => x.MessageId,
-                        principalTable: "Messages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -629,6 +594,11 @@ namespace Crowdsourcing.DL.Migrations
                 name: "IX_Freelancers_UserAccountId",
                 table: "Freelancers",
                 column: "UserAccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Freelancers_VerificationId1",
+                table: "Freelancers",
+                column: "VerificationId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HasFreelancerServices_FreelancerId",
@@ -749,13 +719,7 @@ namespace Crowdsourcing.DL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Verifications_FreelancerId",
                 table: "Verifications",
-                column: "FreelancerId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Verifications_FreelancerId1",
-                table: "Verifications",
-                column: "FreelancerId1");
+                column: "FreelancerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Withdraws_FreelancerId",
@@ -766,11 +730,67 @@ namespace Crowdsourcing.DL.Migrations
                 name: "IX_Withdraws_PaymentTypeId",
                 table: "Withdraws",
                 column: "PaymentTypeId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Attachments_Messages_MessageId",
+                table: "Attachments",
+                column: "MessageId",
+                principalTable: "Messages",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Contracts_Freelancers_FreelancerId",
+                table: "Contracts",
+                column: "FreelancerId",
+                principalTable: "Freelancers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Contracts_Proposals_ProposalId",
+                table: "Contracts",
+                column: "ProposalId",
+                principalTable: "Proposals",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Educations_Freelancers_FreelancerId",
+                table: "Educations",
+                column: "FreelancerId",
+                principalTable: "Freelancers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Expereinces_Freelancers_FreelancerId",
+                table: "Expereinces",
+                column: "FreelancerId",
+                principalTable: "Freelancers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Freelancers_Verifications_VerificationId1",
+                table: "Freelancers",
+                column: "VerificationId1",
+                principalTable: "Verifications",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.NoAction);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Freelancers_user_account_UserAccountId",
+                table: "Freelancers");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Verifications_Freelancers_FreelancerId",
+                table: "Verifications");
+
             migrationBuilder.DropTable(
                 name: "Attachments");
 
@@ -829,13 +849,13 @@ namespace Crowdsourcing.DL.Migrations
                 name: "Skills");
 
             migrationBuilder.DropTable(
-                name: "Verifications");
+                name: "user_account");
 
             migrationBuilder.DropTable(
                 name: "Freelancers");
 
             migrationBuilder.DropTable(
-                name: "user_account");
+                name: "Verifications");
         }
     }
 }

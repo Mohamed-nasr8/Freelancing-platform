@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class ProposalStatusCatalog
+    public class ProposalStatusCatalogVM
     {
         public int Id { get; set; }
         [Column(TypeName = "varchar(128)"),Required(ErrorMessage ="Requried Name")]

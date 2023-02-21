@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class Attachment
+    public class AttachmentVM
     {
         public int Id { get; set; }
         public string? AttachmentLink { get; set; } 

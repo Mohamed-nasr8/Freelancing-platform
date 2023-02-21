@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {
-    public class Message
+    public class MessageVM
     {
         public int Id { get; set; }
         [DataType(DataType.DateTime)]
