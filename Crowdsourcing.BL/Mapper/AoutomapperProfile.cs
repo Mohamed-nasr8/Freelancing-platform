@@ -12,58 +12,73 @@ namespace Crowdsourcing.BL.Mapper
 
         public AoutomapperProfile()
         {
+
             CreateMap<Freelancer,FreelancerVM>();
+            CreateMap<FreelancerVM,Freelancer>();
+
             CreateMap<Education,EducationVM>();
+            CreateMap<EducationVM,Education>();
+
             CreateMap<Expereince,ExpereinceVM>();
+            CreateMap<ExpereinceVM,Expereince>();
+
             CreateMap<Language,LanguageVM>();
+            CreateMap<LanguageVM,Language>();
+
             CreateMap<HasSkill,HasSkillVM>();
+            CreateMap<HasSkillVM,HasSkill>();
+
             CreateMap<HasFreelancerService,HasFreelancerServiceVM>();
+            CreateMap<HasFreelancerServiceVM,HasFreelancerService>();
+
             CreateMap<Withdraw,WithdrawVM>();
+            CreateMap<WithdrawVM, Withdraw>();
+
             CreateMap<Message, MessageVM>();
+            CreateMap<MessageVM, Message>();
+
             CreateMap<Contract, ContractVM>();
+            CreateMap<ContractVM, Contract>();
+
             CreateMap<Attachment,AttachmentVM>();
+            CreateMap<AttachmentVM,Attachment>();
+
             CreateMap<Proposal, ProposalVM>();
+            CreateMap<ProposalVM, Proposal>();
+
             CreateMap<ProposalStatusCatalog,ProposalStatusCatalogVM>();
-            CreateMap<UserAccount, UserAccounVM>();
-            CreateMap<UserAccounVM, UserAccount>();
+            CreateMap<ProposalStatusCatalogVM,ProposalStatusCatalog>();
+
+            CreateMap<UserAccount,UserAccounVM>();
+            CreateMap<UserAccounVM,UserAccount>();
+
             CreateMap<Notification, NotificationVM>();
             CreateMap<NotificationVM, Notification>();
+
             CreateMap<Rating, RatingVM>();
             CreateMap<RatingVM, Rating>();
+
             CreateMap<Client, ClientVM>();
             CreateMap<ClientVM, Client>();
+
             CreateMap<Service, ServiceVM>();
             CreateMap<ServiceVM, Service>();
+
             CreateMap<OtherSkills, OtherSkillsVM>();
             CreateMap<OtherSkillsVM, OtherSkills>();
+
             CreateMap<Verification, VerificationVM>();
             CreateMap<VerificationVM, Verification>();
+
             CreateMap<FreelancerService, FreelancerServiceVM>();
             CreateMap<FreelancerServiceVM, FreelancerService>();
+
             CreateMap<Skill, SkillVM>();
             CreateMap<SkillVM, Skill>();
+
             CreateMap<PaymentType, PaymentTypeVM>();
             CreateMap<PaymentTypeVM, PaymentType>();
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         }
