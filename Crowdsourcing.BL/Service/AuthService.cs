@@ -9,6 +9,7 @@ using Crowdsourcing.DL.Entity;
 using Crowdsourcing.BL.Models;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Helper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TestAPIJWT.Service
 {
@@ -25,6 +26,8 @@ namespace TestAPIJWT.Service
             _jwt = jwt.Value;
         }
 
+
+        #region Register
 
         public async Task<AuthModel> RegisterAsync(RegisterVM model)
         {
@@ -44,23 +47,16 @@ namespace TestAPIJWT.Service
             };
 
             var result = await _userManager.CreateAsync(user,model.Password);
-
             if (!result.Succeeded) {
-            
                 var errors = string.Empty;
-
                 foreach (var error in result.Errors)
                 {
                     errors += $"{error.Description}  - ";
                 }
-
                 return new AuthModel { Message=errors};
             }
-
             await _userManager.AddToRoleAsync(user, model.RoleName);
-
             var jwtSecurityToken =  await CreateJwtToken(user);
-
             return new AuthModel
             {
                 Email = user.Email,
@@ -71,13 +67,16 @@ namespace TestAPIJWT.Service
             };
         }
 
+        #endregion
+
+
+        #region Login
 
         public async Task<AuthModel> loginAsync(loginVM model)
         {
             var authModel = new AuthModel();
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-
             if (user is null || !await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 authModel.Message = "Email or Password is incorrect!";
@@ -97,22 +96,41 @@ namespace TestAPIJWT.Service
             return authModel;
         }
 
+        #endregion
+
+
+        #region AddRoleAsync
         public async Task<string> AddRoleAsync(RoleVM model)
         {
             var user = await _userManager.FindByIdAsync(model.UserId);
-
             if (user is null || !await _roleManager.RoleExistsAsync(model.Role))
                 return "Invalid User id Or Role";
-
             if (await _userManager.IsInRoleAsync(user, model.Role))
                 return "User Already Assigned To Role";
-
             var result = await _userManager.AddToRoleAsync(user, model.Role);
-
             return result.Succeeded ? string.Empty : "Something Went Wrong";
         }
+        #endregion
 
 
+        #region RemoveUserFromRoleAsync
+        public async Task<bool> RemoveUserFromRoleAsync(string userId, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (user == null || role == null )
+            {
+                return false;
+            }
+
+            var result = await _userManager.RemoveFromRoleAsync(user, roleName);
+            return result.Succeeded;
+        }
+
+        #endregion
+
+
+        #region CreateJwtToken
         private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
@@ -121,7 +139,6 @@ namespace TestAPIJWT.Service
 
             foreach (var role in roles)
                 roleClaims.Add(new Claim("roles", role));
-
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
@@ -144,5 +161,7 @@ namespace TestAPIJWT.Service
 
             return jwtSecurityToken;
         }
+
+        #endregion
     }
 }
