@@ -1,16 +1,10 @@
 ﻿using Crowdsourcing.DL.Entity;
-using Crowdsourcing.DL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Database
 {
-    public class CrowdsourcingContext: DbContext
+    public class CrowdsourcingContext: IdentityDbContext<ApplicationUser>
     {
         public CrowdsourcingContext(DbContextOptions<CrowdsourcingContext> options):base(options)
         {
@@ -68,7 +62,10 @@ namespace Crowdsourcing.DL.Database
              .HasForeignKey(f => f.FreelancerId)
              .OnDelete(DeleteBehavior.NoAction);
 
-        }
+            base.OnModelCreating(modelBuilder);
+
+
+    }
 
 
 

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Crowdsourcing.DL.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crowdsourcing.DL.Models
 {

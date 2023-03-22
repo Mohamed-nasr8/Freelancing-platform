@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.BL.Models
 {
-    public class UserAccounVM
+    public class RegisterVM
     {
-        public int Id { get; set; }
+
 
         [Required(ErrorMessage = "First name is required.")]
         [StringLength(128, ErrorMessage = "First name cannot be longer than 128 characters.")]
@@ -25,12 +25,13 @@ namespace Crowdsourcing.BL.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [Required, StringLength(50)]
+        public string Username { get; set; }
+
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public ICollection<Client> Clients { get; set; }
-        public ICollection<Freelancer> Freelancers { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Crowdsourcing.BL.Models
         public int Id { get; set; }
          public DateTime RegistrationDate { get; set; }
 
-        [Required(ErrorMessage = "Location is required.")]
+        [Required(ErrorMessage = "Location is required.")]  
         public string Location { get; set; }
 
         public bool VerificationState { get; set; }

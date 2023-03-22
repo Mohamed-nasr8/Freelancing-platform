@@ -49,8 +49,8 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<ProposalStatusCatalog,ProposalStatusCatalogVM>();
             CreateMap<ProposalStatusCatalogVM,ProposalStatusCatalog>();
 
-            CreateMap<UserAccount,UserAccounVM>();
-            CreateMap<UserAccounVM,UserAccount>();
+            CreateMap<UserAccount,RegisterVM>();
+            CreateMap<RegisterVM,UserAccount>();
 
             CreateMap<Notification, NotificationVM>();
             CreateMap<NotificationVM, Notification>();
