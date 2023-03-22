@@ -39,10 +39,11 @@ namespace TestAPIJWT.Service
                 UserName = model.Username,
                 Email = model.Email,
                 FirstName = model.FName,
-                LastName = model.LName
+                LastName = model.LName,
+                RoleName= model.RoleName,
             };
 
-            var result = await _userManager.CreateAsync(user);
+            var result = await _userManager.CreateAsync(user,model.Password);
 
             if (!result.Succeeded) {
             
@@ -56,7 +57,7 @@ namespace TestAPIJWT.Service
                 return new AuthModel { Message=errors};
             }
 
-            await _userManager.AddToRoleAsync(user, "User");
+            await _userManager.AddToRoleAsync(user, model.RoleName);
 
             var jwtSecurityToken =  await CreateJwtToken(user);
 
@@ -64,7 +65,7 @@ namespace TestAPIJWT.Service
             {
                 Email = user.Email,
                 IsAuthenticated = true,
-                Roles = new List<string> { "User" },
+                Roles = new List<string> { model.RoleName },
                 Username = user.UserName,
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)
             };
@@ -76,22 +77,22 @@ namespace TestAPIJWT.Service
             var authModel = new AuthModel();
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if( user is null || await _userManager.CheckPasswordAsync(user,model.Password) )
+
+            if (user is null || !await _userManager.CheckPasswordAsync(user, model.Password))
             {
-                authModel.Message = "Email or Password is incorrect";
+                authModel.Message = "Email or Password is incorrect!";
                 return authModel;
             }
 
             var jwtSecurityToken = await CreateJwtToken(user);
-            var roleList = await _userManager.GetRolesAsync(user);
+            var rolesList = await _userManager.GetRolesAsync(user);
 
-            authModel.Username= user.UserName;
             authModel.IsAuthenticated = true;
-            authModel.Email = user.Email;
-            authModel.ExpiresOn = jwtSecurityToken.ValidTo;
-            authModel.Roles = roleList.ToList();
             authModel.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-
+            authModel.Email = user.Email;
+            authModel.Username = user.UserName;
+            authModel.ExpiresOn = jwtSecurityToken.ValidTo;
+            authModel.Roles = rolesList.ToList();
 
             return authModel;
         }

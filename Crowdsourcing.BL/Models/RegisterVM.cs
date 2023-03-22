@@ -1,16 +1,11 @@
-﻿using Crowdsourcing.DL.Entity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Crowdsourcing.BL.Models
 {
     public class RegisterVM
     {
-
+        [Required(ErrorMessage = "This field is required.")]
+        public string? RoleName { get; set; }
 
         [Required(ErrorMessage = "First name is required.")]
         [StringLength(128, ErrorMessage = "First name cannot be longer than 128 characters.")]

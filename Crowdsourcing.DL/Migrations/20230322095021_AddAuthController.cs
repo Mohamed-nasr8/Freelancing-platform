@@ -963,6 +963,9 @@ namespace Crowdsourcing.DL.Migrations
                 principalTable: "Verifications",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.NoAction);
+
+
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -67,6 +67,7 @@ namespace Crowdsourcing
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseAuthentication();
             app.UseAuthorization();
 
             
