@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Crowdsourcing.Controllers
 {
@@ -34,7 +36,7 @@ namespace Crowdsourcing.Controllers
             var result = await _authService.RegisterAsync(model);
 
             if (!result.IsAuthenticated)
-                return BadRequest(result.Message);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -51,7 +53,7 @@ namespace Crowdsourcing.Controllers
             var result = await _authService.loginAsync(model);
 
             if (!result.IsAuthenticated)
-                return BadRequest(result.Message);
+                return BadRequest(result);
 
             return Ok(result);
         }
@@ -60,12 +62,21 @@ namespace Crowdsourcing.Controllers
 
         #region Sign Out
 
-        [HttpPost("signout")]
-        public async Task<IActionResult> SignOut()
-        {
-            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
-            return Ok(new { message = "You have been signed out." });
-        }
+        //[HttpPost("signout")]
+        //public async Task<IActionResult> SignOut()
+        //{
+        //    await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+        //    return Ok(new { message = "You have been signed out." });
+        //}
+
+
+        //[HttpPost("signout")]
+        //public IActionResult SignOut()
+        //{
+        //    Response.Headers.Remove("Authorization");
+        //    return Ok(new { message = "You have been signed out." });
+        //}
+
         #endregion
 
 
