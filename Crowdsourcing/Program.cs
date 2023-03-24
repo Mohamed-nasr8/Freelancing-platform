@@ -1,6 +1,7 @@
 using Crowdsourcing.BL.Helper;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Models;
+using Crowdsourcing.BL.Repository;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,6 +36,7 @@ namespace Crowdsourcing
             .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IRepository<Service>, ServiceRep>();
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
