@@ -37,16 +37,16 @@ namespace Crowdsourcing.DL.Entity
         [EnumDataType(typeof(ServiceStatus))]
 
         public ServiceStatus Status { get; set; }
+
         [Required]
-        [DataType(DataType.Duration)]
-        public TimeSpan Duration { get; set; }
+
+        public DateTime Duration { get; set; }
 
 
         public int ClientId { get; set; }
-
         public Client Client { get; set; }
 
-        public int Payment_typeId { get; set; }
+        public int PaymentTypeId { get; set; }
 
         public PaymentType PaymentType { get; set; }
 
@@ -58,13 +58,6 @@ namespace Crowdsourcing.DL.Entity
         public Verification Verification { get; set; }
 
         public ICollection<OtherSkills> OtherSkills { get; set; }
-
-
-
-
-
-
-
 
 
         public enum ServiceType

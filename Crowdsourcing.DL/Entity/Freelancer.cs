@@ -50,8 +50,8 @@ namespace Crowdsourcing.DL.Entity
         public bool VerficationState { get; set; }
 
 
-        public int UserAccountId { get; set; }
-        public UserAccount UserAccount { get; set; }
+        public int ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
 
         public ICollection<Notification> Notifications { get; set; }

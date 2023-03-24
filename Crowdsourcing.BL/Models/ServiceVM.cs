@@ -13,7 +13,7 @@ namespace Crowdsourcing.BL.Models
 {
     public class ServiceVM
     {
-        public int Id { get; set; }
+        
         [Required(ErrorMessage = "Service type is required.")]
         [EnumDataType(typeof(ServiceType), ErrorMessage = "Invalid service type.")]
         public ServiceType Type { get; set; }
@@ -40,27 +40,10 @@ namespace Crowdsourcing.BL.Models
         public ServiceStatus Status { get; set; }
 
         [Required(ErrorMessage = "Duration is required.")]
-        [DataType(DataType.Duration, ErrorMessage = "Invalid duration.")]
-        public TimeSpan Duration { get; set; }
 
-       
-        public int ClientId { get; set; }
+        public DateTime Duration { get; set; }
 
-        public Client Client { get; set; }
-
-        public int Payment_typeId { get; set; }
-
-        public PaymentType PaymentType { get; set; }
-
-        public int SkillId { get; set; }
-
-        public Skill Skill { get; set; }
-
-        public int VerificationId { get; set; }
-
-        public Verification Verification { get; set; }
-
-        public ICollection<OtherSkills> OtherSkills { get; set; }
+      
 
 
     }

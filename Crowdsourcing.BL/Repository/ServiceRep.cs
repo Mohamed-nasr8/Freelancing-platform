@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.EntityFrameworkCore;
-using  Crowdsourcing.BL.Interface;
 
 namespace Crowdsourcing.BL.Repository
 {
@@ -41,6 +35,7 @@ namespace Crowdsourcing.BL.Repository
         public async Task AddAsync(Service entity)
         {
             await _context.Services.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
         public async Task RemoveAsync(Service entity)

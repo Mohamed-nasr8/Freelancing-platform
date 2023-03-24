@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Crowdsourcing.BL.Interface;
-using TestAPIJWT.Service;
+﻿using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Crowdsourcing.BL.Models;
 using Crowdsourcing.BL.Helper;
-using Crowdsourcing.BL.Interface;
 using Crowdsourcing.DL.Entity;
+using Crowdsourcing.BL.Interface;
 
 namespace Crowdsourcing.Controllers
 {
@@ -23,7 +20,7 @@ namespace Crowdsourcing.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GETALLSERVICE")]
+        [HttpGet("getAllServices")]
 
         public async Task<IActionResult> GetSERVICEAsync()
         {
@@ -37,7 +34,8 @@ namespace Crowdsourcing.Controllers
                     Status = "Ok",
                     Message = "Data Retrived",
                     Data = model
-                }             );
+                }             
+                );
 
 
             }
@@ -111,7 +109,7 @@ namespace Crowdsourcing.Controllers
                 {
                     var data =  _mapper.Map<Service>(model);
 
-                 _repository.AddAsync(data);
+                    await _repository.AddAsync(data);
 
                     return Ok(new ApiResponse<Service>()
                     {
@@ -154,7 +152,7 @@ namespace Crowdsourcing.Controllers
                 {
                     var data = _mapper.Map<Service>(model);
 
-                     _repository.UpdateAsync(data);
+                    await _repository.UpdateAsync(data);
 
                     return Ok(new ApiResponse<Service>()
                     {
@@ -193,7 +191,7 @@ namespace Crowdsourcing.Controllers
             {
                 var data = _mapper.Map<Service>(model);
 
-                _repository.RemoveAsync(data);
+                await _repository.RemoveAsync(data);
 
                 return Ok(new ApiResponse<ServiceVM>()
                 {
