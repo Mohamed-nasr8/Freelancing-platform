@@ -1,4 +1,5 @@
 ﻿using Crowdsourcing.DL.Entity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,6 @@ namespace Crowdsourcing.DL.Database
 
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-        public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<OtherSkills> OtherSkills { get; set; }

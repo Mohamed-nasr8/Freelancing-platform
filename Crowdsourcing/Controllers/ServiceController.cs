@@ -4,6 +4,7 @@ using Crowdsourcing.BL.Models;
 using Crowdsourcing.BL.Helper;
 using Crowdsourcing.DL.Entity;
 using Crowdsourcing.BL.Interface;
+using Microsoft.AspNetCore.Identity;
 
 namespace Crowdsourcing.Controllers
 {
@@ -13,11 +14,13 @@ namespace Crowdsourcing.Controllers
     {
         private readonly IRepository<Service> _repository;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ServiceController(IRepository<Service> repository,IMapper mapper)
+        public ServiceController(IRepository<Service> repository,IMapper mapper , UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet("getAllServices")]
@@ -102,6 +105,7 @@ namespace Crowdsourcing.Controllers
 
         public async Task<IActionResult> PostService( ServiceVM model)
         {
+            
             try
             {
 

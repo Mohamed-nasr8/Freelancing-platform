@@ -10,6 +10,7 @@ using Crowdsourcing.BL.Models;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Helper;
 using Microsoft.AspNetCore.Mvc;
+using Crowdsourcing.DL.Database;
 
 namespace TestAPIJWT.Service
 {
@@ -17,12 +18,14 @@ namespace TestAPIJWT.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly CrowdsourcingContext _context;
         private readonly JWT _jwt;
 
-        public AuthService(UserManager<ApplicationUser> userManager , RoleManager<IdentityRole> roleManager , IOptions<JWT> jwt)
+        public AuthService(UserManager<ApplicationUser> userManager , RoleManager<IdentityRole> roleManager , IOptions<JWT> jwt , CrowdsourcingContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
             _jwt = jwt.Value;
         }
 
@@ -36,35 +39,45 @@ namespace TestAPIJWT.Service
 
             if (await _userManager.FindByNameAsync(model.Username) is not null)
                 return new AuthModel { Message = "Username Is Alredy Signed" };
-
-            var user = new ApplicationUser
-            {
-                UserName = model.Username,
-                Email = model.Email,
-                FirstName = model.FName,
-                LastName = model.LName,
-                RoleName= model.RoleName,
-            };
-
-            var result = await _userManager.CreateAsync(user,model.Password);
-            if (!result.Succeeded) {
-                var errors = string.Empty;
-                foreach (var error in result.Errors)
+            
+                var user = new ApplicationUser
                 {
-                    errors += $"{error.Description}  - ";
-                }
-                return new AuthModel { Message=errors};
-            }
-            await _userManager.AddToRoleAsync(user, model.RoleName);
-            var jwtSecurityToken =  await CreateJwtToken(user);
-            return new AuthModel
+                    UserName = model.Username,
+                    Email = model.Email,
+                    FirstName = model.FName,
+                    LastName = model.LName,
+                    RoleName = model.RoleName,
+                };
+            if (user.RoleName == "Client")
             {
-                Email = user.Email,
-                IsAuthenticated = true,
-                Roles = new List<string> { model.RoleName },
-                Username = user.UserName,
-                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)
-            };
+
+                var client = new Client
+                {
+                    Location = "",
+                    verifacationState = false,
+                };
+                await _context.AddAsync(client);
+            }
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    var errors = string.Empty;
+                    foreach (var error in result.Errors)
+                    {
+                        errors += $"{error.Description}  - ";
+                    }
+                    return new AuthModel { Message = errors };
+                }
+                await _userManager.AddToRoleAsync(user, model.RoleName);
+                var jwtSecurityToken = await CreateJwtToken(user);
+                return new AuthModel
+                {
+                    Email = user.Email,
+                    IsAuthenticated = true,
+                    Roles = new List<string> { model.RoleName },
+                    Username = user.UserName,
+                    Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken)
+                };
         }
 
         #endregion

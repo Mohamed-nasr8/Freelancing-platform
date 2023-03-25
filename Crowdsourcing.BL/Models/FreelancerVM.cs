@@ -58,10 +58,6 @@ namespace Crowdsourcing.BL.ViewModels
         public bool VerficationState { get; set; }
 
 
-        public int UserAccountId { get; set; }
-        public UserAccount UserAccount { get; set; }
-
-
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Rating> Ratings { get; set; }
         public ICollection<Language> Languages { get; set; }

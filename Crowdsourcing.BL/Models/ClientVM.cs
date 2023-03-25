@@ -21,9 +21,9 @@ namespace Crowdsourcing.BL.Models
 
         [Display(Name = "User Account ID")]
         [Required(ErrorMessage = "User Account ID is required.")]
-        public int UserAccountId { get; set; }
+        public int ApplicationUserId { get; set; }
 
-        public UserAccount UserAccount { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<Notification> Notifications { get; set; }
 

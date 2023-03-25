@@ -1,14 +1,6 @@
 ﻿using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Crowdsourcing.Controllers
 {
