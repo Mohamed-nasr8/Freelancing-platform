@@ -1,7 +1,7 @@
 using Crowdsourcing.BL.Helper;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Models;
-using Crowdsourcing.BL.Repo;
+using Crowdsourcing.BL.Repository;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
