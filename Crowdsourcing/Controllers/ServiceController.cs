@@ -209,7 +209,7 @@ namespace Crowdsourcing.Controllers
                 {
                     Code = "404",
                     Status = "Faild",
-                    Message = "Not Deleted",
+                    Message = "Not Created",
                     Error = ex.Message
                 });
             }
