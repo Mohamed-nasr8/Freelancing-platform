@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.BL.Interface
 {
-    public interface IRepository
-    {
+    
         public interface IRepository<TEntity> where TEntity : class
         {
             Task<TEntity> GetAsync(int id);
             Task<IEnumerable<TEntity>> GetAllAsync();
             Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
-            Task AddAsync(TEntity entity);
+            Task  AddAsync(TEntity entity);
             Task RemoveAsync(TEntity entity);
             Task UpdateAsync(TEntity entity);
         }
@@ -23,4 +22,4 @@ namespace Crowdsourcing.BL.Interface
 
 
     }
-}
+

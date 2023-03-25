@@ -8,11 +8,11 @@ using Crowdsourcing.BL.Interface;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.EntityFrameworkCore;
-using static Crowdsourcing.BL.Interface.IRepository;
+using  Crowdsourcing.BL.Interface;
 
 namespace Crowdsourcing.BL.Repository
 {
-    public class ServiceRep : IRepository
+    public class ServiceRep : IRepository<Service>
     {
         private readonly CrowdsourcingContext _context;
 
@@ -30,6 +30,7 @@ namespace Crowdsourcing.BL.Repository
         public async Task<IEnumerable<Service>> GetAllAsync()
         {
             return await _context.Services.ToListAsync();
+            
         }
 
         public async Task<IEnumerable<Service>> FindAsync(Expression<Func<Service, bool>> predicate)

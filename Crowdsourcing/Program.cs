@@ -35,7 +35,7 @@ namespace Crowdsourcing
             .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IAuthService, AuthService>();
-            //builder.Services.AddScoped<IRepository, ServiceRep>();
+            builder.Services.AddScoped<IRepository<Service>, ServiceRep>();
 
 
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
