@@ -100,10 +100,10 @@ namespace Crowdsourcing.Controllers
 
         [HttpPost("ADDSERVICE")]
 
-        public async Task<IActionResult> PostService(ServiceVM model)
+        public async Task<IActionResult> PostService( ServiceVM model)
         {
-            try
-            {
+            //try
+            //{
 
                 if (ModelState.IsValid)
                 {
@@ -126,17 +126,17 @@ namespace Crowdsourcing.Controllers
                     Message = "Data Invalid"
                 });
 
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new ApiResponse<string>()
-                {
-                    Code = "404",
-                    Status = "Faild",
-                    Message = "Not Created",
-                    Error = ex.Message
-                });
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return NotFound(new ApiResponse<string>()
+            //    {
+            //        Code = "404",
+            //        Status = "Faild",
+            //        Message = "Not Created",
+            //        Error = ex.Message
+            //    });
+            //}
 
 
         }
