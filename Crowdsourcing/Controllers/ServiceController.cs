@@ -147,7 +147,7 @@ namespace Crowdsourcing.Controllers
 
 
         [HttpPut("EDITSERVICE")]
-        public async Task<IActionResult> PUTtService(ServiceVM model)
+        public async Task<IActionResult> PutService(ServiceVM model , int id)
         {
             try
             {
@@ -156,7 +156,7 @@ namespace Crowdsourcing.Controllers
                 {
                     var data = _mapper.Map<Service>(model);
 
-                    await _repository.UpdateAsync(data);
+                    await _repository.UpdateAsync(id);
 
                     return Ok(new ApiResponse<Service>()
                     {
@@ -189,20 +189,20 @@ namespace Crowdsourcing.Controllers
 
         [HttpDelete("DELETSERVICE")]
 
-        public async Task<IActionResult> DeleteService(ServiceVM model) 
+        public async Task<IActionResult> DeleteService(int id) 
         {
             try
             {
-                var data = _mapper.Map<Service>(model);
+                
 
-                await _repository.RemoveAsync(data);
+                await _repository.RemoveAsync(id);
 
                 return Ok(new ApiResponse<ServiceVM>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Deleted",
-                    Data = model
+                    
                 });
             }
             catch (Exception ex)

@@ -14,7 +14,7 @@ namespace Crowdsourcing.BL.Models
     public class ServiceVM
     {
 
-        public int Id { get; set; }
+
         public ServiceType Type { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -26,7 +26,6 @@ namespace Crowdsourcing.BL.Models
         public int ClientId { get; set; }
         public int PaymentTypeId { get; set; }
         public int SkillId { get; set; }
-        public int VerificationId { get; set; }
 
         public enum ServiceType
         {

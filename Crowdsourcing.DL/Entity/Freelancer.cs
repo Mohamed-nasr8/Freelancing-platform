@@ -58,7 +58,6 @@ namespace Crowdsourcing.DL.Entity
         public ICollection<Rating> Ratings { get; set; }
         public ICollection<Language> Languages { get; set; }
         public ICollection<Withdraw> Withdraws { get; set; }
-        public ICollection<Verification> Verifications { get; set; }
         public ICollection<HasSkill> HasSkills { get; set; }
         public ICollection<HasFreelancerService> HasFreelancerServices { get; set; }
         public ICollection<Expereince> Expereinces { get; set; }
@@ -66,9 +65,6 @@ namespace Crowdsourcing.DL.Entity
         public ICollection<Proposal> Proposals { get; set; }
         public ICollection<Message> Messages { get; set; }
 
-
-        public int VerificationId { get; set; }
-       public Verification Verification { get; set; }
 
 
 

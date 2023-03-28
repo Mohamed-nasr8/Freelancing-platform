@@ -54,9 +54,6 @@ namespace Crowdsourcing.DL.Entity
 
         public Skill Skill { get; set; }
 
-        public int VerificationId { get; set; }
-        public Verification Verification { get; set; }
-
         public ICollection<OtherSkills> OtherSkills { get; set; }
 
 

@@ -14,8 +14,8 @@ namespace Crowdsourcing.BL.Interface
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         Task AddAsync(TEntity entity);
-        Task RemoveAsync(TEntity entity);
-        Task UpdateAsync(TEntity entity);
+        Task RemoveAsync(int id);
+        Task UpdateAsync(int id);
     }
 
 

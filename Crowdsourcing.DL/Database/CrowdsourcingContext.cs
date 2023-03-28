@@ -18,7 +18,6 @@ namespace Crowdsourcing.DL.Database
         public DbSet<Client> Clients { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<OtherSkills> OtherSkills { get; set; }
-        public DbSet<Verification> Verifications { get; set; }
         public DbSet<FreelancerService> FreelancerServices { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
@@ -42,13 +41,6 @@ namespace Crowdsourcing.DL.Database
             //.HasOne(p => p.Freelancer)
             //.WithMany(b => b.Notifications)
             //.HasForeignKey(p => p.FreelancerId);
-
-
-            modelBuilder.Entity<Freelancer>()
-              .HasMany<Verification>(v => v.Verifications)
-              .WithOne(f => f.Freelancer)
-              .HasForeignKey(f => f.FreelancerId)
-              .OnDelete(DeleteBehavior.Cascade);
 
 
             //modelBuilder.Entity<Notification>()

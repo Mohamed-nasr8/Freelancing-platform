@@ -3,6 +3,7 @@ using Crowdsourcing.BL.Interface;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace Crowdsourcing.BL.Repository
 {
@@ -18,7 +19,8 @@ namespace Crowdsourcing.BL.Repository
 
         public async Task<Service> GetAsync(int id)
         {
-            return await _context.Services.FindAsync(id);
+            var result = await _context.Services.FindAsync(id);
+            return result;
         }
 
         public async Task<IEnumerable<Service>> GetAllAsync()
@@ -38,16 +40,22 @@ namespace Crowdsourcing.BL.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveAsync(Service entity)
+        
+
+        public async Task UpdateAsync(int id)
         {
-            _context.Services.Remove(entity);
+            var service = await _context.Services.FindAsync(id);
+            var result = _context.Services.Update(service);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Service entity)
+        public async Task RemoveAsync(int id)
         {
-            _context.Services.Update(entity);
+        
+            var service = await _context.Services.FindAsync(id);
+            _context.Services.Remove(service);
             await _context.SaveChangesAsync();
+        
         }
     }
 }
