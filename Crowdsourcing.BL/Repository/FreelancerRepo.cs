@@ -47,9 +47,13 @@ namespace Crowdsourcing.BL.Repository
             _context.SaveChanges();
         }
 
-        public Task UpdateAsync(int id)
+        public Task<Freelancer> UpdateAsync(Freelancer entity)
         {
-            throw new NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
+            return  Task.FromResult(entity);
+
+
         }
     }
 }

@@ -111,5 +111,74 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+
+        [HttpPut("Edit")]
+        public async Task<IActionResult> PutService([FromForm] FreelancerVM model)
+        {
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                    
+
+                    var data = _mapper.Map<Freelancer>(model);
+                    ////if (model.Photo != null)
+                    ////{
+                    ////    data.ImageName = await UploadFiles.UpdateFileAsync("Imgs", data.ImageName, model.Photo);
+                    ////}
+                    //data.ImageName = UploadFiles.UploadFile("/wwwroot/Files/Imgs", model.Photo);
+                    //data.CVName = UploadFiles.UploadFile("/wwwroot/Files/Docs", model.Cv);
+
+                    ////if (model.Cv != null)
+                    ////{
+                    ////    data.CVName = await UploadFiles.UpdateFileAsync("Docs", data.CVName, model.Cv);
+                    ////}
+                    if (model.Photo != null)
+                    {
+                        data.ImageName = UploadFiles.UpdateFile(data.ImageName, model.Photo, "/wwwroot/Files/Imgs");
+                    }
+
+                    if (model.Cv != null)
+                    {
+                        data.CVName = UploadFiles.UpdateFile(data.CVName, model.Cv, "/wwwroot/Files/Docs");
+                    }
+                    var updatedEntity = await _freelancerRepository.UpdateAsync(data);
+
+
+                    return Ok(new ApiResponse<Freelancer>()
+                    {
+                        Code = "200",
+                        Status = "Ok",
+                        Message = "Data Updated",
+                                        Data = updatedEntity
+
+                    });
+                }
+
+                return Ok(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Not Valied",
+                    Message = "Data Invalid"
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Updated",
+                    Error = ex.Message
+                });
+            }
+        }
+
+
+
     }
 }

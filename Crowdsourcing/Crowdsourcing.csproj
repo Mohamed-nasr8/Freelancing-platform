@@ -20,11 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Files\Docs\" />
-    <Folder Include="wwwroot\Files\Images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Crowdsourcing.BL\Crowdsourcing.BL.csproj" />
   </ItemGroup>
 

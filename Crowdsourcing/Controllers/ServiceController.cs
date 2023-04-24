@@ -146,45 +146,45 @@ namespace Crowdsourcing.Controllers
         }
 
 
-        [HttpPut("EDITSERVICE")]
-        public async Task<IActionResult> PutService(ServiceVM model , int id)
-        {
-            try
-            {
+        //[HttpPut("EDITSERVICE")]
+        //public async Task<IActionResult> PutService(ServiceVM model , int id)
+        //{
+        //    try
+        //    {
 
-                if (ModelState.IsValid)
-                {
-                    var data = _mapper.Map<Service>(model);
+        //        if (ModelState.IsValid)
+        //        {
+        //            var data = _mapper.Map<Service>(model);
 
-                    await _repository.UpdateAsync(id);
+        //            await _repository.UpdateAsync(id);
 
-                    return Ok(new ApiResponse<Service>()
-                    {
-                        Code = "200",
-                        Status = "Ok",
-                        Message = "Data Updated",
-                    });
-                }
+        //            return Ok(new ApiResponse<Service>()
+        //            {
+        //                Code = "200",
+        //                Status = "Ok",
+        //                Message = "Data Updated",
+        //            });
+        //        }
 
-                return Ok(new ApiResponse<string>()
-                {
-                    Code = "400",
-                    Status = "Not Valied",
-                    Message = "Data Invalid"
-                });
+        //        return Ok(new ApiResponse<string>()
+        //        {
+        //            Code = "400",
+        //            Status = "Not Valied",
+        //            Message = "Data Invalid"
+        //        });
 
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new ApiResponse<string>()
-                {
-                    Code = "404",
-                    Status = "Faild",
-                    Message = "Not Created",
-                    Error = ex.Message
-                });
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return NotFound(new ApiResponse<string>()
+        //        {
+        //            Code = "404",
+        //            Status = "Faild",
+        //            Message = "Not Created",
+        //            Error = ex.Message
+        //        });
+        //    }
+        //}
 
 
         [HttpDelete("DELETSERVICE")]

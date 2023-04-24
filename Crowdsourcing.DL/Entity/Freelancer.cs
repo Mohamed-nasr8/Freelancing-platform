@@ -12,10 +12,10 @@ namespace Crowdsourcing.DL.Entity
         [Required]
         public string Overview { get; set; }
 
-        [Required]
+
         public string CVName { get; set; }
 
-        [Required]
+
         public string ImageName { get; set; }
 
         [StringLength(150)]
@@ -47,7 +47,6 @@ namespace Crowdsourcing.DL.Entity
         [MaxLength(50)]
         public string PhoneNumber { get; set; }
         public int? Point { get; set; }
-        public bool VerficationState { get; set; }
 
 
         

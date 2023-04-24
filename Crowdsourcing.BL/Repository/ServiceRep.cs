@@ -57,5 +57,10 @@ namespace Crowdsourcing.BL.Repository
             await _context.SaveChangesAsync();
         
         }
+
+        public Task<Service> UpdateAsync(Service entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
