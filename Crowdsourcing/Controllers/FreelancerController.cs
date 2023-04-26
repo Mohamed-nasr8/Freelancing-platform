@@ -28,6 +28,7 @@ namespace Crowdsourcing.Controllers
             _userManager = userManager;
         }
 
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -56,6 +57,9 @@ namespace Crowdsourcing.Controllers
 
             }
         }
+
+
+
         [HttpGet("GetAllById")]
         public async Task<IActionResult> GetAllById(int id)
         {
@@ -82,23 +86,51 @@ namespace Crowdsourcing.Controllers
                 });
             }
             }
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(int id)
+
+
+        [HttpPost("AddFreelancer")]
+        public async Task<IActionResult> Create([FromForm] FreelancerVM model)
         {
+
             try
             {
 
-
-              await _freelancerRepository.RemoveAsync(id);
-
-                return Ok(new ApiResponse<FreelancerVM>()
+                if (ModelState.IsValid)
                 {
-                    Code = "200",
-                    Status = "Ok",
-                    Message = "Data Deleted",
-                    
 
+
+
+                    var data = _mapper.Map<Freelancer>(model);
+
+                    if (model.Photo != null)
+                    {
+                        data.ImageName = UploadFiles.UploadFile("/wwwroot/Files/Imgs" , model.Photo);
+                    }
+
+                    if (model.Cv != null)
+                    {
+                        data.CVName = UploadFiles.UploadFile( "/wwwroot/Files/Docs" , model.Cv);
+                    }
+                        await _freelancerRepository.AddAsync(data);
+
+
+                    return Ok(new ApiResponse<Freelancer>()
+                    {
+                        Code = "200",
+                        Status = "Ok",
+                        Message = "Freelancer Added",
+                        Data = data
+
+                    });
+                }
+
+                return Ok(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Not Valied",
+                    Message = "Data Invalid"
                 });
+
             }
             catch (Exception ex)
             {
@@ -106,7 +138,7 @@ namespace Crowdsourcing.Controllers
                 {
                     Code = "404",
                     Status = "Faild",
-                    Message = "Not Created",
+                    Message = "Not Added",
                     Error = ex.Message
                 });
             }
@@ -125,17 +157,7 @@ namespace Crowdsourcing.Controllers
                     
 
                     var data = _mapper.Map<Freelancer>(model);
-                    ////if (model.Photo != null)
-                    ////{
-                    ////    data.ImageName = await UploadFiles.UpdateFileAsync("Imgs", data.ImageName, model.Photo);
-                    ////}
-                    //data.ImageName = UploadFiles.UploadFile("/wwwroot/Files/Imgs", model.Photo);
-                    //data.CVName = UploadFiles.UploadFile("/wwwroot/Files/Docs", model.Cv);
-
-                    ////if (model.Cv != null)
-                    ////{
-                    ////    data.CVName = await UploadFiles.UpdateFileAsync("Docs", data.CVName, model.Cv);
-                    ////}
+                  
                     if (model.Photo != null)
                     {
                         data.ImageName = UploadFiles.UpdateFile(data.ImageName, model.Photo, "/wwwroot/Files/Imgs");
@@ -179,6 +201,36 @@ namespace Crowdsourcing.Controllers
         }
 
 
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+
+
+              await _freelancerRepository.RemoveAsync(id);
+
+                return Ok(new ApiResponse<FreelancerVM>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Data Deleted",
+                    
+
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Created",
+                    Error = ex.Message
+                });
+            }
+        }
 
     }
 }
