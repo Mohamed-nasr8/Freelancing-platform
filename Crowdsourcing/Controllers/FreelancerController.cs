@@ -114,6 +114,61 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+        [HttpPost("AddFreelancer")]
+        public async Task<IActionResult> Create([FromForm] FreelancerVM model)
+        {
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+
+
+                    var data = _mapper.Map<Freelancer>(model);
+
+                    if (model.Photo != null)
+                    {
+                        data.ImageName = UploadFiles.UploadFile("/wwwroot/Files/Imgs", model.Photo);
+                    }
+
+                    if (model.Cv != null)
+                    {
+                        data.CVName = UploadFiles.UploadFile("/wwwroot/Files/Docs", model.Cv);
+                    }
+                    await _freelancerRepository.AddAsync(data);
+
+
+                    return Ok(new ApiResponse<Freelancer>()
+                    {
+                        Code = "200",
+                        Status = "Ok",
+                        Message = "Freelancer Added",
+                        Data = data
+
+                    });
+                }
+
+                return Ok(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Not Valied",
+                    Message = "Data Invalid"
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Added",
+                    Error = ex.Message
+                });
+            }
+        }
 
         [HttpPut("Edit")]
         public async Task<IActionResult> PutService([FromForm] FreelancerVM model , [FromForm] List<LanguageVM> languages)

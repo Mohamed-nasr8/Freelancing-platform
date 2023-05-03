@@ -20,11 +20,36 @@ namespace Crowdsourcing.BL.Repository
             _context = context;
         }
 
-        public Task AddAsync(Freelancer entity)
+        public async Task AddAsync(Freelancer freelancer)
         {
-            throw new NotImplementedException();
-        }
+            // Add the Education and Experience objects to the Freelancer's collections
+            //if (freelancer.Educations != null && freelancer.Educations.Any())
+            //{
+            //    foreach (var education in freelancer.Educations)
+            //    {
+            //        _context.Educations.Add(education);
+            //    }
+            //}
 
+            //if (freelancer.Expereinces != null && freelancer.Expereinces.Any())
+            //{
+            //    foreach (var experience in freelancer.Expereinces)
+            //    {
+            //        _context.Expereinces.Add(experience);
+            //    }
+            //}
+
+            //if (freelancer.Languages != null && freelancer.Languages.Any())
+            //{
+            //    foreach (var language in freelancer.Languages)
+            //    {
+            //        _context.Languages.Add(language);
+            //    }
+            //}
+
+            await _context.Freelancers.AddAsync(freelancer);
+            await _context.SaveChangesAsync();
+        }
         public Task<IEnumerable<Freelancer>> FindAsync(Expression<Func<Freelancer, bool>> predicate)
         {
             throw new NotImplementedException();

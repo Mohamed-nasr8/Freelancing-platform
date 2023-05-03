@@ -13,9 +13,9 @@ namespace Crowdsourcing.BL.ViewModels
     public class FreelancerVM
     {
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        //public DateTime RegistrationDate { get; set; }
 
         [Required]
         public string Overview { get; set; }
