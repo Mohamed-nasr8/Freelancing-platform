@@ -2,6 +2,7 @@
 using Crowdsourcing.BL.Helper;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Models;
+using Crowdsourcing.BL.Repository;
 using Crowdsourcing.BL.ViewModels;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Http;
@@ -17,13 +18,15 @@ namespace Crowdsourcing.Controllers
     public class FreelancerController : ControllerBase
     {
         private readonly IRepository<Freelancer> _freelancerRepository;
+        private readonly IRepository<Language> _lrepo;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
         
-        public FreelancerController(IRepository<Freelancer> freelancerRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> lrepo, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _freelancerRepository = freelancerRepository;
+           _lrepo = lrepo;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -113,7 +116,7 @@ namespace Crowdsourcing.Controllers
         }
 
         [HttpPut("Edit")]
-        public async Task<IActionResult> PutService([FromForm] FreelancerVM model)
+        public async Task<IActionResult> PutService([FromForm] FreelancerVM model , [FromForm] List<LanguageVM> languages)
         {
 
             try
@@ -125,17 +128,7 @@ namespace Crowdsourcing.Controllers
                     
 
                     var data = _mapper.Map<Freelancer>(model);
-                    ////if (model.Photo != null)
-                    ////{
-                    ////    data.ImageName = await UploadFiles.UpdateFileAsync("Imgs", data.ImageName, model.Photo);
-                    ////}
-                    //data.ImageName = UploadFiles.UploadFile("/wwwroot/Files/Imgs", model.Photo);
-                    //data.CVName = UploadFiles.UploadFile("/wwwroot/Files/Docs", model.Cv);
-
-                    ////if (model.Cv != null)
-                    ////{
-                    ////    data.CVName = await UploadFiles.UpdateFileAsync("Docs", data.CVName, model.Cv);
-                    ////}
+                   
                     if (model.Photo != null)
                     {
                         data.ImageName = UploadFiles.UpdateFile(data.ImageName, model.Photo, "/wwwroot/Files/Imgs");
@@ -147,13 +140,32 @@ namespace Crowdsourcing.Controllers
                     }
                     var updatedEntity = await _freelancerRepository.UpdateAsync(data);
 
+                    var languageEntities = _mapper.Map<List<Language>>(languages);
+                    foreach (var language in languages)
+                    {
+                        var lang = await _lrepo.GetAsync(language.Id);
+
+
+
+                        lang.LangName = language.LangName;
+                        lang.Level = language.Level;
+                        await _lrepo.UpdateAsync(lang);
+
+                    }
+                    //foreach (var language in languages)
+                    //{
+                    //    var lang = _mapper.Map<Language>(language);
+                    //    lang.FreelancerId = data.Id;
+                    //    _lrepo.UpdateAsync(lang);
+                    //}
+
 
                     return Ok(new ApiResponse<Freelancer>()
                     {
                         Code = "200",
                         Status = "Ok",
                         Message = "Data Updated",
-                                        Data = updatedEntity
+                        Data = updatedEntity
 
                     });
                 }
@@ -178,7 +190,62 @@ namespace Crowdsourcing.Controllers
             }
         }
 
+        [HttpPut("Edito")]
 
+        public async Task<IActionResult> PutaService(  List<LanguageVM> model)
+        {
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                    foreach (var language in model)
+                    {
+                        var existingLanguage = await _lrepo.GetAsync(language.Id);
+                        existingLanguage.LangName = language.LangName;
+                        existingLanguage.Level = language.Level;
+
+                        await _lrepo.UpdateAsync(existingLanguage);
+                    }
+
+                    //var data = _mapper.Map<Language>(model);
+                    //var updatedEntity = await _lrepo.UpdateAsync(data);
+                    return Ok(new ApiResponse<Freelancer>()
+                    {
+                        Code = "200",
+                        Status = "Ok",
+                        Message = "Data Updated",
+
+                    });
+
+
+
+                }
+                return Ok(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Not Valied",
+                    Message = "Data Invalid"
+                });
+
+
+
+            }
+
+
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Updated",
+                    Error = ex.Message
+                });
+            }
+        }
 
     }
 }

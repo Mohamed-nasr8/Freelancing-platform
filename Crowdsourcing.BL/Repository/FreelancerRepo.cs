@@ -54,6 +54,13 @@ namespace Crowdsourcing.BL.Repository
             return  Task.FromResult(entity);
 
 
+
+
+        }
+
+        public Task<IEnumerable<Freelancer>> UpdateRangeAsync(IEnumerable<Freelancer> entities)
+        {
+            throw new NotImplementedException();
         }
     }
 }

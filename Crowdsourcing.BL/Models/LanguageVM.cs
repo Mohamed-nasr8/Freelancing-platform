@@ -10,12 +10,13 @@ namespace Crowdsourcing.BL.ViewModels
     public class LanguageVM
     {
         public int Id { get; set; }
+
         public string LangName { get; set; }
         public string Level { get; set; }
 
 
-        public int FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+        //public int FreelancerId { get; set; }
+        //public Freelancer Freelancer { get; set; }
 
     }
 }

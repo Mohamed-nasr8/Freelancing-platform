@@ -54,7 +54,6 @@ namespace Crowdsourcing.BL.ViewModels
         [MaxLength(50)]
         public string PhoneNumber { get; set; }
         public int? Point { get; set; }
- 
 
         //public ICollection<Notification> Notifications { get; set; }
         //public ICollection<Rating> Ratings { get; set; }

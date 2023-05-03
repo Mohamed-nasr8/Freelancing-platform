@@ -62,5 +62,10 @@ namespace Crowdsourcing.BL.Repository
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<Service>> UpdateRangeAsync(IEnumerable<Service> entities)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
