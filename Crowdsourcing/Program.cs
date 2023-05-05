@@ -39,6 +39,8 @@ namespace Crowdsourcing
             builder.Services.AddScoped<IRepository<Service>, ServiceRep>();
             builder.Services.AddScoped<IRepository<Freelancer>,FreelancerRepo>();
 
+
+
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
             builder.Services.AddAuthentication(options =>
