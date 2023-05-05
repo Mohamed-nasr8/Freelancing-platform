@@ -19,9 +19,9 @@ namespace Crowdsourcing.DL.Entity
         [MaxLength(150)]
         public string Degree { get; set; }
 
-        [Required]
+ 
         [MaxLength(200)]
-        public string FeildOfStudy { get; set; }
+        public string? FeildOfStudy { get; set; }
 
         [Required]
         public DateTime DateFrom { get; set; }

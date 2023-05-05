@@ -20,9 +20,8 @@ namespace Crowdsourcing.BL.ViewModels
         [MaxLength(150)]
         public string Degree { get; set; }
 
-        [Required(ErrorMessage = "Please enter your field of study")]
         [MaxLength(200)]
-        public string FeldOfStudy { get; set; }
+        public string? FeldOfStudy { get; set; }
 
         [Required(ErrorMessage = "Please enter Date attended")]
         public DateTime DateFrom { get; set; }
@@ -35,6 +34,6 @@ namespace Crowdsourcing.BL.ViewModels
         public string Description { get; set; }
 
         public int FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+        //public Freelancer Freelancer { get; set; }
     }
 }

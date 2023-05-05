@@ -15,7 +15,7 @@ namespace Crowdsourcing.BL.ViewModels
 
 
         public int FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+        //public Freelancer Freelancer { get; set; }
 
     }
 }

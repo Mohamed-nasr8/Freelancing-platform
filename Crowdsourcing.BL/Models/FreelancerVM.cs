@@ -25,6 +25,11 @@ namespace Crowdsourcing.BL.ViewModels
 
         public IFormFile Photo { get; set; }
 
+
+        public string? CvName { get; set; }
+
+        public string? PhotoName { get; set; }
+
         [StringLength(150)]
         [Required(ErrorMessage ="Pleasr enter your title")]
         public string Title { get; set; }
