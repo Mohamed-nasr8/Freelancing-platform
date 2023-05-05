@@ -23,7 +23,6 @@ namespace Crowdsourcing.Controllers
     {
         private readonly CrowdsourcingContext _context;
         private readonly IRepository<Freelancer> _freelancerRepository;
-        private readonly IRepository<Language> _lrepo;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -32,7 +31,6 @@ namespace Crowdsourcing.Controllers
         {
             _context = context;
             _freelancerRepository = freelancerRepository;
-           _lrepo = lrepo;
             _mapper = mapper;
             _userManager = userManager;
         }
