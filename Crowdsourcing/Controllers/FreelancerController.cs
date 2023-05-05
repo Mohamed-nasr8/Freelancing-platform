@@ -93,50 +93,9 @@ namespace Crowdsourcing.Controllers
 
 
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                var freelancer = await _freelancerRepository.GetAsync(id);
-                var model = _mapper.Map<FreelancerVM>(freelancer);
-                var dataModel = _mapper.Map<Freelancer>(model);
-                UploadFiles.RemoveFile("Imgs", dataModel.ImageName);
-                UploadFiles.RemoveFile("Docs", dataModel.CVName);
-                await _freelancerRepository.RemoveAsync(id);
 
 
-
-                return Ok(new ApiResponse<Freelancer>()
-                {
-                    Code = "200",
-                    Status = "Ok",
-                    Message = "Data Deleted",
-                    Data = dataModel
-                });
-            }
-            catch (Exception ex)
-            {
-                return NotFound(new ApiResponse<string>()
-                {
-                    Code = "404",
-                    Status = "Faild",
-                    Message = "Not Deleted",
-                    Error = ex.Message
-                });
-            }
-
-        }
-    
-
-
-
-
-
-
-
-
-    [HttpPost("AddFreelancer")]
+        [HttpPost("AddFreelancer")]
         public async Task<IActionResult> Create([FromForm] FreelancerVM model)
         {
 
@@ -338,7 +297,7 @@ namespace Crowdsourcing.Controllers
 
 
         [HttpPut("Edit")]
-        public async Task<IActionResult> Update([FromForm] FreelancerVM model )
+        public async Task<IActionResult> Update([FromForm] FreelancerVM model)
         {
 
             try
@@ -347,10 +306,10 @@ namespace Crowdsourcing.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    
+
 
                     var data = _mapper.Map<Freelancer>(model);
-                   
+
                     if (model.Photo != null)
                     {
                         data.ImageName = UploadFiles.UpdateFile(data.ImageName, model.Photo, "/wwwroot/Files/Imgs");
@@ -362,7 +321,7 @@ namespace Crowdsourcing.Controllers
                     }
                     var updatedEntity = await _freelancerRepository.UpdateAsync(data);
 
-                   
+
 
 
                     return Ok(new ApiResponse<Freelancer>()
@@ -394,6 +353,50 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+
+
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var freelancer = await _freelancerRepository.GetAsync(id);
+                var model = _mapper.Map<FreelancerVM>(freelancer);
+                var dataModel = _mapper.Map<Freelancer>(model);
+                UploadFiles.RemoveFile("Imgs", dataModel.ImageName);
+                UploadFiles.RemoveFile("Docs", dataModel.CVName);
+                await _freelancerRepository.RemoveAsync(id);
+
+
+
+                return Ok(new ApiResponse<Freelancer>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Data Deleted",
+                    Data = dataModel
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Deleted",
+                    Error = ex.Message
+                });
+            }
+
+        }
+    
+
+
+
+
+
+
 
 
         
