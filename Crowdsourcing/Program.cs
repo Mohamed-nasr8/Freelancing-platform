@@ -22,7 +22,9 @@ namespace Crowdsourcing
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             builder.Services.AddDbContext<CrowdsourcingContext>(opt=>
             opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
@@ -38,6 +40,8 @@ namespace Crowdsourcing
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRepository<Service>, ServiceRep>();
             builder.Services.AddScoped<IRepository<Freelancer>,FreelancerRepo>();
+            builder.Services.AddScoped<IRepository<Language>, langrep>();
+
 
 
 
