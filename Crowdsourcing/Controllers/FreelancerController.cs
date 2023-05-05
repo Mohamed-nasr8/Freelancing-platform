@@ -354,6 +354,79 @@ namespace Crowdsourcing.Controllers
             }
         }
 
+        [HttpPut("EditLanExED/{id}")]
+        public async Task<IActionResult> Update(int id, CreateFreelancerRequest model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    // Map the language, experience, and education lists from the request to entities
+                    var languages = _mapper.Map<List<Language>>(model.Languages);
+                    var experiences = _mapper.Map<List<Expereince>>(model.Experiences);
+                    var educations = _mapper.Map<List<Education>>(model.Educations);
+
+                    // Set the foreign key properties of each entity to the passed in freelancerId parameter
+                    foreach (var language in languages)
+                    {
+                        language.FreelancerId = model.Languages.First().FreelancerId;
+                    }
+
+                    foreach (var experience in experiences)
+                    {
+                        experience.FreelancerId = model.Experiences.First().FreelancerId;
+                    }
+                    foreach (var education in educations)
+                    {
+                        education.FreelancerId = model.Educations.First().FreelancerId;
+                    }
+
+
+                    // Remove the existing entities with the same freelancerId
+                    _context.Languages.RemoveRange(_context.Languages.Where(x => x.FreelancerId == id));
+                    _context.Expereinces.RemoveRange(_context.Expereinces.Where(x => x.FreelancerId == id));
+                    _context.Educations.RemoveRange(_context.Educations.Where(x => x.FreelancerId == id));
+
+
+                    // Add the new entities to the context and save changes
+                    await _context.AddRangeAsync(languages);
+                    await _context.AddRangeAsync(experiences);
+                    await _context.AddRangeAsync(educations);
+                    await _context.SaveChangesAsync();
+
+                    // Return a success response with the added entities
+                    return Ok(new ApiResponse<CreateFreelancerRequest>()
+                    {
+                        Code = "200",
+                        Status = "Ok",
+                        Message = "Freelancer Updated",
+                        Data = model
+                    });
+                }
+
+                // Return a validation error response if the model state is not valid
+                return BadRequest(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Not Valid",
+                    Message = "Data Invalid"
+                });
+            }
+            catch (Exception ex)
+            {
+                // Return an error response if an exception occurs
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Failed",
+                    Message = "Not Updated",
+                    Error = ex.Message
+                });
+            }
+
+
+        }
 
 
         [HttpDelete("Delete")]
