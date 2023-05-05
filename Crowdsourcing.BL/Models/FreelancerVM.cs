@@ -19,8 +19,8 @@ namespace Crowdsourcing.BL.ViewModels
 
         [Required]
         public string Overview { get; set; }
-    
 
+        
         public IFormFile Cv { get; set; }
 
         public IFormFile Photo { get; set; }

@@ -38,7 +38,7 @@ namespace Crowdsourcing.BL.ViewModels
         public DateTime EndDate { get; set; }
 
         public int FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+        //public Freelancer Freelancer { get; set; }
 
     }
 }

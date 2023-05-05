@@ -48,7 +48,7 @@ namespace Crowdsourcing.BL.Helper
         {
             try
             {
-                if (File.Exists(Directory.GetCurrentDirectory() + "/wwroot/Files/" + FolderName + "/" + FileName))
+                if (File.Exists(Directory.GetCurrentDirectory() + "/wwwroot/Files/" + FolderName + "/" + FileName))
                 {
                     File.Delete(Directory.GetCurrentDirectory() + "/" + FolderName + "/" + FileName);
                 }
