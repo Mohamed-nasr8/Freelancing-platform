@@ -288,7 +288,6 @@ namespace Crowdsourcing.DL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CVName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
@@ -305,7 +304,6 @@ namespace Crowdsourcing.DL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Overview")

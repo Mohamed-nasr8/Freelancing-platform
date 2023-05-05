@@ -41,6 +41,7 @@ namespace Crowdsourcing.Controllers
             try
             {
                 var freelancer = await _freelancerRepository.GetAllAsync();
+
                 var model = _mapper.Map<IEnumerable<FreelancerVM>>(freelancer);
                 return Ok(new ApiResponse<IEnumerable<FreelancerVM>>()
                 {
@@ -89,22 +90,29 @@ namespace Crowdsourcing.Controllers
                 });
             }
             }
+
+
+
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
             try
             {
+                var freelancer = await _freelancerRepository.GetAsync(id);
+                var model = _mapper.Map<FreelancerVM>(freelancer);
+                var dataModel = _mapper.Map<Freelancer>(model);
+                UploadFiles.RemoveFile("Imgs", dataModel.ImageName);
+                UploadFiles.RemoveFile("Docs", dataModel.CVName);
+                await _freelancerRepository.RemoveAsync(id);
 
 
-              await _freelancerRepository.RemoveAsync(id);
 
-                return Ok(new ApiResponse<FreelancerVM>()
+                return Ok(new ApiResponse<Freelancer>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Deleted",
-                    
-
+                    Data = dataModel
                 });
             }
             catch (Exception ex)
@@ -113,12 +121,22 @@ namespace Crowdsourcing.Controllers
                 {
                     Code = "404",
                     Status = "Faild",
-                    Message = "Not Created",
+                    Message = "Not Deleted",
                     Error = ex.Message
                 });
             }
+
         }
-        [HttpPost("AddFreelancer")]
+    
+
+
+
+
+
+
+
+
+    [HttpPost("AddFreelancer")]
         public async Task<IActionResult> Create([FromForm] FreelancerVM model)
         {
 
@@ -320,7 +338,7 @@ namespace Crowdsourcing.Controllers
 
 
         [HttpPut("Edit")]
-        public async Task<IActionResult> PutService([FromForm] FreelancerVM model , [FromForm] List<LanguageVM> languages)
+        public async Task<IActionResult> PutService([FromForm] FreelancerVM model )
         {
 
             try
@@ -344,24 +362,7 @@ namespace Crowdsourcing.Controllers
                     }
                     var updatedEntity = await _freelancerRepository.UpdateAsync(data);
 
-                    var languageEntities = _mapper.Map<List<Language>>(languages);
-                    foreach (var language in languages)
-                    {
-                        var lang = await _lrepo.GetAsync(language.Id);
-
-
-
-                        lang.LangName = language.LangName;
-                        lang.Level = language.Level;
-                        await _lrepo.UpdateAsync(lang);
-
-                    }
-                    //foreach (var language in languages)
-                    //{
-                    //    var lang = _mapper.Map<Language>(language);
-                    //    lang.FreelancerId = data.Id;
-                    //    _lrepo.UpdateAsync(lang);
-                    //}
+                   
 
 
                     return Ok(new ApiResponse<Freelancer>()
@@ -394,62 +395,8 @@ namespace Crowdsourcing.Controllers
             }
         }
 
-        [HttpPut("Edito")]
 
-        public async Task<IActionResult> PutaService(  List<LanguageVM> model)
-        {
-
-            try
-            {
-
-                if (ModelState.IsValid)
-                {
-
-                    foreach (var language in model)
-                    {
-                        var existingLanguage = await _lrepo.GetAsync(language.Id);
-                        existingLanguage.LangName = language.LangName;
-                        existingLanguage.Level = language.Level;
-
-                        await _lrepo.UpdateAsync(existingLanguage);
-                    }
-
-                    //var data = _mapper.Map<Language>(model);
-                    //var updatedEntity = await _lrepo.UpdateAsync(data);
-                    return Ok(new ApiResponse<Freelancer>()
-                    {
-                        Code = "200",
-                        Status = "Ok",
-                        Message = "Data Updated",
-
-                    });
-
-
-
-                }
-                return Ok(new ApiResponse<string>()
-                {
-                    Code = "400",
-                    Status = "Not Valied",
-                    Message = "Data Invalid"
-                });
-
-
-
-            }
-
-
-            catch (Exception ex)
-            {
-                return NotFound(new ApiResponse<string>()
-                {
-                    Code = "404",
-                    Status = "Faild",
-                    Message = "Not Updated",
-                    Error = ex.Message
-                });
-            }
-        }
+        
 
     }
 }
