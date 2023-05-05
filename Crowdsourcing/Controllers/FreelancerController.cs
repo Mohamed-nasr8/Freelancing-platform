@@ -338,7 +338,7 @@ namespace Crowdsourcing.Controllers
 
 
         [HttpPut("Edit")]
-        public async Task<IActionResult> PutService([FromForm] FreelancerVM model )
+        public async Task<IActionResult> Update([FromForm] FreelancerVM model )
         {
 
             try
