@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using TestAPIJWT.Service;
 
@@ -29,8 +30,34 @@ namespace Crowdsourcing
             opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 1safsfsdfdfd\"",
+                });
 
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            },
+                            new string[] {}
+                        }
+                });
+
+            });
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -38,9 +65,16 @@ namespace Crowdsourcing
             .AddDefaultTokenProviders();
 
             builder.Services.AddScoped<IAuthService, AuthService>();
-            builder.Services.AddScoped<IRepository<Service>, ServiceRep>();
-            builder.Services.AddScoped<IRepository<Freelancer>,FreelancerRepo>();
-
+            builder.Services.AddScoped<IRepository<Service>, ServiceRepository>();
+            builder.Services.AddScoped<IRepository<Freelancer>, FreelancerRepository>();
+            builder.Services.AddScoped<IRepository<Language>, LanguageRepository>();
+            builder.Services.AddScoped<IRepository<Education>, EducationRepository>();
+            builder.Services.AddScoped<FreelancerRepository>();
+            builder.Services.AddScoped<IRepository<Expereince>, ExperienceRepository>();
+            builder.Services.AddScoped<IRepository<Rating>, RatingRepository>();
+            builder.Services.AddScoped<IRepository<Skill>, SkillRepository>();
+            builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
+            builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
             builder.Services.AddAuthentication(options =>

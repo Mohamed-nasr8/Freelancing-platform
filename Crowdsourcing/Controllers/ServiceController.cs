@@ -5,6 +5,7 @@ using Crowdsourcing.BL.Helper;
 using Crowdsourcing.DL.Entity;
 using Crowdsourcing.BL.Interface;
 using Microsoft.AspNetCore.Identity;
+using Crowdsourcing.BL.Repository;
 
 namespace Crowdsourcing.Controllers
 {
@@ -16,7 +17,7 @@ namespace Crowdsourcing.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ServiceController(IRepository<Service> repository,IMapper mapper , UserManager<ApplicationUser> userManager)
+        public ServiceController(IRepository<Service> repository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _mapper = mapper;
@@ -30,14 +31,14 @@ namespace Crowdsourcing.Controllers
             try
             {
                 var result = await _repository.GetAllAsync();
-                var model =  _mapper.Map<IEnumerable<ServiceVM>>(result);
+                var model = _mapper.Map<IEnumerable<ServiceVM>>(result);
                 return Ok(new ApiResponse<IEnumerable<ServiceVM>>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Retrived",
                     Data = model
-                }             
+                }
                 );
 
 
@@ -103,15 +104,15 @@ namespace Crowdsourcing.Controllers
 
         [HttpPost("ADDSERVICE")]
 
-        public async Task<IActionResult> PostService( ServiceVM model)
+        public async Task<IActionResult> PostService(ServiceVM model)
         {
-            
+
             try
             {
 
                 if (ModelState.IsValid)
                 {
-                    var data =  _mapper.Map<Service>(model);
+                    var data = _mapper.Map<Service>(model);
 
                     await _repository.AddAsync(data);
 
@@ -120,6 +121,7 @@ namespace Crowdsourcing.Controllers
                         Code = "201",
                         Status = "Created",
                         Message = "Data Saved",
+                        Data = data
                     });
                 }
 
@@ -128,6 +130,7 @@ namespace Crowdsourcing.Controllers
                     Code = "400",
                     Status = "Not Valied",
                     Message = "Data Invalid"
+
                 });
 
             }
@@ -146,55 +149,45 @@ namespace Crowdsourcing.Controllers
         }
 
 
-        //[HttpPut("EDITSERVICE")]
-        //public async Task<IActionResult> PutService(ServiceVM model , int id)
-        //{
-        //    try
-        //    {
+        [HttpPut("EDITSERVICE")]
+        public async Task<IActionResult> PutService([FromBody] ServiceVM serviceVM)
+        {
+            try
+            {
+                var data = _mapper.Map<Service>(serviceVM);
 
-        //        if (ModelState.IsValid)
-        //        {
-        //            var data = _mapper.Map<Service>(model);
+            
+             var existingEntity =   await _repository.UpdateAsync(data);
 
-        //            await _repository.UpdateAsync(id);
-
-        //            return Ok(new ApiResponse<Service>()
-        //            {
-        //                Code = "200",
-        //                Status = "Ok",
-        //                Message = "Data Updated",
-        //            });
-        //        }
-
-        //        return Ok(new ApiResponse<string>()
-        //        {
-        //            Code = "400",
-        //            Status = "Not Valied",
-        //            Message = "Data Invalid"
-        //        });
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return NotFound(new ApiResponse<string>()
-        //        {
-        //            Code = "404",
-        //            Status = "Faild",
-        //            Message = "Not Created",
-        //            Error = ex.Message
-        //        });
-        //    }
-        //}
+                return Ok(new ApiResponse<Service>()
+                {
+                    Code = "200",
+                    Status = "Data Updated",
+                    Message = "Data Updated",
+                    Data = existingEntity
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Updated",
+                    Error = ex.Message
+                });
+            }
+        }
 
 
         [HttpDelete("DELETSERVICE")]
 
-        public async Task<IActionResult> DeleteService(int id) 
+        public async Task<IActionResult> DeleteService(int id)
         {
             try
             {
-                
-
+                var services = await _repository.GetAsync(id);
+                var model = _mapper.Map<ServiceVM>(services);
                 await _repository.RemoveAsync(id);
 
                 return Ok(new ApiResponse<ServiceVM>()
@@ -202,7 +195,8 @@ namespace Crowdsourcing.Controllers
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Deleted",
-                    
+                    Data = model
+
                 });
             }
             catch (Exception ex)
@@ -215,10 +209,6 @@ namespace Crowdsourcing.Controllers
                     Error = ex.Message
                 });
             }
-
-
-
-
         }
 
 

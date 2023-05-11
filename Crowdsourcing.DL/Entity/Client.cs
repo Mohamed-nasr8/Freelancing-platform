@@ -18,12 +18,9 @@ namespace Crowdsourcing.DL.Entity
 
         public string Location { get; set; }
 
-        public bool verifacationState { get; set; } 
+        public string UserId { get; set; }
 
-        public int ApplicationUserId { get; set; }
-
-        public ApplicationUser ApplicationUser { get; set; }
-
+        public ApplicationUser User { get; set; }
         public ICollection<Notification> Notifications { get; set; }
 
         public ICollection<Rating> Ratings { get; set; }

@@ -14,6 +14,7 @@ namespace Crowdsourcing.BL.Models
     public class ServiceVM
     {
 
+        public int Id { get; set; }
 
         public ServiceType Type { get; set; }
         public string Title { get; set; }

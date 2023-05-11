@@ -4,6 +4,7 @@ using Crowdsourcing.DL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crowdsourcing.DL.Migrations
 {
     [DbContext(typeof(CrowdsourcingContext))]
-    partial class CrowdsourcingContextModelSnapshot : ModelSnapshot
+    [Migration("20230511210810_usermanger")]
+    partial class usermanger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,6 +285,7 @@ namespace Crowdsourcing.DL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CVName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("City")
@@ -299,6 +302,7 @@ namespace Crowdsourcing.DL.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ImageName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Overview")

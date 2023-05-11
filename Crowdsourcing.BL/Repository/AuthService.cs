@@ -54,7 +54,6 @@ namespace TestAPIJWT.Service
                 var client = new Client
                 {
                     Location = "",
-                    verifacationState = false,
                 };
                 await _context.AddAsync(client);
             }

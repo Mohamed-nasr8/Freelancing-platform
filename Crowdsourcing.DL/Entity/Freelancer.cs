@@ -49,7 +49,9 @@ namespace Crowdsourcing.DL.Entity
         public int? Point { get; set; }
 
 
-        
+        public string UserId { get; set; }
+
+        public ApplicationUser User { get; set; }
 
 
         public ICollection<Notification> Notifications { get; set; }
