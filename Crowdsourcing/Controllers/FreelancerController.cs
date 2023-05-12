@@ -6,6 +6,7 @@ using Crowdsourcing.BL.Repository;
 using Crowdsourcing.BL.ViewModels;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,12 @@ using System.Security.Claims;
 
 namespace Crowdsourcing.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FreelancerController : ControllerBase
     {
-   
+
         private readonly IRepository<Freelancer> _freelancerRepository;
         private readonly IRepository<Language> _languageRepository;
         private readonly IRepository<Education> _eductionRepository;
@@ -36,7 +38,7 @@ namespace Crowdsourcing.Controllers
         private readonly IHttpContextAccessor _httpAccessor;
 
         public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> languageRepository, IRepository<Education> eductionRepository, IRepository<Expereince> experinceRepository, IRepository<Skill> skilllRepository, IRepository<HasSkill> hasSkilllRepository,
-    IRepository<Rating> ratingRepository, IMapper mapper, FreelancerRepository freelancerRepo, CrowdsourcingContext context , IHttpContextAccessor HttpAccessor)
+    IRepository<Rating> ratingRepository, IMapper mapper, FreelancerRepository freelancerRepo, CrowdsourcingContext context, IHttpContextAccessor HttpAccessor)
         {
             _freelancerRepository = freelancerRepository;
             _languageRepository = languageRepository;
@@ -82,6 +84,8 @@ namespace Crowdsourcing.Controllers
                         City = freelancer.City,
                         Street = freelancer.Street,
                         PhoneNumber = freelancer.PhoneNumber,
+                        HourlyRate = freelancer.HourlyRate,
+                        UserId = freelancer.UserId,
                         Point = freelancer.Point,
                         Languages = languages.Where(lan => lan.FreelancerId == freelancer.Id).Select(lan => new Language
                         {
@@ -252,6 +256,9 @@ namespace Crowdsourcing.Controllers
 
         }
 
+
+
+
         [HttpGet("GetCurrentUser")]
         public IActionResult GetRelatedData()
         {
@@ -267,6 +274,8 @@ namespace Crowdsourcing.Controllers
             var freelancer = _context.Freelancers
                 .Include(f => f.User)
                 .SingleOrDefault(f => f.UserId == CurrentUser.Id);
+
+
 
             // Retrieve related data for Client
             //var client = _context.Clients
@@ -291,10 +300,9 @@ namespace Crowdsourcing.Controllers
                 if (ModelState.IsValid)
                 {
                     var data = _mapper.Map<Freelancer>(model);
+
                     var username = _httpAccessor.HttpContext.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
-
-
 
 
                     // Set the UserId property of the Freelancer object to the current user's ID
@@ -490,7 +498,7 @@ namespace Crowdsourcing.Controllers
 
 
         [HttpPut("Edit")]
-        public async Task<IActionResult> Update([FromForm] FreelancerVM model)
+        public async Task<IActionResult> Update([FromForm] EditFreelancerVM model)
         {
 
             try
@@ -500,8 +508,15 @@ namespace Crowdsourcing.Controllers
                 {
 
 
+                    var username = _httpAccessor.HttpContext.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
 
                     var data = _mapper.Map<Freelancer>(model);
+
+
+
+                    // Set the UserId property of the Freelancer object to the current user's ID
+                    data.UserId = CurrentUser.Id;
 
                     if (model.Photo != null)
                     {
@@ -514,6 +529,16 @@ namespace Crowdsourcing.Controllers
                     }
                     var updatedEntity = await _freelancerRepository.UpdateAsync(data);
 
+                    // Retrieve related data for Freelancer
+                    var freelancer = _context.Freelancers
+                        .Include(f => f.User).Include(ex => ex.Expereinces)
+                        .Include(l => l.Languages)
+                        .Include(ed => ed.Educations)
+                        .Include(s => s.HasSkills)
+                        .Include(w => w.Withdraws)
+                        .Include(p => p.Proposals)
+                        .Include(r => r.Ratings)
+                        .FirstOrDefault(f => f.UserId == CurrentUser.Id);
 
 
 
@@ -522,7 +547,7 @@ namespace Crowdsourcing.Controllers
                         Code = "200",
                         Status = "Ok",
                         Message = "Data Updated",
-                        Data = updatedEntity
+                        Data = freelancer
 
                     });
                 }
@@ -546,6 +571,7 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+
 
         [HttpPut("EditLanExED/{id}")]
         public async Task<IActionResult> Update(int id, CreateFreelancerRequest model)
@@ -650,13 +676,6 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
-
-
-
-
-
-
-
 
 
 
