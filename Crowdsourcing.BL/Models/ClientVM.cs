@@ -14,21 +14,10 @@ namespace Crowdsourcing.BL.Models
         public int Id { get; set; }
          public DateTime RegistrationDate { get; set; }
 
-        [Required(ErrorMessage = "Location is required.")]  
-        public string Location { get; set; }
 
-        public bool VerificationState { get; set; }
-
-        [Display(Name = "User Account ID")]
-        [Required(ErrorMessage = "User Account ID is required.")]
-        public int ApplicationUserId { get; set; }
-
-        public ApplicationUser ApplicationUser { get; set; }
 
         public ICollection<Notification> Notifications { get; set; }
-
         public ICollection<Rating> Ratings { get; set; }
-
         public ICollection<Service> Services { get; set; }
     }
 }

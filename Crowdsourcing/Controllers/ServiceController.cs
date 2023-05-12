@@ -6,19 +6,26 @@ using Crowdsourcing.DL.Entity;
 using Crowdsourcing.BL.Interface;
 using Microsoft.AspNetCore.Identity;
 using Crowdsourcing.BL.Repository;
+using Crowdsourcing.DL.Database;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Crowdsourcing.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ServiceController : ControllerBase
     {
+        private readonly CrowdsourcingContext _context;
         private readonly IRepository<Service> _repository;
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ServiceController(IRepository<Service> repository, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public ServiceController(CrowdsourcingContext context , IRepository<Service> repository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
+            _context = context;
             _repository = repository;
             _mapper = mapper;
             _userManager = userManager;
@@ -99,6 +106,32 @@ namespace Crowdsourcing.Controllers
 
 
         }
+
+
+
+        [HttpGet("GetCurrentUser")]
+        public IActionResult GetRelatedData()
+        {
+            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
+
+            if (CurrentUser.Id == null)
+            {
+                return BadRequest("User claims not found.");
+            }
+
+
+            // Retrieve related data for Client
+            var client = _context.Clients
+                .Include(c => c.User)
+                .SingleOrDefault(c => c.UserId == CurrentUser.Id);
+
+            return Ok(new
+            {
+                Client = client
+            });
+        }
+
 
 
 

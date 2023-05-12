@@ -16,15 +16,14 @@ namespace Crowdsourcing.DL.Entity
         public DateTime Registrationdate { get; set; } = DateTime.Now;
         [Required]
 
-        public string Location { get; set; }
+
 
         public string UserId { get; set; }
-
         public ApplicationUser User { get; set; }
+
+
         public ICollection<Notification> Notifications { get; set; }
-
         public ICollection<Rating> Ratings { get; set; }
-
         public ICollection<Service> Services { get; set; }
 
 

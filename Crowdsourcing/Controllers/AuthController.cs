@@ -52,26 +52,6 @@ namespace Crowdsourcing.Controllers
         #endregion
 
 
-        #region Sign Out
-
-        //[HttpPost("signout")]
-        //public async Task<IActionResult> SignOut()
-        //{
-        //    await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
-        //    return Ok(new { message = "You have been signed out." });
-        //}
-
-
-        //[HttpPost("signout")]
-        //public IActionResult SignOut()
-        //{
-        //    Response.Headers.Remove("Authorization");
-        //    return Ok(new { message = "You have been signed out." });
-        //}
-
-        #endregion
-
-
         #region Add Role
         [HttpPost("addRole")]
         public async Task<IActionResult> AddRoleAsync(RoleVM model)

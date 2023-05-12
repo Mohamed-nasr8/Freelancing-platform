@@ -290,6 +290,7 @@ namespace Crowdsourcing.Controllers
         }
 
 
+
         [HttpPost("AddFreelancer")]
         public async Task<IActionResult> Create([FromForm] FreelancerVM model)
         {

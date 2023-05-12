@@ -48,16 +48,33 @@ namespace TestAPIJWT.Service
                     LastName = model.LName,
                     RoleName = model.RoleName,
                 };
+            //if (user.RoleName == "Client")
+            //{
+            //    var client = new Client
+            //    {
+            //        UserId = user.Id
+            //        // add any other fields that you want to populate in the client entity
+            //    };
+
+            //    await _context.Clients.AddAsync(client);
+            //    await _context.SaveChangesAsync();
+            //}
+
             if (user.RoleName == "Client")
             {
-
+                // Create a new Client entity and populate its fields
                 var client = new Client
                 {
-                    Location = "",
+                    User = user,
+                    // add any other fields that you want to populate in the client entity
                 };
-                await _context.AddAsync(client);
+
+                // Add the client to the Clients table and save changes to the database
+                await _context.Clients.AddAsync(client);
             }
-                var result = await _userManager.CreateAsync(user, model.Password);
+
+
+            var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
                 {
                     var errors = string.Empty;
