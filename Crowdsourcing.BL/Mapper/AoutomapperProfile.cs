@@ -16,6 +16,9 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<Freelancer,FreelancerVM>();
             CreateMap<FreelancerVM,Freelancer>();
 
+            CreateMap<Freelancer, EditFreelancerVM>();
+            CreateMap<EditFreelancerVM, Freelancer>();
+
             CreateMap<Education,EducationVM>();
             CreateMap<EducationVM,Education>();
 
