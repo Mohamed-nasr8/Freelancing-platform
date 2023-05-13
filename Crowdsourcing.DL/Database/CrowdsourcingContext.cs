@@ -19,15 +19,14 @@ namespace Crowdsourcing.DL.Database
         public DbSet<Service> Services { get; set; }
         public DbSet<OtherSkills> OtherSkills { get; set; }
         public DbSet<FreelancerService> FreelancerServices { get; set; }
-        public DbSet<Skill> Skills { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<Freelancer> Freelancers { get; set; }
         public DbSet<Withdraw> Withdraws { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<Expereince> Expereinces { get; set; }
         public DbSet<Language> Languages { get; set; }
-        public DbSet<HasFreelancerService> HasFreelancerServices { get; set; }
-        public DbSet<HasSkill> HasSkills { get; set; }
+        public DbSet<FreelancerSkill> FreelancerSkills { get; set; }
+
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Attachment> Attachments { get; set; }

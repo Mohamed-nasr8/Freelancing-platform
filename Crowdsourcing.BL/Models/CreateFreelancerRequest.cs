@@ -13,6 +13,9 @@ namespace Crowdsourcing.BL.Models
         public List<EducationVM> Educations { get; set; }
         public List<ExpereinceVM> Experiences { get; set; }
         public List<LanguageVM> Languages { get; set; }
+        public List<FreelancerSkillVM> Skills { get; set; }
+        public List<FreelancerServiceVM> Services { get; set; }
+
 
     }
 }

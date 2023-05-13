@@ -16,6 +16,9 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<Freelancer,FreelancerVM>();
             CreateMap<FreelancerVM,Freelancer>();
 
+            CreateMap<FreelancerSkill, FreelancerSkillVM>();
+            CreateMap<FreelancerSkillVM, FreelancerSkill>();
+
             CreateMap<Freelancer, EditFreelancerVM>();
             CreateMap<EditFreelancerVM, Freelancer>();
 
@@ -27,12 +30,6 @@ namespace Crowdsourcing.BL.Mapper
 
             CreateMap<Language,LanguageVM>();
             CreateMap<LanguageVM,Language>();
-
-            CreateMap<HasSkill,HasSkillVM>();
-            CreateMap<HasSkillVM,HasSkill>();
-
-            CreateMap<HasFreelancerService,HasFreelancerServiceVM>();
-            CreateMap<HasFreelancerServiceVM,HasFreelancerService>();
 
             CreateMap<Withdraw,WithdrawVM>();
             CreateMap<WithdrawVM, Withdraw>();
@@ -70,8 +67,6 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<FreelancerService, FreelancerServiceVM>();
             CreateMap<FreelancerServiceVM, FreelancerService>();
 
-            CreateMap<Skill, SkillVM>();
-            CreateMap<SkillVM, Skill>();
 
             CreateMap<PaymentType, PaymentTypeVM>();
             CreateMap<PaymentTypeVM, PaymentType>();

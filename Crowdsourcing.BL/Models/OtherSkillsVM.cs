@@ -12,9 +12,9 @@ namespace Crowdsourcing.BL.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "The SkillId field is required.")]
-        public int SkillId { get; set; }
-        public Skill Skill { get; set; }
+        //[Required(ErrorMessage = "The SkillId field is required.")]
+        //public int SkillId { get; set; }
+        //public Skill Skill { get; set; }
 
         [Required(ErrorMessage = "The ServiceId field is required.")]
         public int ServiceId { get; set; }

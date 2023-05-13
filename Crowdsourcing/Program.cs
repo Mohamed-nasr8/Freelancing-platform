@@ -72,8 +72,10 @@ namespace Crowdsourcing
             builder.Services.AddScoped<FreelancerRepository>();
             builder.Services.AddScoped<IRepository<Expereince>, ExperienceRepository>();
             builder.Services.AddScoped<IRepository<Rating>, RatingRepository>();
-            builder.Services.AddScoped<IRepository<Skill>, SkillRepository>();
-            builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
+            builder.Services.AddScoped<IRepository<FreelancerSkill>, FreelancerSkillRepository>();
+            builder.Services.AddScoped<IRepository<FreelancerService>,FreelancerServiceRepository>();
+
+            //builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 

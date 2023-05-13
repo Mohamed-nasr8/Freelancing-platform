@@ -5,17 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Crowdsourcing.DL.Entity
+namespace Crowdsourcing.BL.Models
 {
-    public class FreelancerService
+    public class FreelancerSkillVM
     {
         public int Id { get; set; }
 
-        [MaxLength(128)]
+        [MaxLength(128, ErrorMessage = "Name cannot exceed 128 characters")]
         public string Name { get; set; }
-
         public int FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+
 
     }
 }

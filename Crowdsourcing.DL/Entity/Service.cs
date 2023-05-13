@@ -50,9 +50,9 @@ namespace Crowdsourcing.DL.Entity
 
         public PaymentType PaymentType { get; set; }
 
-        public int SkillId { get; set; }
+        //public int SkillId { get; set; }
 
-        public Skill Skill { get; set; }
+        //public Skill Skill { get; set; }
 
         public ICollection<OtherSkills> OtherSkills { get; set; }
 

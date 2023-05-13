@@ -29,23 +29,23 @@ namespace Crowdsourcing.Controllers
         private readonly IRepository<Language> _languageRepository;
         private readonly IRepository<Education> _eductionRepository;
         private readonly IRepository<Expereince> _experinceRepository;
-        private readonly IRepository<Skill> _skilllRepository;
-        private readonly IRepository<HasSkill> _hasSkilllRepository;
+        private readonly IRepository<FreelancerSkill> _skillRepository;
+        private readonly IRepository<FreelancerService> _serviceRepository;
         private readonly IRepository<Rating> _ratingRepository;
         private readonly IMapper _mapper;
         private readonly FreelancerRepository _freelancerRepo;
         private readonly CrowdsourcingContext _context;
         private readonly IHttpContextAccessor _httpAccessor;
 
-        public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> languageRepository, IRepository<Education> eductionRepository, IRepository<Expereince> experinceRepository, IRepository<Skill> skilllRepository, IRepository<HasSkill> hasSkilllRepository,
+        public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> languageRepository, IRepository<Education> eductionRepository, IRepository<Expereince> experinceRepository, IRepository<FreelancerSkill> skillRepository, IRepository<FreelancerService> ServiceRepository,
     IRepository<Rating> ratingRepository, IMapper mapper, FreelancerRepository freelancerRepo, CrowdsourcingContext context, IHttpContextAccessor HttpAccessor)
         {
             _freelancerRepository = freelancerRepository;
             _languageRepository = languageRepository;
             _eductionRepository = eductionRepository;
             _experinceRepository = experinceRepository;
-            _skilllRepository = skilllRepository;
-            _hasSkilllRepository = hasSkilllRepository;
+            _skillRepository = skillRepository;
+            _serviceRepository = ServiceRepository;
             _ratingRepository = ratingRepository;
             _mapper = mapper;
             _freelancerRepo = freelancerRepo;
@@ -62,8 +62,8 @@ namespace Crowdsourcing.Controllers
                 var languages = await _languageRepository.GetAllAsync();
                 var educations = await _eductionRepository.GetAllAsync();
                 var experinces = await _experinceRepository.GetAllAsync();
-                var skills = await _skilllRepository.GetAllAsync();
-                var hasSkills = await _hasSkilllRepository.GetAllAsync();
+                var skills = await _skillRepository.GetAllAsync();
+                var services = await _serviceRepository.GetAllAsync();
                 var ratings = await _ratingRepository.GetAllAsync();
 
                 return Ok(new ApiResponse<IEnumerable<Freelancer>>()
@@ -117,6 +117,18 @@ namespace Crowdsourcing.Controllers
                             EndDate = ex.EndDate,
                             FreelancerId = ex.FreelancerId
                         }).ToList(),
+                        FreelancerSkills = skills.Where(sk => sk.FreelancerId == freelancer.Id).Select(sk => new FreelancerSkill
+                        {
+                            Id = sk.Id,
+                            Name = sk.Name,
+                            FreelancerId = sk.FreelancerId
+                        }).ToList(),
+                        FreelancerServices = services.Where(se => se.FreelancerId == freelancer.Id).Select(se => new FreelancerService
+                        {
+                            Id = se.Id,
+                            Name = se.Name,
+                            FreelancerId = se.FreelancerId
+                        }).ToList(),
                         Ratings = ratings.Where(ra => ra.FreelancerId == freelancer.Id).Select(ra => new Rating
                         {
                             Id = ra.Id,
@@ -125,13 +137,6 @@ namespace Crowdsourcing.Controllers
                             FreelancerId = ra.FreelancerId,
                             ClientId = ra.ClientId
                         }).ToList(),
-                        HasSkills = hasSkills.Where(hs => hs.FreelancerId == freelancer.Id).Select(hs => new HasSkill
-                        {
-                            Id = hs.Id,
-                            FreelancerId = hs.FreelancerId,
-                            SkillId = hs.SkillId,
-
-                        }).ToList()
                     }).ToList()
                 });
             }
@@ -146,9 +151,6 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
-
-
-
 
         [HttpGet("GetAllById")]
         public async Task<IActionResult> GetAllById(int id)
@@ -170,8 +172,8 @@ namespace Crowdsourcing.Controllers
                 var languages = await _languageRepository.GetAllAsyncEnum(id);
                 var educations = await _freelancerRepo.GetAllAsyncEducation(id);
                 var experinces = await _experinceRepository.GetAllAsyncEnum(id);
-                var skills = await _skilllRepository.GetAllAsyncEnum(id);
-                var hasSkills = await _hasSkilllRepository.GetAllAsyncEnum(id);
+                var skills = await _skillRepository.GetAllAsyncEnum(id);
+                var services = await _serviceRepository.GetAllAsyncEnum(id);
                 var ratings = await _ratingRepository.GetAllAsyncEnum(id);
                 return Ok(new ApiResponse<Freelancer>()
                 {
@@ -190,6 +192,7 @@ namespace Crowdsourcing.Controllers
                         Country = freelancer.Country,
                         City = freelancer.City,
                         Street = freelancer.Street,
+                        HourlyRate = freelancer.HourlyRate,
                         PhoneNumber = freelancer.PhoneNumber,
                         Point = freelancer.Point,
                         Languages = languages.Select(lan => new Language
@@ -231,13 +234,18 @@ namespace Crowdsourcing.Controllers
                             FreelancerId = ra.FreelancerId,
                             ClientId = ra.ClientId
                         }).ToList(),
-                        HasSkills = hasSkills.Select(hs => new HasSkill
+                        FreelancerSkills = skills.Select(sk => new FreelancerSkill
                         {
-                            Id = hs.Id,
-                            FreelancerId = hs.FreelancerId,
-                            SkillId = hs.SkillId,
-
-                        }).ToList()
+                            Id = sk.Id,
+                            Name = sk.Name,
+                            FreelancerId = sk.FreelancerId
+                        }).ToList(),
+                        FreelancerServices = services.Select(se => new FreelancerService
+                        {
+                            Id = se.Id,
+                            Name = se.Name,
+                            FreelancerId = se.FreelancerId
+                        }).ToList(),
                     }
 
                 });
@@ -256,9 +264,6 @@ namespace Crowdsourcing.Controllers
 
         }
 
-
-
-
         [HttpGet("GetCurrentUser")]
         public IActionResult GetRelatedData()
         {
@@ -273,6 +278,14 @@ namespace Crowdsourcing.Controllers
             // Retrieve related data for Freelancer
             var freelancer = _context.Freelancers
                 .Include(f => f.User)
+               .Include(ex => ex.Expereinces)
+                        .Include(l => l.Languages)
+                        .Include(ed => ed.Educations)
+                        .Include(sk => sk.FreelancerSkills)
+                        .Include(se => se.FreelancerServices)
+                        .Include(w => w.Withdraws)
+                        .Include(p => p.Proposals)
+                        .Include(r => r.Ratings)
                 .SingleOrDefault(f => f.UserId == CurrentUser.Id);
 
 
@@ -288,8 +301,6 @@ namespace Crowdsourcing.Controllers
                 //Client = client
             });
         }
-
-
 
         [HttpPost("AddFreelancer")]
         public async Task<IActionResult> Create([FromForm] FreelancerVM model)
@@ -352,7 +363,6 @@ namespace Crowdsourcing.Controllers
             }
         }
 
-
         [HttpPost("AddLanExED")]
         public async Task<IActionResult> Create(CreateFreelancerRequest model)
         {
@@ -365,6 +375,9 @@ namespace Crowdsourcing.Controllers
                     var languages = _mapper.Map<List<Language>>(model.Languages);
                     var experiences = _mapper.Map<List<Expereince>>(model.Experiences);
                     var educations = _mapper.Map<List<Education>>(model.Educations);
+                    var skills = _mapper.Map<List<FreelancerSkill>>(model.Skills);
+                    var services = _mapper.Map<List<FreelancerService>>(model.Services);
+
 
                     // Set the foreign key properties of each entity to the passed in freelancerId parameter
                     foreach (var language in languages)
@@ -380,11 +393,22 @@ namespace Crowdsourcing.Controllers
                     {
                         education.FreelancerId = model.Educations.First().FreelancerId;
                     }
+                    foreach (var skill in skills)
+                    {
+                        skill.FreelancerId=model.Skills.First().FreelancerId;
+                    }
+                    foreach (var service in services)
+                    {
+                        service.FreelancerId = model.Services.First().FreelancerId;
+                    }
 
                     // Add the entities to the context and save changes
                     await _context.AddRangeAsync(languages);
                     await _context.AddRangeAsync(experiences);
                     await _context.AddRangeAsync(educations);
+                    await _context.AddRangeAsync(skills);
+                    await _context.AddRangeAsync(services);
+
                     await _context.SaveChangesAsync();
 
                     // Return a success response with the added entities
@@ -417,7 +441,6 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
-
 
         [HttpPut("Edit")]
         public async Task<IActionResult> Update([FromForm] EditFreelancerVM model)
@@ -456,7 +479,8 @@ namespace Crowdsourcing.Controllers
                         .Include(f => f.User).Include(ex => ex.Expereinces)
                         .Include(l => l.Languages)
                         .Include(ed => ed.Educations)
-                        .Include(s => s.HasSkills)
+                        .Include(sk => sk.FreelancerSkills)
+                        .Include(se => se.FreelancerServices)
                         .Include(w => w.Withdraws)
                         .Include(p => p.Proposals)
                         .Include(r => r.Ratings)
@@ -494,7 +518,6 @@ namespace Crowdsourcing.Controllers
             }
         }
 
-
         [HttpPut("EditLanExED/{id}")]
         public async Task<IActionResult> Update(int id, CreateFreelancerRequest model)
         {
@@ -507,7 +530,8 @@ namespace Crowdsourcing.Controllers
                     var languages = _mapper.Map<List<Language>>(model.Languages);
                     var experiences = _mapper.Map<List<Expereince>>(model.Experiences);
                     var educations = _mapper.Map<List<Education>>(model.Educations);
-
+                    var skills = _mapper.Map<List<FreelancerSkill>>(model.Skills);
+                    var services = _mapper.Map<List<FreelancerService>>(model.Services);
                     // Set the foreign key properties of each entity to the passed in freelancerId parameter
                     foreach (var language in languages)
                     {
@@ -522,18 +546,29 @@ namespace Crowdsourcing.Controllers
                     {
                         education.FreelancerId = model.Educations.First().FreelancerId;
                     }
-
+                    foreach (var skill in skills)
+                    {
+                        skill.FreelancerId = model.Skills.First().FreelancerId;
+                    }
+                    foreach (var service in services)
+                    {
+                        service.FreelancerId = model.Services.First().FreelancerId;
+                    }
 
                     // Remove the existing entities with the same freelancerId
                     _context.Languages.RemoveRange(_context.Languages.Where(x => x.FreelancerId == id));
                     _context.Expereinces.RemoveRange(_context.Expereinces.Where(x => x.FreelancerId == id));
                     _context.Educations.RemoveRange(_context.Educations.Where(x => x.FreelancerId == id));
+                    _context.FreelancerSkills.RemoveRange(_context.FreelancerSkills.Where(x => x.FreelancerId == id));
+                    _context.FreelancerServices.RemoveRange(_context.FreelancerServices.Where(x => x.FreelancerId == id));
 
 
                     // Add the new entities to the context and save changes
                     await _context.AddRangeAsync(languages);
                     await _context.AddRangeAsync(experiences);
                     await _context.AddRangeAsync(educations);
+                    await _context.AddRangeAsync(skills);
+                    await _context.AddRangeAsync(services);
                     await _context.SaveChangesAsync();
 
                     // Return a success response with the added entities
@@ -569,7 +604,6 @@ namespace Crowdsourcing.Controllers
 
         }
 
-
         [HttpDelete("Delete")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -598,8 +632,5 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
-
-
-
     }
 }

@@ -11,38 +11,38 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.BL.Repository
 {
-    public class HasSkillRepository : IRepository<HasSkill>
+    public class FreelancerSkillRepository : IRepository<FreelancerSkill>
     {
         private readonly CrowdsourcingContext _context;
 
-        public HasSkillRepository(CrowdsourcingContext context)
+        public FreelancerSkillRepository(CrowdsourcingContext context)
         {
             _context = context;
         }
 
-        public Task AddAsync(HasSkill entity)
+        public Task AddAsync(FreelancerSkill entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HasSkill>> FindAsync(Expression<Func<HasSkill, bool>> predicate)
+        public Task<IEnumerable<FreelancerSkill>> FindAsync(Expression<Func<FreelancerSkill, bool>> predicate)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<HasSkill>> GetAllAsync()
+        public async Task<IEnumerable<FreelancerSkill>> GetAllAsync()
         {
-            return await _context.HasSkills.ToListAsync();
+            return await _context.FreelancerSkills.ToListAsync();
         }
 
-        public async Task<IEnumerable<HasSkill>> GetAllAsyncEnum(int id)
+        public async Task<IEnumerable<FreelancerSkill>> GetAllAsyncEnum(int id)
         {
-            return await _context.HasSkills
-                 .Where(hs => hs.FreelancerId == id)
-                 .ToListAsync();
+            return await _context.FreelancerSkills
+             .Where(sk => sk.Id == id)
+             .ToListAsync();
         }
 
-        public Task<HasSkill> GetAsync(int id)
+        public Task<FreelancerSkill> GetAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -52,12 +52,12 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<HasSkill> UpdateAsync(HasSkill entity)
+        public Task<FreelancerSkill> UpdateAsync(FreelancerSkill entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<HasSkill>> UpdateRangeAsync(IEnumerable<HasSkill> entities)
+        public Task<IEnumerable<FreelancerSkill>> UpdateRangeAsync(IEnumerable<FreelancerSkill> entities)
         {
             throw new NotImplementedException();
         }
