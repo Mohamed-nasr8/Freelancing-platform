@@ -48,19 +48,8 @@ namespace TestAPIJWT.Service
                     LastName = model.LName,
                     RoleName = model.RoleName,
                 };
-            //if (user.RoleName == "Client")
-            //{
-            //    var client = new Client
-            //    {
-            //        UserId = user.Id
-            //        // add any other fields that you want to populate in the client entity
-            //    };
 
-            //    await _context.Clients.AddAsync(client);
-            //    await _context.SaveChangesAsync();
-            //}
-
-            if (user.RoleName == "Client")
+            if (user.RoleName == "CLIENT")
             {
                 // Create a new Client entity and populate its fields
                 var client = new Client
