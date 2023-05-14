@@ -49,7 +49,7 @@ namespace TestAPIJWT.Service
                     RoleName = model.RoleName,
                 };
 
-            if (user.RoleName == "CLIENT")
+            if (user.RoleName == "Client")
             {
                 // Create a new Client entity and populate its fields
                 var client = new Client

@@ -109,12 +109,15 @@ namespace Crowdsourcing.Controllers
 
 
 
-        [HttpGet("GetCurrentUser")]
+        [HttpGet("GetCurrentClient")]
         public IActionResult GetRelatedData()
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
-
+            if(CurrentUser.RoleName != "Client")
+            {
+                return BadRequest("You are't Client");
+            }
             if (CurrentUser.Id == null)
             {
                 return BadRequest("User claims not found.");

@@ -268,7 +268,7 @@ namespace Crowdsourcing.Controllers
 
         }
 
-        [HttpGet("GetCurrentUser")]
+        [HttpGet("GetCurrentFreelancer")]
         public IActionResult GetRelatedData()
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
