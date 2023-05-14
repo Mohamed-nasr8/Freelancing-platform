@@ -46,8 +46,6 @@ namespace Crowdsourcing.BL.Repository
         public async Task<Language> GetAsync(int id)
         {
          return await _context.Languages.FindAsync(id);
-            
-
 
         }
 

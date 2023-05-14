@@ -17,7 +17,7 @@ namespace Crowdsourcing.DL.Database
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<OtherSkills> OtherSkills { get; set; }
+        public DbSet<ServiceSkills> ServiceSkills { get; set; }
         public DbSet<FreelancerService> FreelancerServices { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<Freelancer> Freelancers { get; set; }

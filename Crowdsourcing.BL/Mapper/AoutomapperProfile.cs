@@ -61,8 +61,8 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<Service, ServiceVM>();
             CreateMap<ServiceVM, Service>();
 
-            CreateMap<OtherSkills, OtherSkillsVM>();
-            CreateMap<OtherSkillsVM, OtherSkills>();
+            CreateMap<ServiceSkills, ServiceSkillsVM>();
+            CreateMap<ServiceSkillsVM, ServiceSkills>();
 
             CreateMap<FreelancerService, FreelancerServiceVM>();
             CreateMap<FreelancerServiceVM, FreelancerService>();

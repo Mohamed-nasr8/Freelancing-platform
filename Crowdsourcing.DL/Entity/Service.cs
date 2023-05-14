@@ -46,15 +46,15 @@ namespace Crowdsourcing.DL.Entity
         public int ClientId { get; set; }
         public Client Client { get; set; }
 
-        public int PaymentTypeId { get; set; }
 
+        public int PaymentTypeId { get; set; }
         public PaymentType PaymentType { get; set; }
 
         //public int SkillId { get; set; }
 
         //public Skill Skill { get; set; }
 
-        public ICollection<OtherSkills> OtherSkills { get; set; }
+        public ICollection<ServiceSkills> ServiceSkills { get; set; }
 
 
         public enum ServiceType

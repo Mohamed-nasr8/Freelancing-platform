@@ -4,6 +4,7 @@ using Crowdsourcing.DL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crowdsourcing.DL.Migrations
 {
     [DbContext(typeof(CrowdsourcingContext))]
-    partial class CrowdsourcingContextModelSnapshot : ModelSnapshot
+    [Migration("20230514100507_AddFk")]
+    partial class AddFk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -484,6 +486,24 @@ namespace Crowdsourcing.DL.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Crowdsourcing.DL.Entity.OtherSkills", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("OtherSkills");
+                });
+
             modelBuilder.Entity("Crowdsourcing.DL.Entity.PaymentType", b =>
                 {
                     b.Property<int>("Id")
@@ -647,29 +667,6 @@ namespace Crowdsourcing.DL.Migrations
                     b.HasIndex("PaymentTypeId");
 
                     b.ToTable("Services");
-                });
-
-            modelBuilder.Entity("Crowdsourcing.DL.Entity.ServiceSkills", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("ServiceSkills");
                 });
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Withdraw", b =>
@@ -1002,6 +999,17 @@ namespace Crowdsourcing.DL.Migrations
                     b.Navigation("Freelancer");
                 });
 
+            modelBuilder.Entity("Crowdsourcing.DL.Entity.OtherSkills", b =>
+                {
+                    b.HasOne("Crowdsourcing.DL.Entity.Service", "Service")
+                        .WithMany("OtherSkills")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Proposal", b =>
                 {
                     b.HasOne("Crowdsourcing.DL.Entity.Freelancer", "Freelancer")
@@ -1073,17 +1081,6 @@ namespace Crowdsourcing.DL.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("PaymentType");
-                });
-
-            modelBuilder.Entity("Crowdsourcing.DL.Entity.ServiceSkills", b =>
-                {
-                    b.HasOne("Crowdsourcing.DL.Entity.Service", "Service")
-                        .WithMany("ServiceSkills")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Withdraw", b =>
@@ -1223,7 +1220,7 @@ namespace Crowdsourcing.DL.Migrations
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Service", b =>
                 {
-                    b.Navigation("ServiceSkills");
+                    b.Navigation("OtherSkills");
                 });
 #pragma warning restore 612, 618
         }

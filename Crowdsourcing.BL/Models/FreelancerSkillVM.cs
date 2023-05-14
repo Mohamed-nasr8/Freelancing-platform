@@ -13,6 +13,7 @@ namespace Crowdsourcing.BL.Models
 
         [MaxLength(128, ErrorMessage = "Name cannot exceed 128 characters")]
         public string Name { get; set; }
+
         public int FreelancerId { get; set; }
 
 

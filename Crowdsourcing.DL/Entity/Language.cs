@@ -14,7 +14,7 @@ namespace Crowdsourcing.DL.Entity
 
 
         public int FreelancerId { get; set; }
-
+        public Freelancer Freelancer { get; set; }
 
     }
 }

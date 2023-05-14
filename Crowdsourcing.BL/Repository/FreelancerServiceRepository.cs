@@ -38,13 +38,13 @@ namespace Crowdsourcing.BL.Repository
         public async Task<IEnumerable<FreelancerService>> GetAllAsyncEnum(int id)
         {
             return await _context.FreelancerServices
-             .Where(sk => sk.Id == id)
+             .Where(sk => sk.FreelancerId == id)
              .ToListAsync();
         }
 
-        public Task<FreelancerService> GetAsync(int id)
+        public async Task<FreelancerService> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.FreelancerServices.FindAsync(id);
         }
 
         public Task RemoveAsync(int id)

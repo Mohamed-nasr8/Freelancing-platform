@@ -37,8 +37,12 @@ namespace Crowdsourcing.Controllers
         private readonly CrowdsourcingContext _context;
         private readonly IHttpContextAccessor _httpAccessor;
 
-        public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> languageRepository, IRepository<Education> eductionRepository, IRepository<Expereince> experinceRepository, IRepository<FreelancerSkill> skillRepository, IRepository<FreelancerService> ServiceRepository,
-    IRepository<Rating> ratingRepository, IMapper mapper, FreelancerRepository freelancerRepo, CrowdsourcingContext context, IHttpContextAccessor HttpAccessor)
+        public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> languageRepository,
+                                IRepository<Education> eductionRepository,
+                                IRepository<Expereince> experinceRepository, IRepository<FreelancerSkill> skillRepository, 
+                                IRepository<FreelancerService> ServiceRepository,
+                                IRepository<Rating> ratingRepository, IMapper mapper, FreelancerRepository freelancerRepo,
+                                CrowdsourcingContext context, IHttpContextAccessor HttpAccessor)
         {
             _freelancerRepository = freelancerRepository;
             _languageRepository = languageRepository;
@@ -313,7 +317,8 @@ namespace Crowdsourcing.Controllers
                 {
                     var data = _mapper.Map<Freelancer>(model);
 
-                    var username = _httpAccessor.HttpContext.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    var username = _httpAccessor.HttpContext.User?
+                        .FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
 
 
@@ -453,7 +458,8 @@ namespace Crowdsourcing.Controllers
                 {
 
 
-                    var username = _httpAccessor.HttpContext.User?.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                    var username = _httpAccessor.HttpContext.User?
+                        .FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
 
                     var data = _mapper.Map<Freelancer>(model);
@@ -609,9 +615,20 @@ namespace Crowdsourcing.Controllers
         {
             try
             {
-
                 var freelancer = await _freelancerRepository.GetAsync(id);
-                await _freelancerRepository.RemoveAsync(id);
+
+                var username = _httpAccessor.HttpContext.User?
+                        .FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
+
+                if (CurrentUser != null)
+                {
+                    _context.Remove(CurrentUser);
+                    _context.SaveChanges();
+                }
+
+                //await _freelancerRepository.RemoveAsync(id);
 
                 return Ok(new ApiResponse<Freelancer>()
                 {

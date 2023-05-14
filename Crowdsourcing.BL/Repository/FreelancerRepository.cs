@@ -1,51 +1,25 @@
 ﻿using Crowdsourcing.BL.Interface;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Crowdsourcing.BL.Repository
 {
     public class FreelancerRepository : IRepository<Freelancer>
     {
         private readonly CrowdsourcingContext _context;
+        private readonly IHttpContextAccessor _httpAccessor;
 
-        public FreelancerRepository(CrowdsourcingContext context)
+        public FreelancerRepository(CrowdsourcingContext context , IHttpContextAccessor httpAccessor)
         {
             _context = context;
+            _httpAccessor = httpAccessor;
         }
 
         public async Task AddAsync(Freelancer freelancer)
         {
-            // Add the Education and Experience objects to the Freelancer's collections
-            //if (freelancer.Educations != null && freelancer.Educations.Any())
-            //{
-            //    foreach (var education in freelancer.Educations)
-            //    {
-            //        _context.Educations.Add(education);
-            //    }
-            //}
-
-            //if (freelancer.Expereinces != null && freelancer.Expereinces.Any())
-            //{
-            //    foreach (var experience in freelancer.Expereinces)
-            //    {
-            //        _context.Expereinces.Add(experience);
-            //    }
-            //}
-
-            //if (freelancer.Languages != null && freelancer.Languages.Any())
-            //{
-            //    foreach (var language in freelancer.Languages)
-            //    {
-            //        _context.Languages.Add(language);
-            //    }
-            //}
 
             await _context.Freelancers.AddAsync(freelancer);
             await _context.SaveChangesAsync();
@@ -81,7 +55,9 @@ namespace Crowdsourcing.BL.Repository
         public async Task<Freelancer> GetAsync(int id)
         {
             return await _context.Freelancers
-               .Include(f => f.Languages).Include(f => f.Educations).Include(f => f.Expereinces).Include(f => f.FreelancerSkills).Include(f => f.FreelancerServices)
+               .Include(f => f.Languages).Include(f => f.Educations)
+               .Include(f => f.Expereinces).Include(f => f.FreelancerSkills)
+               .Include(f => f.FreelancerServices)
                .SingleOrDefaultAsync(f => f.Id == id)
          
                ;
@@ -94,9 +70,10 @@ namespace Crowdsourcing.BL.Repository
         public async Task RemoveAsync(int id)
         {
             var freelancer = await _context.Freelancers.FindAsync(id);
+
             if (freelancer != null)
             {
-                _context.Freelancers.Remove(freelancer);
+               _context.Freelancers.Remove(freelancer);
                 await _context.SaveChangesAsync();
             }
             else
