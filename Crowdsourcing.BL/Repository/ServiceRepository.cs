@@ -20,13 +20,13 @@ namespace Crowdsourcing.BL.Repository
 
         public async Task< Service> GetAsync(int id)
         {
-            var result = await _context.Services.FindAsync(id);
+            var result =  _context.Services.Include(s => s.ServiceSkills).SingleOrDefault(s=>s.Id==id);
             return result;
         }
 
         public async Task<IEnumerable<Service>> GetAllAsync()
         {
-            return await _context.Services.ToListAsync();
+            return await _context.Services.Include(s=>s.ServiceSkills).ToListAsync();
             
         }
 
@@ -41,7 +41,6 @@ namespace Crowdsourcing.BL.Repository
             await _context.SaveChangesAsync();
         }
 
-        
 
         public async Task UpdateAsync(int id)
         {
@@ -87,19 +86,19 @@ namespace Crowdsourcing.BL.Repository
                 .Where(s => s.Id == id)
                 .ToListAsync();
         }
-        public static async void MapToUpdateEntity(ServiceVM viewModel, Service entity)
-        {
-           // entity.Id = viewModel.Id;
-            entity.Title = viewModel.Title;
-            entity.Location = viewModel.Location;
-            entity.Description = viewModel.Description;
-            entity.Duration = viewModel.Duration;
-            entity.N_of_people= viewModel.N_of_people;
-            entity.Payment_amount = viewModel.Payment_amount;
-            entity.Status = (Service.ServiceStatus)viewModel.Status;
-            entity.Type = (Service.ServiceType)viewModel.Type;
+        //public static async void MapToUpdateEntity(ServiceVM viewModel, Service entity)
+        //{
+        //   // entity.Id = viewModel.Id;
+        //    entity.Title = viewModel.Title;
+        //    entity.Location = viewModel.Location;
+        //    entity.Description = viewModel.Description;
+        //    entity.Postedtime = viewModel.Postedtime;
+        //    entity.N_of_people= viewModel.N_of_people;
+        //    entity.Payment_amount = viewModel.Payment_amount;
+        //    entity.Status = (Service.ServiceStatus)viewModel.Status;
+        //    entity.Type = (Service.ServiceType)viewModel.Type;
            
-        }
+        //}
 
         public Task<IEnumerable<Service>> UpdateRangeAsync(IEnumerable<Service> entities)
         {
