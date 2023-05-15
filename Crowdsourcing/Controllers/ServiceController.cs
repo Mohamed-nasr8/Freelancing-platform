@@ -10,6 +10,7 @@ using Crowdsourcing.DL.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Crowdsourcing.BL.ViewModels;
 
 namespace Crowdsourcing.Controllers
 {
@@ -23,6 +24,7 @@ namespace Crowdsourcing.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
 
+
         public ServiceController(CrowdsourcingContext context , IRepository<Service> repository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -32,19 +34,18 @@ namespace Crowdsourcing.Controllers
         }
 
         [HttpGet("getAllServices")]
-
         public async Task<IActionResult> GetSERVICEAsync()
         {
             try
             {
                 var result = await _repository.GetAllAsync();
-                var model = _mapper.Map<IEnumerable<ServiceVM>>(result);
-                return Ok(new ApiResponse<IEnumerable<ServiceVM>>()
+                //var model = _mapper.Map<IEnumerable<ServiceVM>>(result);
+                return Ok(new ApiResponse<IEnumerable<Service>>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Retrived",
-                    Data = model
+                    Data = result
                 }
                 );
 
@@ -70,19 +71,20 @@ namespace Crowdsourcing.Controllers
 
         }
 
+
         [HttpGet("GETSERVICEBYID")]
         public async Task<IActionResult> GetSERVICEAsyncById(int id)
         {
             try
             {
                 var result = await _repository.GetAsync(id);
-                var model = _mapper.Map<ServiceVM>(result);
-                return Ok(new ApiResponse<ServiceVM>()
+                //var model = _mapper.Map<ServiceVM>(result);
+                return Ok(new ApiResponse<Service>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Retrived",
-                    Data = model
+                    Data = result
                 });
 
 
@@ -127,7 +129,7 @@ namespace Crowdsourcing.Controllers
             // Retrieve related data for Client
             var client = _context.Clients
                 .Include(c => c.User)
-                .Include(s => s.Services)
+                .Include(s => s.Services).ThenInclude(s=>s.ServiceSkills)
                 .SingleOrDefault(c => c.UserId == CurrentUser.Id);
 
             return Ok(new
@@ -141,7 +143,7 @@ namespace Crowdsourcing.Controllers
 
         [HttpPost("ADDSERVICE")]
 
-        public async Task<IActionResult> PostService(ServiceVM model)
+        public async Task<IActionResult> PostService(ServiceRequest model)
         {
 
             try
@@ -149,9 +151,23 @@ namespace Crowdsourcing.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    var data = _mapper.Map<Service>(model);
+                    var data = _mapper.Map<Service>(model.Service);
+                    var skillVMs = model.ServiceSkills;
 
                     await _repository.AddAsync(data);
+                    var serviceId = data.Id;
+
+                    var skills = _mapper.Map<List<ServiceSkills>>(skillVMs);
+                    foreach (var skill in skills)
+                    {
+                        skill.ServiceId = serviceId;
+
+                    }
+
+              
+                    await _context.AddRangeAsync(skills);
+                    await _context.SaveChangesAsync();
+
 
                     return Ok(new ApiResponse<Service>()
                     {
@@ -187,21 +203,32 @@ namespace Crowdsourcing.Controllers
 
 
         [HttpPut("EDITSERVICE")]
-        public async Task<IActionResult> PutService([FromBody] ServiceVM serviceVM)
+        public async Task<IActionResult> PutService([FromBody] ServiceRequest model)
         {
             try
             {
-                var data = _mapper.Map<Service>(serviceVM);
+                var data = _mapper.Map<Service>(model.Service);
+                var skillVMs = model.ServiceSkills;
 
-            
-             var existingEntity =   await _repository.UpdateAsync(data);
+                await _repository.UpdateAsync(data);
+                var serviceId = data.Id;
+                var skills = _mapper.Map<List<ServiceSkills>>(skillVMs);
+                foreach (var skill in skills)
+                {
+                    skill.ServiceId = serviceId;
+
+                }
+                _context.ServiceSkills.RemoveRange(_context.ServiceSkills.Where(x => x.ServiceId == serviceId));
+                await _context.AddRangeAsync(skills);
+                await _context.SaveChangesAsync();
+
 
                 return Ok(new ApiResponse<Service>()
                 {
                     Code = "200",
                     Status = "Data Updated",
                     Message = "Data Updated",
-                    Data = existingEntity
+                    Data = data
                 });
             }
             catch (Exception ex)
@@ -224,15 +251,14 @@ namespace Crowdsourcing.Controllers
             try
             {
                 var services = await _repository.GetAsync(id);
-                var model = _mapper.Map<ServiceVM>(services);
                 await _repository.RemoveAsync(id);
 
-                return Ok(new ApiResponse<ServiceVM>()
+                return Ok(new ApiResponse<Service>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Data Deleted",
-                    Data = model
+                    Data = services
 
                 });
             }

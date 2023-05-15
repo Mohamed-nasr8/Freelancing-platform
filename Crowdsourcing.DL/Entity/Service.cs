@@ -11,10 +11,10 @@ namespace Crowdsourcing.DL.Entity
     public class Service
     {
         public int Id { get; set; }
-        [Required]
-        [EnumDataType(typeof(ServiceType))]
+        //[Required]
+        //[EnumDataType(typeof(ServiceType))]
 
-        public ServiceType Type { get; set; }
+        //public ServiceType Type { get; set; }
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }
@@ -29,19 +29,22 @@ namespace Crowdsourcing.DL.Entity
         public decimal Payment_amount { get; set; }
 
         public string Location { get; set; }
-        [Required]
 
-        [Range(1, int.MaxValue)]
 
-        public int N_of_people { get; set; }
         [EnumDataType(typeof(ServiceStatus))]
 
         public ServiceStatus Status { get; set; }
 
         [Required]
 
-        public DateTime Duration { get; set; }
+        public DateTime Postedtime { get; set; }
 
+
+        [Required]
+        public ExperienceLevel Level { get; set; }
+
+        [Required]
+        public int RequiredTimeInDays { get; set; }
 
         public int ClientId { get; set; }
         public Client Client { get; set; }
@@ -57,16 +60,23 @@ namespace Crowdsourcing.DL.Entity
         public ICollection<ServiceSkills> ServiceSkills { get; set; }
 
 
-        public enum ServiceType
-        {
-            Paid,
-            Free
-        }
+        //public enum ServiceType
+        //{
+        //    Paid,
+        //    Free
+        //}
         public enum ServiceStatus
         {
             Open,
             Resolved
         }
+        public enum ExperienceLevel
+        {
+            Beginner,
+            Intermediate,
+            Professional
+        }
+
 
     }
 }
