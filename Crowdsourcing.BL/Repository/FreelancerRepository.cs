@@ -3,7 +3,13 @@ using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Crowdsourcing.BL.Repository
 {
@@ -55,9 +61,7 @@ namespace Crowdsourcing.BL.Repository
         public async Task<Freelancer> GetAsync(int id)
         {
             return await _context.Freelancers
-               .Include(f => f.Languages).Include(f => f.Educations)
-               .Include(f => f.Expereinces).Include(f => f.FreelancerSkills)
-               .Include(f => f.FreelancerServices)
+               .Include(f => f.Languages).Include(f => f.Educations).Include(f => f.Expereinces).Include(f => f.FreelancerSkills).Include(f => f.FreelancerServices)
                .SingleOrDefaultAsync(f => f.Id == id)
          
                ;
