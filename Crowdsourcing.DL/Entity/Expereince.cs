@@ -16,6 +16,11 @@ namespace Crowdsourcing.DL.Entity
         [MaxLength(150)]
         public string Title { get; set; }
 
+
+        [Required]
+        [MaxLength(200)]
+        public string Company { get; set; }
+
         [Required]
         [MinLength(10)]
         public string Description { get; set; }
@@ -31,10 +36,10 @@ namespace Crowdsourcing.DL.Entity
         public bool WorkingInThisRole { get; set; } = false;
 
         [Required]
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        [Required]
-        public DateTime EndDate { get; set; }
+        //[Required]
+        public string? EndDate { get; set; }
 
         public int FreelancerId { get; set; }
         public Freelancer Freelancer { get; set; }

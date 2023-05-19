@@ -17,6 +17,11 @@ namespace Crowdsourcing.BL.ViewModels
         [MaxLength(150)]
         public string Title { get; set; }
 
+        [Required]
+        [MaxLength(200)]
+        public string Company { get; set; }
+
+
         [Required(ErrorMessage = "Description is required")]
         [MinLength(10)]
         public string Description { get; set; }
@@ -32,10 +37,10 @@ namespace Crowdsourcing.BL.ViewModels
         public bool? WorkingInThisRole { get; set; }
 
         [Required(ErrorMessage = "Start date is required")]
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
 
-        [Required(ErrorMessage = "End date is required")]
-        public DateTime EndDate { get; set; }
+        //[Required]
+        public string? EndDate { get; set; }
 
         public int FreelancerId { get; set; }
         //public Freelancer Freelancer { get; set; }
