@@ -12,20 +12,20 @@ namespace Crowdsourcing.DL.Entity
     {
         public int Id { get; set; }
         [DataType(DataType.DateTime)]
-        public DateTime ProposalTime { get; set; }
+        public DateTime ProposalTime { get; set; } = DateTime.Now;
         [DataType(DataType.Currency)]
         public decimal PaymentAmount { get; set; }
-        [DataType(DataType.DateTime)]
+
         public int DeleveryTime { get; set; }
         [DataType(DataType.Text)]
         public string Descripion { get; set; }  
-        public string Attachment { get; set; }  
+        public string? Attachment { get; set; }  
+        public ProposalStatus Status { get; set; }
+
+
         public ICollection<Message> Message { get; set; }
 
-        // Foreign Key From Class Proposal_status_Id
-        public int ProposalStatusCatalogId { get; set; }
-        public ProposalStatusCatalog ProposalStatusCatalog { get; set; }
-        
+
         // Foreign Key From Class Job
         public int ServiceId { get; set; }
         public Service Service { get; set; }
@@ -40,5 +40,13 @@ namespace Crowdsourcing.DL.Entity
 
         public ICollection<Contract> Contracts { get; set; } 
 
+    }
+
+    public enum ProposalStatus
+    {
+        Pending,
+        Accepted,
+        Rejected,
+        Withdraw
     }
 }

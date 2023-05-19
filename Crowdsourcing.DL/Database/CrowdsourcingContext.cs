@@ -30,7 +30,6 @@ namespace Crowdsourcing.DL.Database
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
-        public DbSet<ProposalStatusCatalog> ProposalStatusCatalogs { get; set; }
         public DbSet<Contract> Contracts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

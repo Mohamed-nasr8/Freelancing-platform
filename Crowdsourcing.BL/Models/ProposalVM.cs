@@ -1,4 +1,5 @@
 ﻿using Crowdsourcing.DL.Entity;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,35 +11,38 @@ namespace Crowdsourcing.DL.Models
 {
     public class ProposalVM
     {
-        public int Id { get; set; }
-        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Proposal Time")]
-        public DateTime ProposalTime { get; set; }
+        //public int Id { get; set; }
+        //[DataType(DataType.DateTime), Required(ErrorMessage = "Requried Proposal Time")]
+        //public DateTime ProposalTime { get; set; } 
         [DataType(DataType.Currency),Required(ErrorMessage ="Requried Payment Amount")]
         public decimal PaymentAmount { get; set; }
-        [DataType(DataType.DateTime),Required(ErrorMessage ="Requried Delevery Time")]
+        [Required(ErrorMessage ="Requried Delevery Time")]
         public int DeleveryTime { get; set; }
         [DataType(DataType.Text),Required(ErrorMessage ="Requried Description")]
         public string Descripion { get; set; }  
-        public string Attachment { get; set; }  
-        public ICollection<MessageVM> Message { get; set; }
+        public string? Attachment { get; set; }  
+        public IFormFile? AttachmentFile { get; set; }
 
-        // Foreign Key From Class Proposal_status_Id
-        public int ProposalStatusCatalogId { get; set; }
-        public ProposalStatusCatalogVM ProposalStatusCatalog { get; set; }
-        
+        public ProposalStatus Status { get; set; }
+
+
         // Foreign Key From Class Job
         public int ServiceId { get; set; }
-        public Service Service { get; set; }
 
         // Foreign Key From Class Payment_type
         public int PaymentTypeId { get; set; }
-        public PaymentType PaymentType { get; set; }
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
 
-        public ICollection<Contract> Contracts { get; set; } 
+
+
+        //public Service Service { get; set; }
+        //public ICollection<MessageVM> Message { get; set; }
+        //public ProposalStatusCatalog ProposalStatusCatalog { get; set; }
+        //public PaymentType PaymentType { get; set; }
+        //public Freelancer Freelancer { get; set; }
+        //public ICollection<Contract> Contracts { get; set; } 
 
     }
 }

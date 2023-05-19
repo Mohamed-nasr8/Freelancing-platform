@@ -268,12 +268,18 @@ namespace Crowdsourcing.Controllers
 
         }
 
+
         [HttpGet("GetCurrentFreelancer")]
         public IActionResult GetRelatedData()
         {
             var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
 
+
+            if (CurrentUser.RoleName != "Freelancer")
+            {
+                return BadRequest("You are't Freelancer");
+            }
             if (CurrentUser.Id == null)
             {
                 return BadRequest("User claims not found.");
@@ -281,7 +287,7 @@ namespace Crowdsourcing.Controllers
 
             // Retrieve related data for Freelancer
             var freelancer = _context.Freelancers
-                .Include(f => f.User)
+            .Include(f => f.User)
                .Include(ex => ex.Expereinces)
                         .Include(l => l.Languages)
                         .Include(ed => ed.Educations)
@@ -293,18 +299,12 @@ namespace Crowdsourcing.Controllers
                 .SingleOrDefault(f => f.UserId == CurrentUser.Id);
 
 
-
-            // Retrieve related data for Client
-            //var client = _context.Clients
-            //    .Include(c => c.User)
-            //    .SingleOrDefault(c => c.UserId == userId);
-
             return Ok(new
             {
-                Freelancer = freelancer,
-                //Client = client
+                Freelancer = freelancer
             });
         }
+
 
         [HttpPost("AddFreelancer")]
         public async Task<IActionResult> Create([FromForm] FreelancerVM model)

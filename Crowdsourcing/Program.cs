@@ -64,6 +64,8 @@ namespace Crowdsourcing
                 .AddEntityFrameworkStores<CrowdsourcingContext>()
             .AddDefaultTokenProviders();
 
+            //builder.Services.AddScoped<UserManager<Freelancer>>();
+            //builder.Services.AddScoped<SignInManager<Freelancer>>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IRepository<Service>, ServiceRepository>();
             builder.Services.AddScoped<IRepository<Freelancer>, FreelancerRepository>();
@@ -74,6 +76,8 @@ namespace Crowdsourcing
             builder.Services.AddScoped<IRepository<Rating>, RatingRepository>();
             builder.Services.AddScoped<IRepository<FreelancerSkill>, FreelancerSkillRepository>();
             builder.Services.AddScoped<IRepository<FreelancerService>,FreelancerServiceRepository>();
+            builder.Services.AddScoped<IRepository<Proposal>, ProposalRepository>();
+
 
             //builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
             builder.Services.AddScoped<UserManager<ApplicationUser>>();

@@ -10,6 +10,8 @@ namespace Crowdsourcing.DL.Entity
         [MaxLength(128)]
         public string Name { get; set; }
 
+
+        public ICollection<Proposal> Proposals { get; set; }
         public ICollection<Service> Services { get; set; }
         public ICollection<Withdraw> Withdraws { get; set; }
 

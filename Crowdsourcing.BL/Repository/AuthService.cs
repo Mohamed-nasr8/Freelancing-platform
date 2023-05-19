@@ -62,7 +62,6 @@ namespace TestAPIJWT.Service
                 await _context.Clients.AddAsync(client);
             }
 
-
             var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded)
                 {

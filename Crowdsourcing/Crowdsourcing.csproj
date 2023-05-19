@@ -24,4 +24,8 @@
     <ProjectReference Include="..\Crowdsourcing.BL\Crowdsourcing.BL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\AttachmentProposal\" />
+  </ItemGroup>
+
 </Project>

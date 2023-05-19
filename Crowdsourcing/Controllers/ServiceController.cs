@@ -14,7 +14,7 @@ using Crowdsourcing.BL.ViewModels;
 
 namespace Crowdsourcing.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ServiceController : ControllerBase
@@ -99,14 +99,8 @@ namespace Crowdsourcing.Controllers
                     Message = "Data Not Found",
                     Error = ex.Message
 
-                }
-
-
-                    );
+                });
             }
-
-
-
         }
 
 

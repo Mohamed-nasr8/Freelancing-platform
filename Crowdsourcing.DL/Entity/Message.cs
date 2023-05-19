@@ -17,9 +17,7 @@ namespace Crowdsourcing.DL.Entity
         public string MessageText { get; set; }  
         
         public ICollection<Attachment> Attachment { get; set; }
-        // Foreign Key From Class Proposal_status_Catalog
-        public int? ProposalStatusCatalogId { get; set; }
-        public ProposalStatusCatalog ProposalStatusCatalog { get; set; }
+
        
         // Foreign Key From Class Proposal
         public int ProposalId { get;set; }
