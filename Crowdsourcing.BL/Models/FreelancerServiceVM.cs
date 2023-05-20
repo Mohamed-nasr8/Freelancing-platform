@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Crowdsourcing.DL.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,9 +12,15 @@ namespace Crowdsourcing.BL.Models
     {
         public int Id { get; set; }
 
-        [MaxLength(128, ErrorMessage = "Name cannot exceed 128 characters")]
-        public string Name { get; set; }
+        [MaxLength(128)]
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
+        public SkillLevel Level { get; set; }
+
+
         public int FreelancerId { get; set; }
 
     }
+
 }
+

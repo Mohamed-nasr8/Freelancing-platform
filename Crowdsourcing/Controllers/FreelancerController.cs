@@ -130,7 +130,8 @@ namespace Crowdsourcing.Controllers
                         FreelancerServices = services.Where(se => se.FreelancerId == freelancer.Id).Select(se => new FreelancerService
                         {
                             Id = se.Id,
-                            Name = se.Name,
+                            Category = se.Category,
+                            SubCategory= se.SubCategory,
                             FreelancerId = se.FreelancerId
                         }).ToList(),
                         Ratings = ratings.Where(ra => ra.FreelancerId == freelancer.Id).Select(ra => new Rating
@@ -247,7 +248,8 @@ namespace Crowdsourcing.Controllers
                         FreelancerServices = services.Select(se => new FreelancerService
                         {
                             Id = se.Id,
-                            Name = se.Name,
+                            Category = se.Category,
+                            SubCategory= se.SubCategory,
                             FreelancerId = se.FreelancerId
                         }).ToList(),
                     }
