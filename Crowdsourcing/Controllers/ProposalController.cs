@@ -25,14 +25,16 @@ namespace Crowdsourcing.Controllers
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpAccessor;
         IRepository<Service> _repository;
+        private readonly IRepository<Freelancer> _freelancerRepository;
 
         public ProposalController(IRepository<Proposal> proposalRepo, IMapper mapper,
-            IHttpContextAccessor HttpAccessor, IRepository<Service> repository)
+            IHttpContextAccessor HttpAccessor, IRepository<Service> repository, IRepository<Freelancer> freelancerRepository)
         {
             _proposalRepo = proposalRepo;
             _mapper = mapper;
             _httpAccessor = HttpAccessor;
             _repository = repository;
+            _freelancerRepository = freelancerRepository;
         }
 
 
@@ -107,6 +109,7 @@ namespace Crowdsourcing.Controllers
 
 
                     var service = await _repository.GetAsync(model.ServiceId);
+                    var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);  
 
 
                     var data = _mapper.Map<Proposal>(model);
