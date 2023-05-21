@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace Crowdsourcing.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProposalController : ControllerBase
@@ -46,6 +46,8 @@ namespace Crowdsourcing.Controllers
                 if (ModelState.IsValid)
                 {
                     var service = await _repository.GetAsync(model.ServiceId);
+                    var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);
+
                     // Map the ProposalRequest to a Proposal entity
                     var proposal = _mapper.Map<Proposal>(model);
 
