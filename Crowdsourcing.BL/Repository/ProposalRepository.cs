@@ -3,6 +3,7 @@ using Crowdsourcing.BL.Models;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,7 +57,9 @@ namespace Crowdsourcing.BL.Repository
 
         public Task<Proposal> UpdateAsync(Proposal entity)
         {
-            throw new NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Task.FromResult(entity);
         }
 
         public Task<IEnumerable<Proposal>> UpdateRangeAsync(IEnumerable<Proposal> entities)

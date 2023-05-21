@@ -66,7 +66,7 @@ namespace Crowdsourcing.Controllers
                     {
                         Code = "200",
                         Status = "Ok",
-                        Message = "Freelancer Added",
+                        Message = "Proposal Added",
                         Data = proposal
 
                     });
@@ -93,5 +93,70 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+
+
+        [HttpPut("UpadteProposal")]
+        public async Task<IActionResult> Update([FromForm] ProposalUpdateVM model)
+        {
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+
+                    var service = await _repository.GetAsync(model.ServiceId);
+
+
+                    var data = _mapper.Map<Proposal>(model);
+
+                    var userName = _httpAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+
+
+                    if (model.AttachmentFile != null)
+                    {
+                        data.Attachment = UploadFiles.UpdateFile(data.Attachment, model.AttachmentFile, "/wwwroot/Files/Docs");
+                    }
+                    var updatedEntity = await _proposalRepo.UpdateAsync(data);
+
+              
+
+
+
+                    return Ok(new ApiResponse<Proposal>()
+                    {
+                        Code = "200",
+                        Status = "Ok",
+                        Message = "Data Updated",
+                        Data = data
+
+                    });
+                }
+
+                return Ok(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Not Valied",
+                    Message = "Data Invalid"
+                });
+
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Not Updated",
+                    Error = ex.Message
+                });
+            }
+        }
+
+
+
     }
 }
