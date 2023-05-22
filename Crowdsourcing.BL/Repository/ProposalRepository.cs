@@ -35,24 +35,39 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Proposal>> GetAllAsync()
+        public async Task<IEnumerable<Proposal>> GetAllAsyncEnum()
         {
-            throw new NotImplementedException();
+            return await _context.Proposals
+                 .Include(p => p.Service)
+                 .Include(p => p.PaymentType)
+                 .Include(p => p.Freelancer)
+                 .ToListAsync();
         }
 
-        public Task<IEnumerable<Proposal>> GetAllAsyncEnum(int id)
+        public async Task<IEnumerable<Proposal>> GetAllAsyncEnum(int id)
         {
-            throw new NotImplementedException();
+            return (IEnumerable<Proposal>)await _context.Proposals
+                .Include(p => p.Service)
+                .Include(p => p.PaymentType)
+                .Include(p => p.Freelancer)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<Proposal> GetAsync(int id)
+        public async Task<Proposal> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Proposals
+                .Include(p => p.Service)
+                .Include(p => p.PaymentType)
+                .Include(p => p.Freelancer)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task RemoveAsync(int id)
+        public async Task RemoveAsync(int id)
         {
-            throw new NotImplementedException();
+            var proposal = await _context.Proposals.FindAsync(id);
+            _context.Remove(proposal);
+            _context.SaveChanges();
+              
         }
 
         public Task<Proposal> UpdateAsync(Proposal entity)

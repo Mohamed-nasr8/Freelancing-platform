@@ -30,7 +30,7 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<FreelancerSkill>> GetAllAsync()
+        public async Task<IEnumerable<FreelancerSkill>> GetAllAsyncEnum()
         {
             return await _context.FreelancerSkills.ToListAsync();
         }

@@ -62,13 +62,13 @@ namespace Crowdsourcing.Controllers
         {
             try
             {
-                var freelancer = await _freelancerRepository.GetAllAsync();
-                var languages = await _languageRepository.GetAllAsync();
-                var educations = await _eductionRepository.GetAllAsync();
-                var experinces = await _experinceRepository.GetAllAsync();
-                var skills = await _skillRepository.GetAllAsync();
-                var services = await _serviceRepository.GetAllAsync();
-                var ratings = await _ratingRepository.GetAllAsync();
+                var freelancer = await _freelancerRepository.GetAllAsyncEnum();
+                var languages = await _languageRepository.GetAllAsyncEnum();
+                var educations = await _eductionRepository.GetAllAsyncEnum();
+                var experinces = await _experinceRepository.GetAllAsyncEnum();
+                var skills = await _skillRepository.GetAllAsyncEnum();
+                var services = await _serviceRepository.GetAllAsyncEnum();
+                var ratings = await _ratingRepository.GetAllAsyncEnum();
 
                 return Ok(new ApiResponse<IEnumerable<Freelancer>>()
                 {

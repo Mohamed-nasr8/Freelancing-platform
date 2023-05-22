@@ -30,7 +30,7 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Rating>> GetAllAsync()
+        public async Task<IEnumerable<Rating>> GetAllAsyncEnum()
         {
             return await _context.Ratings.ToListAsync();
         }

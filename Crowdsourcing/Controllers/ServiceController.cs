@@ -38,7 +38,7 @@ namespace Crowdsourcing.Controllers
         {
             try
             {
-                var result = await _repository.GetAllAsync();
+                var result = await _repository.GetAllAsyncEnum();
                 //var model = _mapper.Map<IEnumerable<ServiceVM>>(result);
                 return Ok(new ApiResponse<IEnumerable<Service>>()
                 {

@@ -35,7 +35,7 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Freelancer>> GetAllAsync()
+        public async Task<IEnumerable<Freelancer>> GetAllAsyncEnum()
         {
             return await _context.Freelancers.ToListAsync();
 
@@ -48,10 +48,10 @@ namespace Crowdsourcing.BL.Repository
               .ToListAsync();
         }
 
-        public Task<IEnumerable<Freelancer>> GetAllAsyncEnum()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IEnumerable<Freelancer>> GetAllAsyncEnum()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public Task<IEnumerable<Freelancer>> GetAllAsyncEnum(int id)
         {

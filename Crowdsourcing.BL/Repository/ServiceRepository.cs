@@ -24,7 +24,7 @@ namespace Crowdsourcing.BL.Repository
             return result;
         }
 
-        public async Task<IEnumerable<Service>> GetAllAsync()
+        public async Task<IEnumerable<Service>> GetAllAsyncEnum()
         {
             return await _context.Services.Include(s=>s.ServiceSkills).ToListAsync();
             

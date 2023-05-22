@@ -31,7 +31,7 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Language>> GetAllAsync()
+        public async Task<IEnumerable<Language>> GetAllAsyncEnum()
         {
             return await _context.Languages.ToListAsync();
         }

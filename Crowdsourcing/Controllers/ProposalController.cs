@@ -36,10 +36,36 @@ namespace Crowdsourcing.Controllers
             _repository = repository;
             _freelancerRepository = freelancerRepository;
         }
+        [HttpGet("Get_All")]
+        public async Task<IActionResult> GetProposals()
+        {
+            var proposals = await _proposalRepo.GetAllAsyncEnum();
+            return Ok(new ApiResponse<IEnumerable<Proposal>>()
+            {
+                Code = "200",
+                Status = "Ok",
+                Message = "Proposal Get",
+                Data = proposals
 
+            });
 
+        }
+        [HttpGet("Get_By_Id")]
+        public async Task<IActionResult> GetProposal(int id)
+        {
+            var proposal = await _proposalRepo.GetAsync(id);
+            return Ok(new ApiResponse<Proposal>()
+            {
+                Code = "200",
+                Status = "Ok",
+                Message = "Proposal Get",
+                Data = proposal
+
+            });
+
+        }
         [HttpPost("AddProposal")]
-        public async Task<IActionResult> Create([FromForm]ProposalVM model)
+        public async Task<IActionResult> Create([FromForm] ProposalVM model)
         {
             try
             {
@@ -111,7 +137,7 @@ namespace Crowdsourcing.Controllers
 
 
                     var service = await _repository.GetAsync(model.ServiceId);
-                    var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);  
+                    var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);
 
 
                     var data = _mapper.Map<Proposal>(model);
@@ -127,7 +153,7 @@ namespace Crowdsourcing.Controllers
                     }
                     var updatedEntity = await _proposalRepo.UpdateAsync(data);
 
-              
+
 
 
 
@@ -160,8 +186,13 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+        [HttpDelete("{Delete}")]
+        public async Task<ActionResult<bool>> DeleteProposal(int id)
+        {
+             _proposalRepo.RemoveAsync(id);
+            return Ok(true);
+        }
 
-
-
+    
     }
 }
