@@ -19,7 +19,7 @@ using System.Security.Claims;
 
 namespace Crowdsourcing.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FreelancerController : ControllerBase

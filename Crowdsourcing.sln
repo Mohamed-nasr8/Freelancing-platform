@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crowdsourcing", "Crowdsourcing\Crowdsourcing.csproj", "{F7D404FB-0A2F-408A-82FC-56BFAECC2114}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crowdsourcing", "Crowdsourcing\Crowdsourcing.csproj", "{F7D404FB-0A2F-408A-82FC-56BFAECC2114}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crowdsourcing.BL", "Crowdsourcing.BL\Crowdsourcing.BL.csproj", "{52C332AD-DBA0-43EB-9BE1-F25FF01F409E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crowdsourcing.BL", "Crowdsourcing.BL\Crowdsourcing.BL.csproj", "{52C332AD-DBA0-43EB-9BE1-F25FF01F409E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crowdsourcing.DL", "Crowdsourcing.DL\Crowdsourcing.DL.csproj", "{D55AEFCE-5A48-46FF-BA6D-0FD6BA6F015C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crowdsourcing.DL", "Crowdsourcing.DL\Crowdsourcing.DL.csproj", "{D55AEFCE-5A48-46FF-BA6D-0FD6BA6F015C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C502780C-508C-4BFB-8165-5551FCC567B6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

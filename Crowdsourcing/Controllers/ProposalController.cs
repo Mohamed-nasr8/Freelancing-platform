@@ -39,30 +39,51 @@ namespace Crowdsourcing.Controllers
         [HttpGet("Get_All")]
         public async Task<IActionResult> GetProposals()
         {
-            var proposals = await _proposalRepo.GetAllAsyncEnum();
-            return Ok(new ApiResponse<IEnumerable<Proposal>>()
+            try
             {
-                Code = "200",
-                Status = "Ok",
-                Message = "Proposal Get",
-                Data = proposals
+                var proposals = await _proposalRepo.GetAllAsyncEnum();
+                var mapper = _mapper.Map<IEnumerable<ProposalVM>>(proposals);
 
-            });
+                return Ok(new ApiResponse<IEnumerable<ProposalVM>>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Proposal Get",
+                    Data = mapper
+
+                });
+            }catch(Exception ex)
+            {
+                return NotFound( new ApiResponse<string>()
+                { 
+                    Code="404",
+                    Status="Not Found",
+                    Message="Proposal Not Found",
+                    
+                });
+
+            }
 
         }
         [HttpGet("Get_By_Id")]
         public async Task<IActionResult> GetProposal(int id)
         {
             var proposal = await _proposalRepo.GetAsync(id);
-            return Ok(new ApiResponse<Proposal>()
+
+            if (proposal == null)
+            {
+                return NotFound($"Proposal With ID ({id}) Not Found");
+            }
+
+            var mapper = _mapper.Map<ProposalVM>(proposal);
+
+            return Ok(new ApiResponse<ProposalVM>
             {
                 Code = "200",
                 Status = "Ok",
-                Message = "Proposal Get",
-                Data = proposal
-
+                Message = $"Proposal With ID ({id}) Get",
+                Data = mapper
             });
-
         }
         [HttpPost("AddProposal")]
         public async Task<IActionResult> Create([FromForm] ProposalVM model)
@@ -186,11 +207,28 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
-        [HttpDelete("{Delete}")]
-        public async Task<ActionResult<bool>> DeleteProposal(int id)
+        [HttpDelete("Delete")]
+        public async Task<ActionResult> DeleteProposal(int id)
         {
-             _proposalRepo.RemoveAsync(id);
-            return Ok(true);
+            try
+            {
+                await _proposalRepo.RemoveAsync(id);
+                return Ok(new ApiResponse<Proposal>()
+                {
+                    Code = "200",
+                    Status = "Deleted",
+                    Message = "Proposal Deleted",
+
+                });
+            }catch(Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status =$" Proposal With ID ({id}) Not Found"
+                });
+            }
+
         }
 
     
