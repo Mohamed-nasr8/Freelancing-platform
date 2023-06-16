@@ -102,10 +102,18 @@ namespace Crowdsourcing.Controllers
                     var userName = _httpAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                     // Check if the freelancer has already posted a proposal for this service
-                    //var existingProposal = await _proposalRepo.GetAllAsync()
-                    //    .Where(p => p.FreelancerId == userName && p.ServiceId == model.ServiceId)
-                    //    .FirstOrDefaultAsync();
+                    var proposals = await _proposalRepo.GetAllAsyncEnum();
+                    var existingProposal = proposals.Where(p => p.FreelancerId == model.FreelancerId && p.ServiceId == model.ServiceId).FirstOrDefault();
 
+                    if (existingProposal != null)
+                    {
+                        return BadRequest(new ApiResponse<string>()
+                        {
+                            Code = "400",
+                            Status = "Bad Request",
+                            Message = $"A proposal from freelancer {model.FreelancerId} already exists for service {model.ServiceId}"
+                        });
+                    }
                     if (model.AttachmentFile != null)
                     {
                         proposal.Attachment = UploadFiles.UploadFile("/wwwroot/Files/AttachmentProposal", model.AttachmentFile);
