@@ -42,14 +42,14 @@ namespace Crowdsourcing.Controllers
             try
             {
                 var proposals = await _proposalRepo.GetAllAsyncEnum();
-                var mapper = _mapper.Map<IEnumerable<ProposalVM>>(proposals);
+                //var mapper = _mapper.Map<IEnumerable<ProposalVM>>(proposals);
 
-                return Ok(new ApiResponse<IEnumerable<ProposalVM>>()
+                return Ok(new ApiResponse<IEnumerable<Proposal>>()
                 {
                     Code = "200",
                     Status = "Ok",
                     Message = "Proposal Get",
-                    Data = mapper
+                    Data = proposals
 
                 });
             }catch(Exception ex)
@@ -157,8 +157,8 @@ namespace Crowdsourcing.Controllers
                 {
 
 
-                    var service = await _repository.GetAsync(model.ServiceId);
-                    var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);
+                    //var service = await _repository.GetAsync(model.ServiceId);
+                    //var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);
 
 
                     var data = _mapper.Map<Proposal>(model);

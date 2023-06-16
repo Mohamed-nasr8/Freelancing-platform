@@ -11,7 +11,7 @@ namespace Crowdsourcing.DL.Models
 {
     public class ProposalVM
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         //[DataType(DataType.DateTime), Required(ErrorMessage = "Requried Proposal Time")]
         //public DateTime ProposalTime { get; set; } 
         [DataType(DataType.Currency),Required(ErrorMessage ="Requried Payment Amount")]
