@@ -24,10 +24,10 @@ namespace Crowdsourcing.BL.ViewModels
         public string? FeldOfStudy { get; set; }
 
         [Required(ErrorMessage = "Please enter Date attended")]
-        public DateTime DateFrom { get; set; }
+        public string DateFrom { get; set; }
 
         [Required(ErrorMessage = "Please enter Date attended")]
-        public DateTime DateTo { get; set; }
+        public string DateTo { get; set; }
 
         [Required(ErrorMessage = "Please describe your study")]
         [MinLength(20)]
