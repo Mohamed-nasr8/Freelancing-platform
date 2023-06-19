@@ -19,7 +19,7 @@ using System.Security.Claims;
 
 namespace Crowdsourcing.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FreelancerController : ControllerBase
@@ -117,6 +117,7 @@ namespace Crowdsourcing.Controllers
                             Region = ex.Region,
                             Country = ex.Country,
                             WorkingInThisRole = ex.WorkingInThisRole,
+                            Company= ex.Company,
                             StartDate = ex.StartDate,
                             EndDate = ex.EndDate,
                             FreelancerId = ex.FreelancerId
@@ -226,6 +227,7 @@ namespace Crowdsourcing.Controllers
                             Description = ex.Description,
                             Region = ex.Region,
                             Country = ex.Country,
+                            Company = ex.Company,
                             WorkingInThisRole = ex.WorkingInThisRole,
                             StartDate = ex.StartDate,
                             EndDate = ex.EndDate,

@@ -21,7 +21,7 @@ namespace Crowdsourcing.BL.ViewModels
         public string Degree { get; set; }
 
         [MaxLength(200)]
-        public string? FeldOfStudy { get; set; }
+        public string? FeildOfStudy { get; set; }
 
         [Required(ErrorMessage = "Please enter Date attended")]
         public string DateFrom { get; set; }
