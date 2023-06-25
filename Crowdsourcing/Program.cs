@@ -1,11 +1,14 @@
 using Crowdsourcing.BL.Helper;
+
 using Crowdsourcing.BL.Interface;
-using Crowdsourcing.BL.Models;
+
 using Crowdsourcing.BL.Repository;
+
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -79,7 +82,8 @@ namespace Crowdsourcing
             builder.Services.AddScoped<IRepository<FreelancerSkill>, FreelancerSkillRepository>();
             builder.Services.AddScoped<IRepository<FreelancerService>,FreelancerServiceRepository>();
             builder.Services.AddScoped<IRepository<Proposal>, ProposalRepository>();
-
+         
+            builder.Services.AddSignalR();
 
             //builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
@@ -117,7 +121,7 @@ namespace Crowdsourcing
             }
             app.UseAuthentication();
             app.UseAuthorization();
-           
+            
 
             app.MapControllers();
 
