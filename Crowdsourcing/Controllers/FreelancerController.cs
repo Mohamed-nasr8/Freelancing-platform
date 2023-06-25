@@ -186,99 +186,12 @@ namespace Crowdsourcing.Controllers
         {
             try
             {
-
-                var freelancer = await _freelancerRepository.GetAsync(id);
-                if (freelancer == null)
-                {
-                    return NotFound(new ApiResponse<String>()
-                    {
-                        Code = "404",
-                        Status = "Not Found",
-                        Message = "Data Not Found",
-                        Error = $"Freelancer with ID {id} not found"
-                    });
-                }
-                var languages = await _languageRepository.GetAllAsyncEnum(id);
-                var educations = await _freelancerRepo.GetAllAsyncEducation(id);
-                var experinces = await _experinceRepository.GetAllAsyncEnum(id);
-                var skills = await _skillRepository.GetAllAsyncEnum(id);
-                var services = await _serviceRepository.GetAllAsyncEnum(id);
-                var ratings = await _ratingRepository.GetAllAsyncEnum(id);
-                return Ok(new ApiResponse<Freelancer>()
+                var freelancers = await _freelancerRepository.GetAsync(id);
+                return Ok(new ApiResponse<Freelancer>
                 {
                     Code = "200",
-                    Status = "Ok",
-                    Message = "Data Retrieved",
-                    Data = new Freelancer
-                    {
-                        Id = freelancer.Id,
-                        Overview = freelancer.Overview,
-                        CVName = freelancer.CVName,
-                        ImageName = freelancer.ImageName,
-                        Title = freelancer.Title,
-                        Bio = freelancer.Bio,
-                        Rating = freelancer.Rating,
-                        Country = freelancer.Country,
-                        City = freelancer.City,
-                        Street = freelancer.Street,
-                        HourlyRate = freelancer.HourlyRate,
-                        PhoneNumber = freelancer.PhoneNumber,
-                        Point = freelancer.Point,
-                        Languages = languages.Select(lan => new Language
-                        {
-                            Id = lan.Id,
-                            LangName = lan.LangName,
-                            Level = lan.Level,
-                            FreelancerId = freelancer.Id
-                        }).ToList(),
-                        Educations = educations.Select(edu => new Education
-                        {
-                            Id = edu.Id,
-                            School = edu.School,
-                            Degree = edu.Degree,
-                            FeildOfStudy = edu.FeildOfStudy,
-                            DateFrom = edu.DateFrom,
-                            DateTo = edu.DateTo,
-                            Description = edu.Description,
-                            FreelancerId = edu.FreelancerId
-                        }).ToList(),
-
-                        Expereinces = experinces.Select(ex => new Expereince
-                        {
-                            Id = ex.Id,
-                            Title = ex.Title,
-                            Description = ex.Description,
-                            Region = ex.Region,
-                            Country = ex.Country,
-                            Company = ex.Company,
-                            WorkingInThisRole = ex.WorkingInThisRole,
-                            StartDate = ex.StartDate,
-                            EndDate = ex.EndDate,
-                            FreelancerId = ex.FreelancerId
-                        }).ToList(),
-                        Ratings = ratings.Select(ra => new Rating
-                        {
-                            Id = ra.Id,
-                            RatingValue = ra.RatingValue,
-                            Comment = ra.Comment,
-                            FreelancerId = ra.FreelancerId,
-                            ClientId = ra.ClientId
-                        }).ToList(),
-                        FreelancerSkills = skills.Select(sk => new FreelancerSkill
-                        {
-                            Id = sk.Id,
-                            Name = sk.Name,
-                            FreelancerId = sk.FreelancerId
-                        }).ToList(),
-                        FreelancerServices = services.Select(se => new FreelancerService
-                        {
-                            Id = se.Id,
-                            Category = se.Category,
-                            SubCategory= se.SubCategory,
-                            FreelancerId = se.FreelancerId
-                        }).ToList(),
-                    }
-
+                    Status = "Data Retrived",
+                    Data = freelancers
                 });
 
             }
@@ -292,6 +205,114 @@ namespace Crowdsourcing.Controllers
                     Error = ex.Message
                 });
             }
+            //try
+            //{
+
+            //    var freelancer = await _freelancerRepository.GetAsync(id);
+            //    if (freelancer == null)
+            //    {
+            //        return NotFound(new ApiResponse<String>()
+            //        {
+            //            Code = "404",
+            //            Status = "Not Found",
+            //            Message = "Data Not Found",
+            //            Error = $"Freelancer with ID {id} not found"
+            //        });
+            //    }
+            //    var languages = await _languageRepository.GetAllAsyncEnum(id);
+            //    var educations = await _freelancerRepo.GetAllAsyncEducation(id);
+            //    var experinces = await _experinceRepository.GetAllAsyncEnum(id);
+            //    var skills = await _skillRepository.GetAllAsyncEnum(id);
+            //    var services = await _serviceRepository.GetAllAsyncEnum(id);
+            //    var ratings = await _ratingRepository.GetAllAsyncEnum(id);
+            //    return Ok(new ApiResponse<Freelancer>()
+            //    {
+            //        Code = "200",
+            //        Status = "Ok",
+            //        Message = "Data Retrieved",
+            //        Data = new Freelancer
+            //        {
+            //            Id = freelancer.Id,
+            //            Overview = freelancer.Overview,
+            //            CVName = freelancer.CVName,
+            //            ImageName = freelancer.ImageName,
+            //            Title = freelancer.Title,
+            //            Bio = freelancer.Bio,
+            //            Rating = freelancer.Rating,
+            //            Country = freelancer.Country,
+            //            City = freelancer.City,
+            //            Street = freelancer.Street,
+            //            HourlyRate = freelancer.HourlyRate,
+            //            PhoneNumber = freelancer.PhoneNumber,
+            //            Point = freelancer.Point,
+            //            Languages = languages.Select(lan => new Language
+            //            {
+            //                Id = lan.Id,
+            //                LangName = lan.LangName,
+            //                Level = lan.Level,
+            //                FreelancerId = freelancer.Id
+            //            }).ToList(),
+            //            Educations = educations.Select(edu => new Education
+            //            {
+            //                Id = edu.Id,
+            //                School = edu.School,
+            //                Degree = edu.Degree,
+            //                FeildOfStudy = edu.FeildOfStudy,
+            //                DateFrom = edu.DateFrom,
+            //                DateTo = edu.DateTo,
+            //                Description = edu.Description,
+            //                FreelancerId = edu.FreelancerId
+            //            }).ToList(),
+
+            //            Expereinces = experinces.Select(ex => new Expereince
+            //            {
+            //                Id = ex.Id,
+            //                Title = ex.Title,
+            //                Description = ex.Description,
+            //                Region = ex.Region,
+            //                Country = ex.Country,
+            //                Company = ex.Company,
+            //                WorkingInThisRole = ex.WorkingInThisRole,
+            //                StartDate = ex.StartDate,
+            //                EndDate = ex.EndDate,
+            //                FreelancerId = ex.FreelancerId
+            //            }).ToList(),
+            //            Ratings = ratings.Select(ra => new Rating
+            //            {
+            //                Id = ra.Id,
+            //                RatingValue = ra.RatingValue,
+            //                Comment = ra.Comment,
+            //                FreelancerId = ra.FreelancerId,
+            //                ClientId = ra.ClientId
+            //            }).ToList(),
+            //            FreelancerSkills = skills.Select(sk => new FreelancerSkill
+            //            {
+            //                Id = sk.Id,
+            //                Name = sk.Name,
+            //                FreelancerId = sk.FreelancerId
+            //            }).ToList(),
+            //            FreelancerServices = services.Select(se => new FreelancerService
+            //            {
+            //                Id = se.Id,
+            //                Category = se.Category,
+            //                SubCategory= se.SubCategory,
+            //                FreelancerId = se.FreelancerId
+            //            }).ToList(),
+            //        }
+
+            //    });
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return NotFound(new ApiResponse<String>()
+            //    {
+            //        Code = "404",
+            //        Status = "Not Found",
+            //        Message = "Data Not Found",
+            //        Error = ex.Message
+            //    });
+            //}
 
         }
 
