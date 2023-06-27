@@ -1,5 +1,4 @@
 using Crowdsourcing.BL.Helper;
-
 using Crowdsourcing.BL.Interface;
 
 using Crowdsourcing.BL.Repository;
@@ -82,9 +81,10 @@ namespace Crowdsourcing
             builder.Services.AddScoped<IRepository<FreelancerSkill>, FreelancerSkillRepository>();
             builder.Services.AddScoped<IRepository<FreelancerService>,FreelancerServiceRepository>();
             builder.Services.AddScoped<IRepository<Proposal>, ProposalRepository>();
+          
          
             builder.Services.AddSignalR();
-
+           
             //builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
             builder.Services.AddScoped<UserManager<ApplicationUser>>();
             builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
@@ -121,9 +121,9 @@ namespace Crowdsourcing
             }
             app.UseAuthentication();
             app.UseAuthorization();
-            
 
             app.MapControllers();
+            
 
             app.Run();
         }

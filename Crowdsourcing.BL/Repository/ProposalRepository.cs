@@ -38,9 +38,9 @@ namespace Crowdsourcing.BL.Repository
         public async Task<IEnumerable<Proposal>> GetAllAsyncEnum()
         {
             return await _context.Proposals
-            .Include(p => p.Freelancer)
-            .Include(p => p.Service)
-            .ToListAsync();
+               .Include(p => p.Freelancer)
+               .Include(p => p.Service)
+               .ToListAsync();
         }
 
         public async Task<IEnumerable<Proposal>> GetAllAsyncEnum(int id)

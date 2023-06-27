@@ -1001,7 +1001,7 @@ namespace Crowdsourcing.DL.Migrations
                         .IsRequired();
 
                     b.HasOne("Crowdsourcing.DL.Entity.Service", "Service")
-                        .WithMany()
+                        .WithMany("Proposals")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1194,6 +1194,8 @@ namespace Crowdsourcing.DL.Migrations
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Service", b =>
                 {
+                    b.Navigation("Proposals");
+
                     b.Navigation("ServiceSkills");
                 });
 #pragma warning restore 612, 618
