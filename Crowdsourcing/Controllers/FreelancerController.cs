@@ -149,7 +149,7 @@ namespace Crowdsourcing.Controllers
                         .Include(sk => sk.FreelancerSkills)
                         .Include(se => se.FreelancerServices)
                         .Include(w => w.Withdraws)
-                        .Include(p => p.Proposals)
+                        .Include(p => p.Proposals).ThenInclude( s => s.Service)
                         .Include(r => r.Ratings)
                 .SingleOrDefault(f => f.UserId == CurrentUser.Id);
 
