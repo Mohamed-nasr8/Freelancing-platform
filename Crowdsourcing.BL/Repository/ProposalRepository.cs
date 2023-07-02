@@ -45,6 +45,7 @@ namespace Crowdsourcing.BL.Repository
             return await _context.Proposals
                .Include(p => p.Freelancer)
                .Include(p => p.Service)
+               .ThenInclude(s=>s.ServiceSkills)
                .ToListAsync();
         }
 
