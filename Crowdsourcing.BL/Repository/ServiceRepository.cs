@@ -21,7 +21,7 @@ namespace Crowdsourcing.BL.Repository
         public async Task< Service> GetAsync(int id)
         {
             var result =  _context.Services
-                .Include(s => s.ServiceSkills).SingleOrDefault(s=>s.Id==id);
+                .Include(s => s.ServiceSkills).Include(s => s.Proposals).SingleOrDefault(s=>s.Id==id);
             return result;
         }
 
