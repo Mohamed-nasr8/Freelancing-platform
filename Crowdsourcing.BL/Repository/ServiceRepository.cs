@@ -21,7 +21,10 @@ namespace Crowdsourcing.BL.Repository
         public async Task< Service> GetAsync(int id)
         {
             var result =  _context.Services
-                .Include(s => s.ServiceSkills).Include(s => s.Proposals).SingleOrDefault(s=>s.Id==id);
+                .Include(s => s.ServiceSkills)
+                .Include(s => s.Proposals)
+                .ThenInclude(s=>s.Freelancer)
+                .SingleOrDefault(s=>s.Id==id);
             return result;
         }
 
@@ -30,6 +33,7 @@ namespace Crowdsourcing.BL.Repository
             return await _context.Services
                 .Include(s => s.ServiceSkills)
                 .Include(s=>s.Proposals)
+                .ThenInclude(s=>s.Freelancer)
                 .ToListAsync();
 
         }

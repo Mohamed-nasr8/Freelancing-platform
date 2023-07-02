@@ -43,7 +43,9 @@ namespace Crowdsourcing.BL.Repository
                 .Include(f=>f.Educations)
                 .Include(f=>f.Expereinces)
                 .Include(f => f.FreelancerServices)
-                //.Include(f => f.Proposals)
+                .Include(f => f.Proposals)
+                .ThenInclude(f=>f.Service)
+                .Include(f=>f.Messages)
                 .ToListAsync();
         }
 
@@ -73,6 +75,7 @@ namespace Crowdsourcing.BL.Repository
               .Include(f => f.FreelancerSkills)
               .Include(f => f.FreelancerServices)
               .Include(f => f.Proposals)
+              .ThenInclude(f=>f.Service)
               .SingleOrDefaultAsync(f => f.Id == id);
         }
 
