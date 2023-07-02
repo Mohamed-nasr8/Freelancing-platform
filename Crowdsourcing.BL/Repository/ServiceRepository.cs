@@ -20,14 +20,18 @@ namespace Crowdsourcing.BL.Repository
 
         public async Task< Service> GetAsync(int id)
         {
-            var result =  _context.Services.Include(s => s.ServiceSkills).SingleOrDefault(s=>s.Id==id);
+            var result =  _context.Services
+                .Include(s => s.ServiceSkills).SingleOrDefault(s=>s.Id==id);
             return result;
         }
 
         public async Task<IEnumerable<Service>> GetAllAsyncEnum()
         {
-            return await _context.Services.Include(s=>s.ServiceSkills).ToListAsync();
-            
+            return await _context.Services
+                .Include(s => s.ServiceSkills)
+                .Include(s=>s.Proposals)
+                .ToListAsync();
+
         }
 
         public async Task<IEnumerable<Service>> FindAsync(Expression<Func<Service, bool>> predicate)

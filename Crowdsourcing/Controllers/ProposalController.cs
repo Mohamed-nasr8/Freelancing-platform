@@ -75,14 +75,14 @@ namespace Crowdsourcing.Controllers
                 return NotFound($"Proposal With ID ({id}) Not Found");
             }
 
-            var mapper = _mapper.Map<ProposalVM>(proposal);
+           
 
-            return Ok(new ApiResponse<ProposalVM>
+            return Ok(new ApiResponse<Proposal>
             {
                 Code = "200",
                 Status = "Ok",
                 Message = $"Proposal With ID ({id}) Get",
-                Data = mapper
+                Data = proposal
             });
         }
         [HttpPost("AddProposal")]

@@ -22,7 +22,7 @@ using System.Security.Claims;
 
 namespace Crowdsourcing.Controllers
 {
-    //[Authorize]
+   // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FreelancerController : ControllerBase
@@ -72,17 +72,11 @@ namespace Crowdsourcing.Controllers
         {
             try
             {
-                var freelancer = await _freelancerRepository.GetAllAsyncEnum();
-                var languages = await _languageRepository.GetAllAsyncEnum();
-                var educations = await _eductionRepository.GetAllAsyncEnum();
-                var experinces = await _experinceRepository.GetAllAsyncEnum();
-                var skills = await _skillRepository.GetAllAsyncEnum();
-                var services = await _serviceRepository.GetAllAsyncEnum();
-                var ratings = await _ratingRepository.GetAllAsyncEnum();
-
-                return Ok(new ApiResponse<IEnumerable<Freelancer>>()
+                var freelancers = await _freelancerRepository.GetAllAsyncEnum();
+                return Ok(new ApiResponse<IEnumerable<Freelancer>>
                 {
                     Code = "200",
+<<<<<<< HEAD
                     Status = "Ok",
                     Message = "Data Retrieved",
                     Data = freelancer.Select(freelancer => new Freelancer
@@ -152,9 +146,13 @@ namespace Crowdsourcing.Controllers
                             ClientId = ra.ClientId
                         }).ToList(),
                     }).ToList()
+=======
+                    Status = "Data Retrived",
+                    Data = freelancers
+>>>>>>> b8732197d007b5590dd278857fd05bf132095daf
                 });
-            }
-            catch (Exception ex)
+
+            }catch(Exception ex)
             {
                 return NotFound(new ApiResponse<String>()
                 {
@@ -164,6 +162,10 @@ namespace Crowdsourcing.Controllers
                     Error = ex.Message
                 });
             }
+
+            
+
+
         }
 
         [HttpGet("GetAllById")]
@@ -171,27 +173,11 @@ namespace Crowdsourcing.Controllers
         {
             try
             {
-
-                var freelancer = await _freelancerRepository.GetAsync(id);
-                if (freelancer == null)
-                {
-                    return NotFound(new ApiResponse<String>()
-                    {
-                        Code = "404",
-                        Status = "Not Found",
-                        Message = "Data Not Found",
-                        Error = $"Freelancer with ID {id} not found"
-                    });
-                }
-                var languages = await _languageRepository.GetAllAsyncEnum(id);
-                var educations = await _freelancerRepo.GetAllAsyncEducation(id);
-                var experinces = await _experinceRepository.GetAllAsyncEnum(id);
-                var skills = await _skillRepository.GetAllAsyncEnum(id);
-                var services = await _serviceRepository.GetAllAsyncEnum(id);
-                var ratings = await _ratingRepository.GetAllAsyncEnum(id);
-                return Ok(new ApiResponse<Freelancer>()
+                var freelancers = await _freelancerRepository.GetAsync(id);
+                return Ok(new ApiResponse<Freelancer>
                 {
                     Code = "200",
+<<<<<<< HEAD
                     Status = "Ok",
                     Message = "Data Retrieved",
                     Data = new Freelancer
@@ -262,6 +248,10 @@ namespace Crowdsourcing.Controllers
                         }).ToList(),
                     }
 
+=======
+                    Status = "Data Retrived",
+                    Data = freelancers
+>>>>>>> b8732197d007b5590dd278857fd05bf132095daf
                 });
 
             }
@@ -275,7 +265,7 @@ namespace Crowdsourcing.Controllers
                     Error = ex.Message
                 });
             }
-
+           
         }
 
 

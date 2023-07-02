@@ -38,8 +38,13 @@ namespace Crowdsourcing.BL.Repository
 
         public async Task<IEnumerable<Freelancer>> GetAllAsyncEnum()
         {
-            return await _context.Freelancers.ToListAsync();
-
+            return await _context.Freelancers
+                .Include(f=>f.Languages)
+                .Include(f=>f.Educations)
+                .Include(f=>f.Expereinces)
+                .Include(f => f.FreelancerServices)
+                //.Include(f => f.Proposals)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Education>> GetAllAsyncEducation(int id)
@@ -62,13 +67,13 @@ namespace Crowdsourcing.BL.Repository
         public async Task<Freelancer> GetAsync(int id)
         {
             return await _context.Freelancers
-               .Include(f => f.Languages).Include(f => f.Educations)
-               .Include(f => f.Expereinces).Include(f => f.FreelancerSkills)
-               .Include(f => f.FreelancerServices)
-               .SingleOrDefaultAsync(f => f.Id == id)
-         
-               ;
-            // return await _context.Freelancers.FindAsync(id);
+              .Include(f => f.Languages)
+              .Include(f => f.Educations)
+              .Include(f => f.Expereinces)
+              .Include(f => f.FreelancerSkills)
+              .Include(f => f.FreelancerServices)
+              .Include(f => f.Proposals)
+              .SingleOrDefaultAsync(f => f.Id == id);
         }
 
 

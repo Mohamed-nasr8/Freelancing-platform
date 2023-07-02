@@ -49,11 +49,8 @@ namespace Crowdsourcing.DL.Entity
 
 
 
-        //public int SkillId { get; set; }
-
-        //public Skill Skill { get; set; }
-
         public ICollection<ServiceSkills> ServiceSkills { get; set; }
+        public ICollection<Proposal> Proposals { get; set; }
 
 
         //public enum ServiceType

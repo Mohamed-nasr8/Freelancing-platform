@@ -24,10 +24,10 @@ namespace Crowdsourcing.DL.Entity
         public string? FeildOfStudy { get; set; }
 
         [Required]
-        public DateTime DateFrom { get; set; }
+        public string DateFrom { get; set; }
 
         [Required]
-        public DateTime DateTo { get; set; }
+        public string DateTo { get; set; }
 
         [Required]
         public string Description { get; set; }

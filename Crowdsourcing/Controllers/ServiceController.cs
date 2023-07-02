@@ -34,7 +34,7 @@ namespace Crowdsourcing.Controllers
         }
 
         [HttpGet("getAllServices")]
-        public async Task<IActionResult> GetSERVICEAsync()
+        public async Task<IActionResult> GetServicesAsync()
         {
             try
             {
