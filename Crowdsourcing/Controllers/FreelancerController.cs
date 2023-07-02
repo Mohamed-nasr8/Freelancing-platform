@@ -76,80 +76,8 @@ namespace Crowdsourcing.Controllers
                 return Ok(new ApiResponse<IEnumerable<Freelancer>>
                 {
                     Code = "200",
-<<<<<<< HEAD
-                    Status = "Ok",
-                    Message = "Data Retrieved",
-                    Data = freelancer.Select(freelancer => new Freelancer
-                    {
-                        Id = freelancer.Id,
-                        Overview = freelancer.Overview,
-                        CVName = freelancer.CVName,
-                        ImageName = freelancer.ImageName,
-                        Title = freelancer.Title,
-                        Bio = freelancer.Bio,
-                        Rating = freelancer.Rating,
-                        Country = freelancer.Country,
-                        City = freelancer.City,
-                        Street = freelancer.Street,
-                        PhoneNumber = freelancer.PhoneNumber,
-                        HourlyRate = freelancer.HourlyRate,
-                        UserId = freelancer.UserId,
-                        Languages = languages.Where(lan => lan.FreelancerId == freelancer.Id).Select(lan => new Language
-                        {
-                            Id = lan.Id,
-                            LangName = lan.LangName,
-                            Level = lan.Level,
-                            FreelancerId = freelancer.Id
-                        }).ToList(),
-                        Educations = educations.Where(edu => edu.FreelancerId == freelancer.Id).Select(edu => new Education
-                        {
-                            Id = edu.Id,
-                            School = edu.School,
-                            Degree = edu.Degree,
-                            FeildOfStudy = edu.FeildOfStudy,
-                            DateFrom = edu.DateFrom,
-                            DateTo = edu.DateTo,
-                            Description = edu.Description,
-                            FreelancerId = edu.FreelancerId
-                        }).ToList(),
-                        Expereinces = experinces.Where(ex => ex.FreelancerId == freelancer.Id).Select(ex => new Expereince
-                        {
-                            Id = ex.Id,
-                            Title = ex.Title,
-                            Description = ex.Description,
-                            Region = ex.Region,
-                            Country = ex.Country,
-                            WorkingInThisRole = ex.WorkingInThisRole,
-                            StartDate = ex.StartDate,
-                            EndDate = ex.EndDate,
-                            FreelancerId = ex.FreelancerId
-                        }).ToList(),
-                        FreelancerSkills = skills.Where(sk => sk.FreelancerId == freelancer.Id).Select(sk => new FreelancerSkill
-                        {
-                            Id = sk.Id,
-                            Name = sk.Name,
-                            FreelancerId = sk.FreelancerId
-                        }).ToList(),
-                        FreelancerServices = services.Where(se => se.FreelancerId == freelancer.Id).Select(se => new FreelancerService
-                        {
-                            Id = se.Id,
-                            Category = se.Category,
-                            SubCategory= se.SubCategory,
-                            FreelancerId = se.FreelancerId
-                        }).ToList(),
-                        Ratings = ratings.Where(ra => ra.FreelancerId == freelancer.Id).Select(ra => new Rating
-                        {
-                            Id = ra.Id,
-                            RatingValue = ra.RatingValue,
-                            Comment = ra.Comment,
-                            FreelancerId = ra.FreelancerId,
-                            ClientId = ra.ClientId
-                        }).ToList(),
-                    }).ToList()
-=======
                     Status = "Data Retrived",
                     Data = freelancers
->>>>>>> b8732197d007b5590dd278857fd05bf132095daf
                 });
 
             }catch(Exception ex)
@@ -177,81 +105,8 @@ namespace Crowdsourcing.Controllers
                 return Ok(new ApiResponse<Freelancer>
                 {
                     Code = "200",
-<<<<<<< HEAD
-                    Status = "Ok",
-                    Message = "Data Retrieved",
-                    Data = new Freelancer
-                    {
-                        Id = freelancer.Id,
-                        Overview = freelancer.Overview,
-                        CVName = freelancer.CVName,
-                        ImageName = freelancer.ImageName,
-                        Title = freelancer.Title,
-                        Bio = freelancer.Bio,
-                        Rating = freelancer.Rating,
-                        Country = freelancer.Country,
-                        City = freelancer.City,
-                        Street = freelancer.Street,
-                        HourlyRate = freelancer.HourlyRate,
-                        PhoneNumber = freelancer.PhoneNumber,
-                        Languages = languages.Select(lan => new Language
-                        {
-                            Id = lan.Id,
-                            LangName = lan.LangName,
-                            Level = lan.Level,
-                            FreelancerId = freelancer.Id
-                        }).ToList(),
-                        Educations = educations.Select(edu => new Education
-                        {
-                            Id = edu.Id,
-                            School = edu.School,
-                            Degree = edu.Degree,
-                            FeildOfStudy = edu.FeildOfStudy,
-                            DateFrom = edu.DateFrom,
-                            DateTo = edu.DateTo,
-                            Description = edu.Description,
-                            FreelancerId = edu.FreelancerId
-                        }).ToList(),
-
-                        Expereinces = experinces.Select(ex => new Expereince
-                        {
-                            Id = ex.Id,
-                            Title = ex.Title,
-                            Description = ex.Description,
-                            Region = ex.Region,
-                            Country = ex.Country,
-                            WorkingInThisRole = ex.WorkingInThisRole,
-                            StartDate = ex.StartDate,
-                            EndDate = ex.EndDate,
-                            FreelancerId = ex.FreelancerId
-                        }).ToList(),
-                        Ratings = ratings.Select(ra => new Rating
-                        {
-                            Id = ra.Id,
-                            RatingValue = ra.RatingValue,
-                            Comment = ra.Comment,
-                            FreelancerId = ra.FreelancerId,
-                            ClientId = ra.ClientId
-                        }).ToList(),
-                        FreelancerSkills = skills.Select(sk => new FreelancerSkill
-                        {
-                            Id = sk.Id,
-                            Name = sk.Name,
-                            FreelancerId = sk.FreelancerId
-                        }).ToList(),
-                        FreelancerServices = services.Select(se => new FreelancerService
-                        {
-                            Id = se.Id,
-                            Category = se.Category,
-                            SubCategory= se.SubCategory,
-                            FreelancerId = se.FreelancerId
-                        }).ToList(),
-                    }
-
-=======
                     Status = "Data Retrived",
                     Data = freelancers
->>>>>>> b8732197d007b5590dd278857fd05bf132095daf
                 });
 
             }
