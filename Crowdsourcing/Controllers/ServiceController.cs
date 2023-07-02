@@ -119,11 +119,11 @@ namespace Crowdsourcing.Controllers
                 return BadRequest("User claims not found.");
             }
 
-
             // Retrieve related data for Client
             var client = _context.Clients
                 .Include(c => c.User)
                 .Include(s => s.Services).ThenInclude(s=>s.ServiceSkills)
+                .Include(s => s.Services).ThenInclude(s=>s.Proposals)
                 .SingleOrDefault(c => c.UserId == CurrentUser.Id);
 
             return Ok(new
