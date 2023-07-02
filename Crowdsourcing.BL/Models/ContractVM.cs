@@ -23,9 +23,7 @@ namespace Crowdsourcing.DL.Models
         public int ProposalId { get;set; }
         public Proposal Proposal { get;set;}
 
-        // Foreign Key From Class Payment_Type
-        public int PaymentTypeId { get; set; }
-        public PaymentType PaymentType { get; set; }
+       
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }

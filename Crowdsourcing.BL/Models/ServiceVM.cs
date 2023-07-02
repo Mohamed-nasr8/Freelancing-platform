@@ -30,14 +30,7 @@ namespace Crowdsourcing.BL.Models
         public int RequiredTimeInDays { get; set; }
 
         public int ClientId { get; set; }
-        public int PaymentTypeId { get; set; }
-        //public int SkillId { get; set; }
 
-        //public enum ServiceType
-        //{
-        //    Paid,
-        //    Free
-        //}
         public enum ServiceStatus
         {
             Open,

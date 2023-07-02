@@ -39,8 +39,7 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<Contract, ContractVM>();
             CreateMap<ContractVM, Contract>();
 
-            CreateMap<Attachment,AttachmentVM>();
-            CreateMap<AttachmentVM,Attachment>();
+
 
             CreateMap<Proposal, ProposalVM>();
             CreateMap<ProposalVM, Proposal>();
@@ -67,9 +66,6 @@ namespace Crowdsourcing.BL.Mapper
             CreateMap<FreelancerService, FreelancerServiceVM>();
             CreateMap<FreelancerServiceVM, FreelancerService>();
 
-
-            CreateMap<PaymentType, PaymentTypeVM>();
-            CreateMap<PaymentTypeVM, PaymentType>();
             
 
 

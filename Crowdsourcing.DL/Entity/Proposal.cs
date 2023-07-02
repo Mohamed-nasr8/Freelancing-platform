@@ -23,16 +23,14 @@ namespace Crowdsourcing.DL.Entity
         public ProposalStatus Status { get; set; }
 
 
-        public ICollection<Message> Message { get; set; }
+        //public ICollection<Message> Message { get; set; }
 
 
         // Foreign Key From Class Job
         public int ServiceId { get; set; }
         public Service Service { get; set; }
 
-        // Foreign Key From Class Payment_type
-        public int PaymentTypeId { get; set; }
-        public PaymentType PaymentType { get; set; }
+      
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }

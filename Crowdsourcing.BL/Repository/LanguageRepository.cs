@@ -26,6 +26,11 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
+        public Task<string> CreateConnectedAccount(int freelancerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Language>> FindAsync(Expression<Func<Language, bool>> predicate)
         {
             throw new NotImplementedException();

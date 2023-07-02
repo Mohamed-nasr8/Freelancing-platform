@@ -16,7 +16,6 @@ namespace Crowdsourcing.DL.Models
         [DataType(DataType.Text)]
         public string MessageText { get; set; }  
         
-        public ICollection<Attachment> Attachment { get; set; }
        
         // Foreign Key From Class Proposal
         public int ProposalId { get;set; }
@@ -24,10 +23,10 @@ namespace Crowdsourcing.DL.Models
         
         // Foreign Key From Class Hire Manager
         public int? ClientId { get; set; }
-        public Client Client { get; set; }
+        //public Client Client { get; set; }
 
         // Foreign Key From Class Freelancer
         public int? FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+        //public Freelancer Freelancer { get; set; }
     }
 }

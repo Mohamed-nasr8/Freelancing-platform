@@ -30,6 +30,11 @@ namespace Crowdsourcing.BL.Repository
             await _context.SaveChangesAsync();
         }
 
+        public Task<string> CreateConnectedAccount(int freelancerId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<Proposal>> FindAsync(Expression<Func<Proposal, bool>> predicate)
         {
             throw new NotImplementedException();
@@ -44,7 +49,6 @@ namespace Crowdsourcing.BL.Repository
         {
             return (IEnumerable<Proposal>)await _context.Proposals
                 .Include(p => p.ServiceId)
-                .Include(p => p.PaymentTypeId)
                 .Include(p => p.FreelancerId)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }

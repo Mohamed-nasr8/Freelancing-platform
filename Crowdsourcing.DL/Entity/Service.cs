@@ -11,10 +11,7 @@ namespace Crowdsourcing.DL.Entity
     public class Service
     {
         public int Id { get; set; }
-        //[Required]
-        //[EnumDataType(typeof(ServiceType))]
-
-        //public ServiceType Type { get; set; }
+ 
         [Required]
         [MaxLength(100)]
         public string Title { get; set; }
@@ -50,8 +47,7 @@ namespace Crowdsourcing.DL.Entity
         public Client Client { get; set; }
 
 
-        public int PaymentTypeId { get; set; }
-        public PaymentType PaymentType { get; set; }
+
 
         //public int SkillId { get; set; }
 

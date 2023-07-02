@@ -3,6 +3,7 @@ using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,5 +103,8 @@ namespace Crowdsourcing.BL.Repository
         {
             throw new NotImplementedException();
         }
+
+
+
     }
 }

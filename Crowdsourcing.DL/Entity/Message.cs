@@ -11,24 +11,13 @@ namespace Crowdsourcing.DL.Entity
     public class Message
     {
         public int Id { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime MessageTime { get;set; }
-        [DataType(DataType.Text)]
-        public string MessageText { get; set; }  
-        
-        public ICollection<Attachment> Attachment { get; set; }
 
-       
-        // Foreign Key From Class Proposal
-        public int ProposalId { get;set; }
-        public Proposal Proposal { get; set; } 
-        
-        // Foreign Key From Class Hire Manager
-        public int? ClientId { get; set; }
-        public Client Client { get; set; }
+        public int FreelancerId { get; set; } // Foreign key for Freelancer entity
+        public Freelancer Freelancer { get; set; } // Navigation property to access the Freelancer entity
 
-        // Foreign Key From Class Freelancer
-        public int? FreelancerId { get; set; }
-        public Freelancer Freelancer { get; set; }
+        public int ClientId { get; set; } // Foreign key for Client entity
+        public Client Client { get; set; } // Navigation property to access the Client entity
+        public string Content { get; set; }
+        public DateTime SentAt { get; set; }
     }
 }

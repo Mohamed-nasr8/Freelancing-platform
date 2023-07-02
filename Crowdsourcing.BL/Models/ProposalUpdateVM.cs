@@ -30,8 +30,7 @@ namespace Crowdsourcing.BL.Models
         // Foreign Key From Class Job
         public int ServiceId { get; set; }
 
-        // Foreign Key From Class Payment_type
-        public int PaymentTypeId { get; set; }
+       
 
         // Foreign Key From Class Freelancer
         public int FreelancerId { get; set; }

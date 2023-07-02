@@ -21,7 +21,6 @@ namespace Crowdsourcing.BL.Interface
         Task<TEntity> UpdateAsync(TEntity entity);
 
         Task<IEnumerable<TEntity>> UpdateRangeAsync(IEnumerable<TEntity> entities);
-
     }
 
 }

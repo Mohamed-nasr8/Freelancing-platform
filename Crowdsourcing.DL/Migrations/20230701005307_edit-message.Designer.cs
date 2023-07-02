@@ -4,6 +4,7 @@ using Crowdsourcing.DL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Crowdsourcing.DL.Migrations
 {
     [DbContext(typeof(CrowdsourcingContext))]
-    partial class CrowdsourcingContextModelSnapshot : ModelSnapshot
+    [Migration("20230701005307_edit-message")]
+    partial class editmessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,6 +100,27 @@ namespace Crowdsourcing.DL.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Crowdsourcing.DL.Entity.Attachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("AttachmentLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MessageId");
+
+                    b.ToTable("Attachments");
+                });
+
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -137,6 +160,9 @@ namespace Crowdsourcing.DL.Migrations
                     b.Property<decimal>("PaymentAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProposalId")
                         .HasColumnType("int");
 
@@ -146,6 +172,8 @@ namespace Crowdsourcing.DL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FreelancerId");
+
+                    b.HasIndex("PaymentTypeId");
 
                     b.HasIndex("ProposalId");
 
@@ -287,6 +315,9 @@ namespace Crowdsourcing.DL.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("Point")
+                        .HasColumnType("int");
 
                     b.Property<float?>("Rating")
                         .HasColumnType("real");
@@ -461,6 +492,24 @@ namespace Crowdsourcing.DL.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("Crowdsourcing.DL.Entity.PaymentType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PaymentTypes");
+                });
+
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Proposal", b =>
                 {
                     b.Property<int>("Id")
@@ -485,6 +534,9 @@ namespace Crowdsourcing.DL.Migrations
                     b.Property<decimal>("PaymentAmount")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("ProposalTime")
                         .HasColumnType("datetime2");
 
@@ -497,6 +549,8 @@ namespace Crowdsourcing.DL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FreelancerId");
+
+                    b.HasIndex("PaymentTypeId");
 
                     b.HasIndex("ServiceId");
 
@@ -554,6 +608,9 @@ namespace Crowdsourcing.DL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Payment_amount")
                         .HasColumnType("decimal(8,2)");
 
@@ -574,6 +631,8 @@ namespace Crowdsourcing.DL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("PaymentTypeId");
 
                     b.ToTable("Services");
                 });
@@ -619,6 +678,9 @@ namespace Crowdsourcing.DL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PaymentTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -626,6 +688,8 @@ namespace Crowdsourcing.DL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FreelancerId");
+
+                    b.HasIndex("PaymentTypeId");
 
                     b.ToTable("Withdraws");
                 });
@@ -763,6 +827,17 @@ namespace Crowdsourcing.DL.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Crowdsourcing.DL.Entity.Attachment", b =>
+                {
+                    b.HasOne("Crowdsourcing.DL.Entity.Message", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("Crowdsourcing.DL.Entity.Client", b =>
                 {
                     b.HasOne("Crowdsourcing.DL.Entity.ApplicationUser", "User")
@@ -782,6 +857,12 @@ namespace Crowdsourcing.DL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Crowdsourcing.DL.Entity.PaymentType", "PaymentType")
+                        .WithMany()
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Crowdsourcing.DL.Entity.Proposal", "Proposal")
                         .WithMany("Contracts")
                         .HasForeignKey("ProposalId")
@@ -789,6 +870,8 @@ namespace Crowdsourcing.DL.Migrations
                         .IsRequired();
 
                     b.Navigation("Freelancer");
+
+                    b.Navigation("PaymentType");
 
                     b.Navigation("Proposal");
                 });
@@ -905,6 +988,12 @@ namespace Crowdsourcing.DL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Crowdsourcing.DL.Entity.PaymentType", "PaymentType")
+                        .WithMany("Proposals")
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Crowdsourcing.DL.Entity.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
@@ -912,6 +1001,8 @@ namespace Crowdsourcing.DL.Migrations
                         .IsRequired();
 
                     b.Navigation("Freelancer");
+
+                    b.Navigation("PaymentType");
 
                     b.Navigation("Service");
                 });
@@ -943,7 +1034,15 @@ namespace Crowdsourcing.DL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Crowdsourcing.DL.Entity.PaymentType", "PaymentType")
+                        .WithMany("Services")
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Client");
+
+                    b.Navigation("PaymentType");
                 });
 
             modelBuilder.Entity("Crowdsourcing.DL.Entity.ServiceSkills", b =>
@@ -965,7 +1064,15 @@ namespace Crowdsourcing.DL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Crowdsourcing.DL.Entity.PaymentType", "PaymentType")
+                        .WithMany("Withdraws")
+                        .HasForeignKey("PaymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Freelancer");
+
+                    b.Navigation("PaymentType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1056,6 +1163,15 @@ namespace Crowdsourcing.DL.Migrations
                     b.Navigation("Proposals");
 
                     b.Navigation("Ratings");
+
+                    b.Navigation("Withdraws");
+                });
+
+            modelBuilder.Entity("Crowdsourcing.DL.Entity.PaymentType", b =>
+                {
+                    b.Navigation("Proposals");
+
+                    b.Navigation("Services");
 
                     b.Navigation("Withdraws");
                 });

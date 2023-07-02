@@ -19,7 +19,6 @@ namespace Crowdsourcing.DL.Database
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceSkills> ServiceSkills { get; set; }
         public DbSet<FreelancerService> FreelancerServices { get; set; }
-        public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<Freelancer> Freelancers { get; set; }
         public DbSet<Withdraw> Withdraws { get; set; }
         public DbSet<Education> Educations { get; set; }
@@ -29,22 +28,12 @@ namespace Crowdsourcing.DL.Database
 
         public DbSet<Proposal> Proposals { get; set; }
         public DbSet<Message> Messages { get; set; }
-        public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Contract> Contracts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<Notification>()
-            //.HasOne(p => p.Freelancer)
-            //.WithMany(b => b.Notifications)
-            //.HasForeignKey(p => p.FreelancerId);
-
-
-            //modelBuilder.Entity<Notification>()
-            // .Property(e => e.created_at)
-            // .HasDefaultValueSql("GETDATE()");
-
+            
 
             modelBuilder.Entity<Freelancer>()
              .HasMany<Notification>(n => n.Notifications)

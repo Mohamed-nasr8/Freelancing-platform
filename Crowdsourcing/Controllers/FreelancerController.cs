@@ -6,15 +6,18 @@ using Crowdsourcing.BL.Repository;
 using Crowdsourcing.BL.ViewModels;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
+using Crowdsourcing.Paypal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.VisualBasic.FileIO;
 using Newtonsoft.Json;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
+using Stripe;
 using System.Security.Claims;
 
 namespace Crowdsourcing.Controllers
@@ -36,13 +39,17 @@ namespace Crowdsourcing.Controllers
         private readonly FreelancerRepository _freelancerRepo;
         private readonly CrowdsourcingContext _context;
         private readonly IHttpContextAccessor _httpAccessor;
+        private readonly IPaymentRepository _paymentRepository;
+        private readonly IOptions<StripeSettings> _stripeSettings;
+        private readonly string _stripeApiKey;
+        private readonly string _stripeSecretKey;
 
         public FreelancerController(IRepository<Freelancer> freelancerRepository, IRepository<Language> languageRepository,
                                 IRepository<Education> eductionRepository,
                                 IRepository<Expereince> experinceRepository, IRepository<FreelancerSkill> skillRepository, 
                                 IRepository<FreelancerService> ServiceRepository,
                                 IRepository<Rating> ratingRepository, IMapper mapper, FreelancerRepository freelancerRepo,
-                                CrowdsourcingContext context, IHttpContextAccessor HttpAccessor)
+                                CrowdsourcingContext context, IHttpContextAccessor HttpAccessor, IOptions<StripeSettings> stripeSettings,IPaymentRepository paymentRepository)
         {
             _freelancerRepository = freelancerRepository;
             _languageRepository = languageRepository;
@@ -55,6 +62,9 @@ namespace Crowdsourcing.Controllers
             _freelancerRepo = freelancerRepo;
             _context = context;
             _httpAccessor = HttpAccessor;
+            _paymentRepository = paymentRepository;
+            _stripeApiKey = stripeSettings.Value.ApiKey;
+            _stripeSecretKey = stripeSettings.Value.SecretKey;
         }
 
         [HttpGet("GetAll")]
@@ -90,7 +100,6 @@ namespace Crowdsourcing.Controllers
                         PhoneNumber = freelancer.PhoneNumber,
                         HourlyRate = freelancer.HourlyRate,
                         UserId = freelancer.UserId,
-                        Point = freelancer.Point,
                         Languages = languages.Where(lan => lan.FreelancerId == freelancer.Id).Select(lan => new Language
                         {
                             Id = lan.Id,
@@ -199,7 +208,6 @@ namespace Crowdsourcing.Controllers
                         Street = freelancer.Street,
                         HourlyRate = freelancer.HourlyRate,
                         PhoneNumber = freelancer.PhoneNumber,
-                        Point = freelancer.Point,
                         Languages = languages.Select(lan => new Language
                         {
                             Id = lan.Id,
@@ -651,5 +659,76 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+
+        [HttpPost("CreateConnectedAccount")]
+            public async Task<IActionResult> CreateConnectedAccount(int freelancerId)
+{
+    try
+    {
+                StripeConfiguration.ApiKey = _stripeSecretKey;
+
+                var accountId = await _paymentRepository.CreateConnectedAccount(freelancerId);
+
+        return Ok(new ApiResponse<string>()
+        {
+            Code = "200",
+            Status = "Ok",
+            Message = "Connected Account Created",
+            Data = accountId
+        });
+    }
+    catch (Exception ex)
+    {
+        return BadRequest(new ApiResponse<string>()
+        {
+            Code = "400",
+            Status = "Failed",
+            Message = "Failed to Create Connected Account",
+            Error = ex.Message
+        });
+    }
+}
+
+
+        [HttpPost("GenerateAccountLink")]
+        public async Task<IActionResult> GenerateAccountLinkAsync(int freelancerId)
+        {
+            try
+            {
+                StripeConfiguration.ApiKey = _stripeApiKey;
+                StripeConfiguration.ApiKey = _stripeSecretKey;
+
+                var freelancer = await _freelancerRepository.GetAsync(freelancerId);
+                var options = new AccountLinkCreateOptions
+                {
+                    Account = freelancer.StripeAccountId, // Get the freelancer's Stripe account ID
+                    RefreshUrl = "https://example.com/reauth",
+                    ReturnUrl = "https://example.com/return",
+                    Type = "account_onboarding",
+                };
+
+                var service = new AccountLinkService();
+                var accountLink = service.Create(options);
+
+                return Ok(new ApiResponse<string>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Account Link Generated",
+                    Data = accountLink.Url
+                }); ;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>()
+                {
+                    Code = "400",
+                    Status = "Failed",
+                    Message = "Failed to Generate Account Link",
+                    Error = ex.Message
+                });
+            }
+        }
+
     }
 }

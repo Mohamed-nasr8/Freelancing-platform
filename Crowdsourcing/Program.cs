@@ -2,8 +2,10 @@ using Crowdsourcing.BL.Helper;
 using Crowdsourcing.BL.Interface;
 using Crowdsourcing.BL.Models;
 using Crowdsourcing.BL.Repository;
+using Crowdsourcing.BL.SignalR;
 using Crowdsourcing.DL.Database;
 using Crowdsourcing.DL.Entity;
+using Crowdsourcing.Paypal;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,9 +13,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Stripe;
+using System.Configuration;
 using System.Text;
 using TestAPIJWT.Service;
-
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 namespace Crowdsourcing
 {
     public class Program
@@ -79,6 +84,11 @@ namespace Crowdsourcing
             builder.Services.AddScoped<IRepository<FreelancerSkill>, FreelancerSkillRepository>();
             builder.Services.AddScoped<IRepository<FreelancerService>,FreelancerServiceRepository>();
             builder.Services.AddScoped<IRepository<Proposal>, ProposalRepository>();
+            builder.Services.AddScoped<IMessageRepository,MessageRepository>();
+            builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+
+
+            builder.Services.AddSignalR();
 
 
             //builder.Services.AddScoped<IRepository<HasSkill>, HasSkillRepository>();
@@ -105,9 +115,20 @@ namespace Crowdsourcing
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
                 };
             });
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .SetIsOriginAllowed(_ => true)
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             var app = builder.Build();
+            app.UseCors();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -120,6 +141,7 @@ namespace Crowdsourcing
            
 
             app.MapControllers();
+            app.MapHub<ChatHub>("/chatHub");
 
             app.Run();
         }

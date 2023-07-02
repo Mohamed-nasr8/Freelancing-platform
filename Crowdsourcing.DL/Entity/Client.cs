@@ -25,6 +25,8 @@ namespace Crowdsourcing.DL.Entity
         public ICollection<Notification> Notifications { get; set; }
         public ICollection<Rating> Ratings { get; set; }
         public ICollection<Service> Services { get; set; }
+        public ICollection<Message> Messages { get; set; }
+
 
 
     }

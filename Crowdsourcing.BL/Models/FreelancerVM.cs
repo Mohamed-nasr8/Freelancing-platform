@@ -58,17 +58,7 @@ namespace Crowdsourcing.BL.ViewModels
         [Required(ErrorMessage = "Please enter your Phone ")]
         [MaxLength(50)]
         public string PhoneNumber { get; set; }
-        public int? Point { get; set; }
 
-        //public ICollection<Notification> Notifications { get; set; }
-        //public ICollection<Rating> Ratings { get; set; }
-        //public ICollection<Language> Languages { get; set; }
-        //public ICollection<Withdraw> Withdraws { get; set; }
-        //public ICollection<HasSkill> HasSkills { get; set; }
-        //public ICollection<HasFreelancerService> HasFreelancerServices { get; set; }
-        //public ICollection<Expereince> Expereinces { get; set; }
-        //public ICollection<Education> Educations { get; set; }
-        //public ICollection<Proposal> Proposals { get; set; }
-        //public ICollection<Message> Messages { get; set; }
+       
     }
 }

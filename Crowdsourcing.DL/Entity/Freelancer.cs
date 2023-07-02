@@ -46,12 +46,12 @@ namespace Crowdsourcing.DL.Entity
         [Required]
         [MaxLength(50)]
         public string PhoneNumber { get; set; }
-        public int? Point { get; set; }
 
 
         public string UserId { get; set; }
 
         public ApplicationUser User { get; set; }
+        public string? StripeAccountId { get; set; }
 
 
         public ICollection<Notification> Notifications { get; set; }
