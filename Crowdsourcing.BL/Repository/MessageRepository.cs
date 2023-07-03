@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Crowdsourcing.BL.Repository
 {
-    public class MessageRepository:IMessageRepository
+    public class MessageRepository : IMessageRepository
     {
         private readonly CrowdsourcingContext _dbContext;
 
@@ -26,11 +26,47 @@ namespace Crowdsourcing.BL.Repository
             return message;
         }
 
-        public async Task<IEnumerable<Message>> GetMessages(int FreelancerId, int ClintId)
+        public async Task<IEnumerable<Message>> GetMessagesByClientId(int clientId)
         {
             return await _dbContext.Messages
-                .Where(m => (m.FreelancerId == FreelancerId && m.ClientId == ClintId) ||
-                            (m.ClientId == ClintId && m.FreelancerId == FreelancerId))
+                .Include(m => m.Freelancer)
+                .Include(m => m.Client)
+                .Where(m => m.ClientId == clientId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Message>> GetMessagesByFreelancerId(int freelancerId)
+        {
+            return await _dbContext.Messages
+                .Include(m => m.Freelancer)
+                .Include(m => m.Client)
+                .Where(m => m.FreelancerId == freelancerId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Message>> GetMessagesByParticipants(int clientId, int freelancerId)
+        {
+            return await _dbContext.Messages
+                .Include(m => m.Freelancer)
+                .Include(m => m.Client)
+                .Where(m => (m.ClientId == clientId && m.FreelancerId == freelancerId) ||
+                            (m.ClientId == freelancerId && m.FreelancerId == clientId))
+                .ToListAsync();
+        }
+
+        public async Task<Message> GetMessageById(int messageId)
+        {
+            return await _dbContext.Messages
+                .Include(m => m.Freelancer)
+                .Include(m => m.Client)
+                .FirstOrDefaultAsync(m => m.Id == messageId);
+        }
+
+        public async Task<IEnumerable<Message>> GetAllMessages()
+        {
+            return await _dbContext.Messages
+                .Include(m => m.Freelancer)
+                .Include(m => m.Client)
                 .ToListAsync();
         }
     }

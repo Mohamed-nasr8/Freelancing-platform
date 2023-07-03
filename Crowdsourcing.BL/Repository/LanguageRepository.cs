@@ -26,15 +26,8 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<string> CreateConnectedAccount(int freelancerId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<IEnumerable<Language>> FindAsync(Expression<Func<Language, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task<IEnumerable<Language>> GetAllAsyncEnum()
         {
@@ -69,9 +62,6 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Language>> UpdateRangeAsync(IEnumerable<Language> entities)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

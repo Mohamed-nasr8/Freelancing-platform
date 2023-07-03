@@ -11,6 +11,10 @@ namespace Crowdsourcing.BL.Interface
     public interface IMessageRepository
     {
         Task<Message> CreateMessage(Message message);
-        Task<IEnumerable<Message>> GetMessages(int FreelancerId, int ClintId);
+        Task<IEnumerable<Message>> GetMessagesByClientId(int clientId);
+        Task<IEnumerable<Message>> GetMessagesByFreelancerId(int freelancerId);
+        Task<IEnumerable<Message>> GetMessagesByParticipants(int clientId, int freelancerId);
+        Task<Message> GetMessageById(int messageId);
+        Task<IEnumerable<Message>> GetAllMessages();
     }
 }

@@ -113,5 +113,143 @@ namespace Crowdsourcing.Controllers
         
         }
 
+        [HttpGet("client/{clientId}")]
+        public async Task<IActionResult> GetMessagesByClientId(int clientId)
+        {
+            try
+            {
+                var messages = await _messageRepository.GetMessagesByClientId(clientId);
+                return Ok(new ApiResponse<IEnumerable<Message>>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Messages retrieved",
+                    Data = messages
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Failed to retrieve messages",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("freelancer/{freelancerId}")]
+        public async Task<IActionResult> GetMessagesByFreelancerId(int freelancerId)
+        {
+            try
+            {
+                var messages = await _messageRepository.GetMessagesByFreelancerId(freelancerId);
+                return Ok(new ApiResponse<IEnumerable<Message>>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Messages retrieved",
+                    Data = messages
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Failed to retrieve messages",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("{clientId}/{freelancerId}")]
+        public async Task<IActionResult> GetMessagesByParticipants(int clientId, int freelancerId)
+        {
+            try
+            {
+                var messages = await _messageRepository.GetMessagesByParticipants(clientId, freelancerId);
+                return Ok(new ApiResponse<IEnumerable<Message>>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Messages retrieved",
+                    Data = messages
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Failed to retrieve messages",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("{messageId}")]
+        public async Task<IActionResult> GetMessageById(int messageId)
+        {
+            try
+            {
+                var message = await _messageRepository.GetMessageById(messageId);
+                if (message == null)
+                    return NotFound(new ApiResponse<string>()
+                    {
+                        Code = "404",
+                        Status = "Faild",
+                        Message = "Message not found"
+                    });
+
+                return Ok(new ApiResponse<Message>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Message retrieved",
+                    Data = message
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Failed to retrieve message",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("GetAllMessag")]
+        public async Task<IActionResult> GetAllMessages()
+        {
+            try
+            {
+                var messages = await _messageRepository.GetAllMessages();
+                return Ok(new ApiResponse<IEnumerable<Message>>()
+                {
+                    Code = "200",
+                    Status = "Ok",
+                    Message = "Messages retrieved",
+                    Data = messages
+                });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new ApiResponse<string>()
+                {
+                    Code = "404",
+                    Status = "Faild",
+                    Message = "Failed to retrieve messages",
+                    Error = ex.Message
+                });
+            }
+        }
+
     }
 }

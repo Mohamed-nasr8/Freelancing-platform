@@ -35,11 +35,7 @@ namespace Crowdsourcing.BL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Proposal>> FindAsync(Expression<Func<Proposal, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public async Task<IEnumerable<Proposal>> GetAllAsyncEnum()
         {
             return await _context.Proposals
@@ -80,10 +76,7 @@ namespace Crowdsourcing.BL.Repository
             return Task.FromResult(entity);
         }
 
-        public Task<IEnumerable<Proposal>> UpdateRangeAsync(IEnumerable<Proposal> entities)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
       
