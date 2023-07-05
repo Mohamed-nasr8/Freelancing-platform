@@ -31,10 +31,7 @@ namespace Crowdsourcing.BL.Repository
             await _context.Freelancers.AddAsync(freelancer);
             await _context.SaveChangesAsync();
         }
-        public Task<IEnumerable<Freelancer>> FindAsync(Expression<Func<Freelancer, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task<IEnumerable<Freelancer>> GetAllAsyncEnum()
         {
@@ -46,6 +43,8 @@ namespace Crowdsourcing.BL.Repository
                 .Include(f => f.Proposals)
                 .ThenInclude(f=>f.Service)
                 .Include(f=>f.Messages)
+                .Include(f => f.User) 
+
                 .ToListAsync();
         }
 
@@ -55,11 +54,6 @@ namespace Crowdsourcing.BL.Repository
               .Where(edu => edu.FreelancerId == id)
               .ToListAsync();
         }
-
-        //public Task<IEnumerable<Freelancer>> GetAllAsyncEnum()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public Task<IEnumerable<Freelancer>> GetAllAsyncEnum(int id)
         {
@@ -76,6 +70,7 @@ namespace Crowdsourcing.BL.Repository
               .Include(f => f.FreelancerServices)
               .Include(f => f.Proposals)
               .ThenInclude(f=>f.Service)
+              .Include(f => f.User)
               .SingleOrDefaultAsync(f => f.Id == id);
         }
 
@@ -107,11 +102,7 @@ namespace Crowdsourcing.BL.Repository
 
         }
 
-        public Task<IEnumerable<Freelancer>> UpdateRangeAsync(IEnumerable<Freelancer> entities)
-        {
-            throw new NotImplementedException();
-        }
-
+      
 
 
     }
