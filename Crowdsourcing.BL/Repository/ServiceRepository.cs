@@ -23,7 +23,7 @@ namespace Crowdsourcing.BL.Repository
             var result =  _context.Services
                 .Include(s => s.ServiceSkills)
                 .Include(s => s.Proposals)
-                .ThenInclude(s=>s.Freelancer)
+                .ThenInclude(s=>s.Freelancer).ThenInclude(u => u.User)
                 .SingleOrDefault(s=>s.Id==id);
             return result;
         }
@@ -33,7 +33,7 @@ namespace Crowdsourcing.BL.Repository
             return await _context.Services
                 .Include(s => s.ServiceSkills)
                 .Include(s=>s.Proposals)
-                .ThenInclude(s=>s.Freelancer)
+                .ThenInclude(s=>s.Freelancer).ThenInclude(u => u.User)
                 .ToListAsync();
 
         }
