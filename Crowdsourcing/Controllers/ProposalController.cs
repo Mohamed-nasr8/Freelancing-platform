@@ -36,14 +36,13 @@ namespace Crowdsourcing.Controllers
             _repository = repository;
             _freelancerRepository = freelancerRepository;
         }
+
         [HttpGet("Get_All")]
         public async Task<IActionResult> GetProposals()
         {
             try
             {
                 var proposals = await _proposalRepo.GetAllAsyncEnum();
-                //var mapper = _mapper.Map<IEnumerable<ProposalVM>>(proposals);
-
                 return Ok(new ApiResponse<IEnumerable<Proposal>>()
                 {
                     Code = "200",
@@ -61,10 +60,9 @@ namespace Crowdsourcing.Controllers
                     Message="Proposal Not Found",
                     
                 });
-
-            }
-
+      }
         }
+
         [HttpGet("Get_By_Id")]
         public async Task<IActionResult> GetProposal(int id)
         {
@@ -85,6 +83,7 @@ namespace Crowdsourcing.Controllers
                 Data = proposal
             });
         }
+
         [HttpPost("AddProposal")]
         public async Task<IActionResult> Create([FromForm] ProposalVM model)
         {
@@ -165,10 +164,6 @@ namespace Crowdsourcing.Controllers
                 {
 
 
-                    //var service = await _repository.GetAsync(model.ServiceId);
-                    //var freelancer = await _freelancerRepository.GetAsync(model.FreelancerId);
-
-
                     var data = _mapper.Map<Proposal>(model);
 
                     var userName = _httpAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -215,6 +210,7 @@ namespace Crowdsourcing.Controllers
                 });
             }
         }
+
         [HttpDelete("Delete")]
         public async Task<ActionResult> DeleteProposal(int id)
         {

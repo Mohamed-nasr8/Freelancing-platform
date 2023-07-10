@@ -25,7 +25,8 @@ namespace Crowdsourcing.BL.SignalR
                 ClientId = clientId,
                 FreelancerId = freelancerId,
                 Content = messageContent,
-                SentAt = DateTime.Now
+                SentAt = DateTime.Now,
+                Sender = "Client"
             };
 
             await _messageRepository.CreateMessage(message);
@@ -40,7 +41,8 @@ namespace Crowdsourcing.BL.SignalR
                 ClientId = clientId,
                 FreelancerId = freelancerId,
                 Content = messageContent,
-                SentAt = DateTime.Now
+                SentAt = DateTime.Now,
+                 Sender = "Freelancer"
             };
 
             await _messageRepository.CreateMessage(message);

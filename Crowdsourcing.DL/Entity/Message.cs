@@ -19,5 +19,7 @@ namespace Crowdsourcing.DL.Entity
         public Client Client { get; set; } // Navigation property to access the Client entity
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
+        public string? Sender { get; set; }
+       
     }
 }

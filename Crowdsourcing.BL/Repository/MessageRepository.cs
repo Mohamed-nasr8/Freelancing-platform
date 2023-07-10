@@ -26,11 +26,14 @@ namespace Crowdsourcing.BL.Repository
             return message;
         }
 
+
         public async Task<IEnumerable<Message>> GetMessagesByClientId(int clientId)
         {
             return await _dbContext.Messages
                 .Include(m => m.Freelancer)
+                .ThenInclude(f => f.User) // Include the User navigation property in Freelancer
                 .Include(m => m.Client)
+                .ThenInclude(c => c.User) // Include the User navigation property in Client
                 .Where(m => m.ClientId == clientId)
                 .ToListAsync();
         }
@@ -39,7 +42,9 @@ namespace Crowdsourcing.BL.Repository
         {
             return await _dbContext.Messages
                 .Include(m => m.Freelancer)
+                .ThenInclude(f => f.User) // Include the User navigation property in Freelancer
                 .Include(m => m.Client)
+                .ThenInclude(c => c.User) // Include the User navigation property in Client
                 .Where(m => m.FreelancerId == freelancerId)
                 .ToListAsync();
         }
@@ -48,7 +53,9 @@ namespace Crowdsourcing.BL.Repository
         {
             return await _dbContext.Messages
                 .Include(m => m.Freelancer)
+                .ThenInclude(f => f.User) // Include the User navigation property in Freelancer
                 .Include(m => m.Client)
+                .ThenInclude(c => c.User) // Include the User navigation property in Client
                 .Where(m => (m.ClientId == clientId && m.FreelancerId == freelancerId) ||
                             (m.ClientId == freelancerId && m.FreelancerId == clientId))
                 .ToListAsync();
@@ -58,7 +65,9 @@ namespace Crowdsourcing.BL.Repository
         {
             return await _dbContext.Messages
                 .Include(m => m.Freelancer)
+                .ThenInclude(f => f.User) // Include the User navigation property in Freelancer
                 .Include(m => m.Client)
+                .ThenInclude(c => c.User) // Include the User navigation property in Client
                 .FirstOrDefaultAsync(m => m.Id == messageId);
         }
 
@@ -66,9 +75,12 @@ namespace Crowdsourcing.BL.Repository
         {
             return await _dbContext.Messages
                 .Include(m => m.Freelancer)
+                .ThenInclude(f => f.User) // Include the User navigation property in Freelancer
                 .Include(m => m.Client)
+                .ThenInclude(c => c.User) // Include the User navigation property in Client
                 .ToListAsync();
         }
     }
 }
+
 

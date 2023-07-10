@@ -160,14 +160,10 @@ namespace Crowdsourcing.Controllers
             });
         }
 
-
         [HttpPost("AddFreelancer")]
         public async Task<IActionResult> Create([FromForm] FreelancerVM model)
-        {
-
-            try
+        { try
             {
-
                 if (ModelState.IsValid)
                 {
                     var data = _mapper.Map<Freelancer>(model);
@@ -175,7 +171,6 @@ namespace Crowdsourcing.Controllers
                     var username = _httpAccessor.HttpContext.User?
                         .FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
                     var CurrentUser = _context.Users.FirstOrDefault(u => u.UserName == username);
-
 
                     // Set the UserId property of the Freelancer object to the current user's ID
                     data.UserId = CurrentUser.Id;
@@ -191,7 +186,6 @@ namespace Crowdsourcing.Controllers
                     }
                     await _freelancerRepository.AddAsync(data);
 
-
                     return Ok(new ApiResponse<Freelancer>()
                     {
                         Code = "200",
@@ -200,10 +194,7 @@ namespace Crowdsourcing.Controllers
                         Data = data
 
                     });
-                }
-
-
-                return Ok(new ApiResponse<string>()
+                }   return Ok(new ApiResponse<string>()
                 {
                     Code = "400",
                     Status = "Not Valied",
@@ -212,8 +203,7 @@ namespace Crowdsourcing.Controllers
 
             }
             catch (Exception ex)
-            {
-                return NotFound(new ApiResponse<string>()
+            {    return NotFound(new ApiResponse<string>()
                 {
                     Code = "404",
                     Status = "Faild",

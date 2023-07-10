@@ -35,15 +35,15 @@ namespace Crowdsourcing.Controllers
             try
             {
 
-                //var freelancer = await _freelancerRepository.GetAsync(freelancerId);
-                //var Client = await _context.Clients.FindAsync(clientId);
+                
 
                 var message = new Message
                 {
                     ClientId = clientId,
                     FreelancerId = freelancerId,
                     Content = messageContent,
-                    SentAt = DateTime.Now
+                    SentAt = DateTime.Now,
+                    Sender = "Client"
                 };
 
                 await _messageRepository.CreateMessage(message);
@@ -82,7 +82,8 @@ namespace Crowdsourcing.Controllers
                     ClientId = clientId,
                     FreelancerId = freelancerId,
                     Content = messageContent,
-                    SentAt = DateTime.Now
+                    SentAt = DateTime.Now,
+                    Sender = "Freelancer"
                 };
                 
                 await _messageRepository.CreateMessage(message);

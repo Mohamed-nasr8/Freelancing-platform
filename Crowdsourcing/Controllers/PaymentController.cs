@@ -78,7 +78,6 @@ namespace Crowdsourcing.Controllers
                 };
                 var servicea = new AccountService();
                  var account = await servicea.GetAsync(freelancer.StripeAccountId);
-                var czp = account.Capabilities.Transfers;
 
                 var service = new SessionService();
                 var session = service.Create(options);
