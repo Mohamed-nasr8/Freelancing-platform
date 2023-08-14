@@ -26,3 +26,5 @@ Technologies used:
 - Frontend Development (Mobile App) Using Dart and Flutter
 - Frontend Development (Web) Using typescript and angular.js.
 - Backend Developemnt Using Asp .NET Core
+
+Demo : https://www.linkedin.com/feed/update/urn:li:activity:7096877274074914817/
